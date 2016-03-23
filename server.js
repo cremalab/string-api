@@ -5,12 +5,23 @@ const Hapi = require('hapi'),
     config = require('./config'),
     Db     = require('./database');
 
+let envConfig
+
+switch (process.env['NODE_ENV']) {
+  case 'test':
+    envConfig = config.test
+    break;
+  default:
+    envConfig = config.development
+    break;
+}
+
 // Create a server with a host and port
 const server = new Hapi.Server()
 
 server.connection({
     host: 'localhost',
-    port: 8000
+    port: envConfig.server.port
 });
 
 let goodOptions = {
@@ -36,3 +47,5 @@ server.register({
       console.log('Server running at:', server.info.uri)
   })
 })
+
+module.exports = server
