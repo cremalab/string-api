@@ -42,6 +42,7 @@ exports.create = {
     }
   },
   handler: function(request, reply) {
+    // placeId comes from Google's API
     let placeId = request.payload.placeId
 
     Places.getDetails(placeId).then((details) => {
@@ -60,6 +61,8 @@ exports.create = {
     })
   }
 };
+
+// private
 
 function findOrCreateLocation(placeId) {
   return new Promise((resolve, reject) => {
