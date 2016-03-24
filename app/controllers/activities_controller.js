@@ -44,7 +44,7 @@ exports.create = {
       } else {
         if (11000 === err.code || 11001 === err.code) {
           reply(Boom.forbidden("please provide another activity id, it already exist"));
-        } else reply(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
+        } else reply(Boom.forbidden(err)); // HTTP 403
       }
     });
   }
@@ -69,7 +69,7 @@ exports.update = {
           } else {
             if (11000 === err.code || 11001 === err.code) {
               reply(Boom.forbidden("please provide another user id, it already exist"));
-            } else reply(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
+            } else reply(Boom.forbidden(err)); // HTTP 403
           }
         });
       } else {

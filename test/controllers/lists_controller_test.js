@@ -10,7 +10,7 @@ const Db     = require("../../database")
 
 lab.experiment("lists_controller", () => {
   lab.before((done) => {
-    List.remove({}, () => console.log('all lists removed'))
+    List.remove({})
     let list = new List({description: '#art #walk in the #crossroads'});
     list.save((err, list) => done())
   })
