@@ -3,7 +3,8 @@ const Mongoose = require('mongoose'),
 
 const ListSchema = new Schema({
     description: { type: String, required: true },
-    createdAt: { type: Date, required: true, default: Date.now }
+    createdAt: { type: Date, required: true, default: Date.now },
+    activities: [{ type: Schema.Types.ObjectId, ref: 'activity' }]
 })
 
 const list = Mongoose.model('list', ListSchema)

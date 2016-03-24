@@ -59,8 +59,8 @@ exports.stubActivity = function() {
     return Promise.all([exports.stubLocation(), exports.stubList()]).then((values) => {
       let activity = new Activity({
         description: 'Ate 6 Whoppers',
-        listId: values[1].id,
-        locationId: values[0].id
+        _list: values[1]._id,
+        _location: values[0]._id
       });
       return activity.save((err, activity) => {
         if (err) {return reject(err)}

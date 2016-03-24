@@ -6,13 +6,18 @@ const lab    = exports.lab = Lab.script(); //export test script
 const Code   = require("code");      //assertion library
 const server = require("../../server"); // our index.js from above
 const Db     = require("../../database")
+const stubList = require('./testHelpers').stubList
+const cleanUp  = require('./testHelpers').cleanUp
 
+let listRecord
 
 lab.experiment("lists_controller", () => {
   lab.before((done) => {
     List.remove({})
-    let list = new List({description: '#art #walk in the #crossroads'});
-    list.save((err, list) => done())
+    Promise.all([cleanUp(), stubList()]).then((values) => {
+      listRecord = values[1]
+      done()
+    });
   })
 
   // tests
@@ -25,6 +30,19 @@ lab.experiment("lists_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.array();
+      server.stop(done);  // done() callback is required to end the test.
+    });
+  });
+
+  lab.test("GET /id (endpoint test)", (done) => {
+    var options = {
+      method: "GET",
+      url: `/lists/${listRecord.id}`
+    };
+    // server.inject lets you similate an http request
+    server.inject(options, (response) => {
+      Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
+      Code.expect(response.result).to.be.a.object();
       server.stop(done);  // done() callback is required to end the test.
     });
   });

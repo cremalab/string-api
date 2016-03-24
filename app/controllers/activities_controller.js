@@ -4,8 +4,12 @@ const Joi      = require('joi'),
 
 exports.getAll = {
   handler: (request, reply) => {
-    Activity.find({}, (err, activities) => {
+    Activity.find({})
+    .populate('_location')
+    .limit(20)
+    .exec((err, activities) => {
       if (!err) {
+        console.log(activities);
         reply(activities);
       } else {
         reply(Boom.badImplementation(err));// 500 error
@@ -18,7 +22,9 @@ exports.getOne = {
   handler: (request, reply) => {
     Activity.findOne({
       '_id': request.params.activityId
-    }, (err, activity) => {
+    })
+    .populate('_location, _list')
+    .exec((err, activity) => {
       if (!err) {
         reply(activity);
       } else {
@@ -32,8 +38,8 @@ exports.create = {
   validate: {
     payload: {
       description: Joi.string().required(),
-      locationId: Joi.string().required(),
-      listId: Joi.string().required()
+      _location: Joi.string().required(),
+      _list: Joi.string().required()
     }
   },
   handler: function(request, reply) {

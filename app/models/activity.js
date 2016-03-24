@@ -3,10 +3,10 @@ const Mongoose = require('mongoose'),
 
 const ActivitySchema = new Schema({
     description: { type: String, required: true },
-    listId:      { type: Schema.Types.ObjectId, required: true },
+    _list:       { type: Schema.Types.ObjectId, required: true, ref: 'list' },
     createdAt:   { type: Date, required: true, default: Date.now },
     completedCount: { type: Number, default: 0 },
-    locationId:  { type: Schema.Types.ObjectId }
+    _location:   { type: Schema.Types.ObjectId, ref: 'location' }
 })
 
 const activity = Mongoose.model('activity', ActivitySchema)

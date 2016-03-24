@@ -42,6 +42,18 @@ lab.experiment("activities_controller", () => {
     });
   });
 
+  lab.test("GET /id (endpoint test)", (done) => {
+    var options = {
+      method: "GET",
+      url: `/activities/${activityRecord._id}`
+    };
+    server.inject(options, (response) => {
+      Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
+      Code.expect(response.result).to.be.a.object();
+      server.stop(done);  // done() callback is required to end the test.
+    });
+  });
+
   lab.test("POST / with empty payload", (done) => {
     var options = {
       method: "POST",
@@ -60,8 +72,8 @@ lab.experiment("activities_controller", () => {
       url: "/activities",
       payload: {
         description: "#cheap #drinks in #midtown",
-        listId: listRecord.id,
-        locationId: locationRecord.id
+        _list: listRecord._id,
+        _location: locationRecord._id
       }
     };
     // server.inject lets you similate an http request

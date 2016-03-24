@@ -16,10 +16,11 @@ exports.getAll = {
 
 exports.getOne = {
   handler: (request, reply) => {
-    List.findOne({
-      '_id': request.params.listId
-    }, (err, list) => {
+    List.findOne({'_id': request.params.listId})
+    .populate('activities')
+    .exec((err, list) => {
       if (!err) {
+        console.log(list);
         reply(list);
       } else {
         reply(Boom.notFound(err)); // 500 error
