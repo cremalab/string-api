@@ -14,7 +14,8 @@
     "good-console": "^5.3.1",
     "hapi": "^13.2.1",
     "joi": "^8.0.5",
-    "mongoose": "^4.4.9"
+    "mongoose": "^4.4.9",
+    "node-googleplaces": "^0.1.2"
   },
   "devDependencies": {
     "ava": "^0.13.0"

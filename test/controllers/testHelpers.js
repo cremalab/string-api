@@ -13,6 +13,24 @@ exports.removeActivities = function() {
   })
 }
 
+exports.removeLists = function() {
+  return new Promise((resolve, reject) => {
+    List.remove({}, (err) => {
+      if (err) { return reject(err) }
+      return resolve()
+    })
+  })
+}
+
+exports.removeLocations = function() {
+  return new Promise((resolve, reject) => {
+    Location.remove({}, (err) => {
+      if (err) { return reject(err) }
+      return resolve()
+    })
+  })
+}
+
 exports.stubList = function() {
   let list = new List({description: '#art #walk in the #crossroads'});
   return new Promise((resolve, reject) => {
@@ -25,10 +43,7 @@ exports.stubList = function() {
 
 exports.stubLocation = function() {
   let location = new Location({
-    name: 'Burger King',
-    lat: 12.44,
-    long: 1122.33,
-    yelpId: 134
+    placeId: 'ChIJ99ro0TzvwIcRZ4gy5tGQ_4o'
   });
   return new Promise((resolve, reject) => {
     location.save((err, location) => {
@@ -53,4 +68,13 @@ exports.stubActivity = function() {
       })
     })
   })
+}
+
+
+exports.cleanUp = function() {
+  return Promise.all([
+    exports.removeActivities(),
+    exports.removeLocations(),
+    exports.removeLists()
+  ])
 }
