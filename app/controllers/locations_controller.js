@@ -9,7 +9,7 @@ exports.getAll = {
   handler: (request, reply) => {
     Location.find({}).limit(20).exec((err, locations) => {
       if (!err) {
-        reply(locations);
+        reply({locations: locations});
       } else {
         reply(Boom.badImplementation(err));// 500 error
       }
@@ -28,7 +28,7 @@ exports.getOne = {
         Places.getDetails(location.placeId).then((details) => {
           details._id = location._id
           details.id = location.id
-          reply(details);
+          reply({location: details});
         })
       }
     });
@@ -50,7 +50,7 @@ exports.create = {
         // merge ID with google details
         details.id  = location.id
         details._id = location.id
-        reply(details).created('/locations/' + location._id); // HTTP 201
+        reply({location: details}).created('/locations/' + location._id); // HTTP 201
       }, (err) => {
         reply(Boom.badImplementation(err))
       })

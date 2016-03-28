@@ -37,7 +37,7 @@ lab.experiment("activities_controller", () => {
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
-      Code.expect(response.result).to.be.a.array();
+      Code.expect(response.result.activities).to.be.a.array();
       server.stop(done);  // done() callback is required to end the test.
     });
   });
@@ -50,7 +50,8 @@ lab.experiment("activities_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object();
-      Code.expect(response.result.location).to.be.a.object();
+      Code.expect(response.result.activity).to.be.a.object();
+      Code.expect(response.result.activity.location).to.be.a.object();
       server.stop(done);  // done() callback is required to end the test.
     });
   });
@@ -81,8 +82,9 @@ lab.experiment("activities_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(201)  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object()
-      Code.expect(response.result.description).to.not.be.null()
-      Code.expect(response.result._id).to.not.be.null()
+      Code.expect(response.result.activity).to.be.a.object()
+      Code.expect(response.result.activity.description).to.not.be.null()
+      Code.expect(response.result.activity._id).to.not.be.null()
       server.stop(done)  // done() callback is required to end the test.
     })
   })
@@ -100,9 +102,10 @@ lab.experiment("activities_controller", () => {
       server.inject(options, (response) => {
         Code.expect(response.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
         Code.expect(response.result).to.be.a.object()
-        Code.expect(response.result.description).to.not.be.null()
-        Code.expect(response.result.description).to.equal('Ate 10 tacos')
-        Code.expect(response.result._id).to.not.be.null()
+        Code.expect(response.result.activity).to.be.a.object()
+        Code.expect(response.result.activity.description).to.not.be.null()
+        Code.expect(response.result.activity.description).to.equal('Ate 10 tacos')
+        Code.expect(response.result.activity._id).to.not.be.null()
         server.stop(done)  // done() callback is required to end the test.
       })
     })

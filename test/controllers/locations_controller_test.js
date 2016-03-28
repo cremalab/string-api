@@ -31,7 +31,7 @@ lab.experiment("locations_controller", () => {
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
-      Code.expect(response.result).to.be.a.array();
+      Code.expect(response.result.locations).to.be.a.array();
       server.stop(done);  // done() callback is required to end the test.
     });
   });
@@ -45,8 +45,9 @@ lab.experiment("locations_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object()
-      Code.expect(response.result._id).to.contain(locationRec._id)
-      Code.expect(response.result.name).to.not.be.undefined()
+      Code.expect(response.result.location).to.be.a.object()
+      Code.expect(response.result.location._id).to.contain(locationRec._id)
+      Code.expect(response.result.location.name).to.not.be.undefined()
       server.stop(done);  // done() callback is required to end the test.
     });
   });
@@ -63,9 +64,10 @@ lab.experiment("locations_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(201)  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object()
-      Code.expect(response.result.id).to.not.be.undefined()
-      Code.expect(response.result.name).to.not.be.undefined()
-      Code.expect(response.result.place_id).to.not.be.undefined()
+      Code.expect(response.result.location).to.be.a.object()
+      Code.expect(response.result.location.id).to.not.be.undefined()
+      Code.expect(response.result.location.name).to.not.be.undefined()
+      Code.expect(response.result.location.place_id).to.not.be.undefined()
       server.stop(done)  // done() callback is required to end the test.
     })
   })
