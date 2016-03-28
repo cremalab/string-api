@@ -50,6 +50,7 @@ lab.experiment("activities_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object();
+      Code.expect(response.result.location).to.be.a.object();
       server.stop(done);  // done() callback is required to end the test.
     });
   });

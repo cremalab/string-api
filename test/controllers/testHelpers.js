@@ -1,7 +1,7 @@
 'use strict'
-
+const models = require('../../app/models/index')
 const Activity = require('../../app/models/activity').Activity
-const List     = require('../../app/models/list').List
+const List = require('../../app/models/list').List
 const Location = require('../../app/models/location').Location
 
 exports.removeActivities = function() {
@@ -34,9 +34,18 @@ exports.removeLocations = function() {
 exports.stubList = function() {
   let list = new List({description: '#art #walk in the #crossroads'});
   return new Promise((resolve, reject) => {
-    list.save((err, list) => {
-      if (err) {return reject(err)}
-      return resolve(list)
+    exports.stubLocation().then((location) => {
+      list.save((err, list) => {
+        if (err) {return reject(err)}
+        let activity = new Activity({
+          description: 'Ordered a dozen donuts',
+          _list: list._id,
+          _location: location._id
+        })
+        activity.save((err, activity) => {
+          return resolve(list)
+        })
+      })
     })
   })
 }
