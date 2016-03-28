@@ -1,6 +1,7 @@
 * `gem install foreman`
 * `npm install`
 * create `.env` file in the project root with a `GOOGLE_API_KEY` variable
+* add a `SIGNING_SECRET` variable, it can be whatever string you want
 * `foreman run npm start`
 
 

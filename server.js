@@ -39,17 +39,21 @@ server.register([
 
   // bring your own validation function
   const validate = function (decoded, request, callback) {
-    console.log('VVVVVVVVVVVVVVVVVVV');
     console.log(decoded);
+    if( !decoded.token || !decoded.userId ) {
+      return callback(null, false)
+    }
 
-    console.log('validate!');
-    // do your checks to see if the person is valid
-    // if (!people[decoded.id]) {
-    //   return callback(null, false);
-    // }
-    // else {
-      return callback(null, true);
-    // }
+    const User = require('./app/models/user').User
+
+    User.findOne({_id: decoded.userId}, (err, user) => {
+      if ( !user ) { return callback(`Could not find User with ID ${decoded.userId}`, false) }
+      if ( user.token === decoded.token ) {
+        return callback(null, true)
+      } else {
+        return callback("Encoded token does not match", false)
+      }
+    })
   }
 
   server.auth.strategy('jwt', 'jwt',
