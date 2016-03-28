@@ -29,7 +29,8 @@ lab.experiment("lists_controller", () => {
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
-      Code.expect(response.result).to.be.a.array();
+      Code.expect(response.result).to.be.a.object();
+      Code.expect(response.result.lists).to.be.a.array();
       server.stop(done);  // done() callback is required to end the test.
     });
   });
@@ -43,8 +44,9 @@ lab.experiment("lists_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object();
-      Code.expect(response.result.activities).to.be.a.array();
-      Code.expect(response.result.activities[0].location).to.be.a.object();
+      Code.expect(response.result.list).to.be.a.object();
+      Code.expect(response.result.list.activities).to.be.a.array();
+      Code.expect(response.result.list.activities[0].location).to.be.a.object();
       server.stop(done);  // done() callback is required to end the test.
     });
   });
@@ -73,8 +75,9 @@ lab.experiment("lists_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(201)  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object()
-      Code.expect(response.result.description).to.not.be.null()
-      Code.expect(response.result._id).to.not.be.null()
+      Code.expect(response.result).list.to.be.a.object()
+      Code.expect(response.result.list.description).to.not.be.null()
+      Code.expect(response.result.list._id).to.not.be.null()
       server.stop(done)  // done() callback is required to end the test.
     })
   })
@@ -92,8 +95,9 @@ lab.experiment("lists_controller", () => {
       server.inject(options, (response) => {
         Code.expect(response.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
         Code.expect(response.result).to.be.a.object()
-        Code.expect(response.result.description).to.not.be.null()
-        Code.expect(response.result._id).to.not.be.null()
+        Code.expect(response.result).list.to.be.a.object()
+        Code.expect(response.result.list.description).to.not.be.null()
+        Code.expect(response.result.list._id).to.not.be.null()
         server.stop(done)  // done() callback is required to end the test.
       })
     })
@@ -109,8 +113,9 @@ lab.experiment("lists_controller", () => {
       server.inject(options, (response) => {
         Code.expect(response.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
         Code.expect(response.result).to.be.a.object()
-        Code.expect(response.result.description).to.not.be.null()
-        Code.expect(response.result._id).to.not.be.null()
+        Code.expect(response.result).list.to.be.a.object()
+        Code.expect(response.result.list.description).to.not.be.null()
+        Code.expect(response.result.list._id).to.not.be.null()
         server.stop(done)  // done() callback is required to end the test.
       })
     })

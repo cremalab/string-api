@@ -8,7 +8,7 @@ exports.getAll = {
   handler: (request, reply) => {
     List.find({}, (err, lists) => {
       if (!err) {
-        reply(lists);
+        reply({lists: lists});
       } else {
         reply(Boom.badImplementation(err));// 500 error
       }
@@ -25,7 +25,7 @@ exports.getOne = {
       list.collectActivities().then((activities) => {
         let res = list.toJSON()
         res.activities = activities
-        return reply(res);
+        return reply({list: res});
       }).catch((err) => {
         reply(Boom.badImplementation(err))
       })
@@ -43,7 +43,7 @@ exports.create = {
     var list = new List(request.payload);
     list.save(function(err, user) {
       if (!err) {
-        reply(list).created('/list/' + list._id); // HTTP 201
+        reply({list: list}).created('/list/' + list._id); // HTTP 201
       } else {
         if (11000 === err.code || 11001 === err.code) {
           reply(Boom.forbidden("please provide another list id, it already exist"));
@@ -68,7 +68,7 @@ exports.update = {
         list.description = request.payload.description;
         list.save(function(err, list) {
           if (!err) {
-            reply(list); // HTTP 201
+            reply({list: list}); // HTTP 201
           } else {
             if (11000 === err.code || 11001 === err.code) {
               reply(Boom.forbidden("please provide another user id, it already exist"));
