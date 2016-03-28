@@ -1,5 +1,8 @@
+'use strict'
+
 const Mongoose = require('mongoose'),
-      Schema = Mongoose.Schema
+      Schema = Mongoose.Schema,
+      Places = require('../lib/places')
 
 const LocationSchema = new Schema({
     placeId:   { type: String },
@@ -7,8 +10,18 @@ const LocationSchema = new Schema({
     createdAt:  { type: Date, required: true, default: Date.now }
 })
 
-const location = Mongoose.model('location', LocationSchema)
+LocationSchema.methods.getDetails = function() {
+  return Places.getDetails(this.placeId)
+}
 
+
+
+let Location;
+if (Mongoose.models.location) {
+  Location = Mongoose.model('location');
+} else {
+  Location = Mongoose.model('location', LocationSchema);
+}
 module.exports = {
-    Location: location
+  Location: Location
 }

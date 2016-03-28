@@ -3,6 +3,9 @@ const ActivitiesController = require('./app/controllers/activities_controller');
 const LocationsController  = require('./app/controllers/locations_controller');
 const LocationsSearchController  = require('./app/controllers/locations_search_controller');
 
+const List     = require('./app/models/list').List
+const Activity = require('./app/models/activity').Activity
+
 exports.endpoints = [
   { method: 'GET',    path: '/lists', config: ListsController.getAll },
   { method: 'POST',   path: '/lists', config: ListsController.create },

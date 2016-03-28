@@ -34,7 +34,7 @@ lab.experiment("lists_controller", () => {
     });
   });
 
-  lab.test("GET /id (endpoint test)", (done) => {
+  lab.test("GET /id (endpoint test)", {timeout: 10000}, (done) => {
     var options = {
       method: "GET",
       url: `/lists/${listRecord.id}`
@@ -43,6 +43,8 @@ lab.experiment("lists_controller", () => {
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object();
+      Code.expect(response.result.activities).to.be.a.array();
+      Code.expect(response.result.activities[0].location).to.be.a.object();
       server.stop(done);  // done() callback is required to end the test.
     });
   });

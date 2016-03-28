@@ -15,6 +15,7 @@
     "hapi": "^13.2.1",
     "joi": "^8.0.5",
     "mongoose": "^4.4.9",
+    "mongoose-deep-populate": "^3.0.0",
     "node-googleplaces": "^0.1.2"
   },
   "devDependencies": {

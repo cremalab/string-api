@@ -15,6 +15,9 @@ function search(term) {
 function getDetails(placeid) {
   return new Promise((resolve, reject) => {
     places.details({placeid: placeid}, (err, response) => {
+      if (response.body.status === 'INVALID_REQUEST') {
+        return reject(`Google couldn't find a place with a placeid of ${placeid}`)
+      }
       if (err) { return reject(err) }
       return resolve(response.body.result)
     })

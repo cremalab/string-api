@@ -1,6 +1,8 @@
-const Joi  = require('joi'),
-      Boom = require('boom'),
-      List = require('../models/list').List
+"use strict"
+
+const Joi    = require('joi'),
+      Boom   = require('boom'),
+      List   = require('../models/list').List
 
 exports.getAll = {
   handler: (request, reply) => {
@@ -17,14 +19,16 @@ exports.getAll = {
 exports.getOne = {
   handler: (request, reply) => {
     List.findOne({'_id': request.params.listId})
-    .populate('activities')
     .exec((err, list) => {
-      if (!err) {
-        console.log(list);
-        reply(list);
-      } else {
-        reply(Boom.notFound(err)); // 500 error
-      }
+      if (err) { return reply(Boom.notFound(err)) }
+      if (!list) { return reply(Boom.notFound()) }
+      list.collectActivities().then((activities) => {
+        let res = list.toJSON()
+        res.activities = activities
+        return reply(res);
+      }).catch((err) => {
+        reply(Boom.badImplementation(err))
+      })
     });
   }
 };
