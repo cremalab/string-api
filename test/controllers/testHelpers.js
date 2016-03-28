@@ -2,6 +2,7 @@
 const models = require('../../app/models/index')
 const Activity = require('../../app/models/activity').Activity
 const List = require('../../app/models/list').List
+const User = require('../../app/models/user').User
 const Location = require('../../app/models/location').Location
 
 exports.removeActivities = function() {
@@ -25,6 +26,15 @@ exports.removeLists = function() {
 exports.removeLocations = function() {
   return new Promise((resolve, reject) => {
     Location.remove({}, (err) => {
+      if (err) { return reject(err) }
+      return resolve()
+    })
+  })
+}
+
+exports.removeUsers = function() {
+  return new Promise((resolve, reject) => {
+    User.remove({}, (err) => {
       if (err) { return reject(err) }
       return resolve()
     })
@@ -62,6 +72,21 @@ exports.stubLocation = function() {
   })
 }
 
+exports.stubUnauthUser = function() {
+  let user = new User({
+    phone: 9999999999,
+    tempToken: 'mbjAzOEOB1KKWhMB',
+    verificationCode: 12345,
+    tokenedAt: Date.now(),
+  });
+  return new Promise((resolve, reject) => {
+    user.save((err, user) => {
+      if (err) {return reject(err)}
+      return resolve(user)
+    })
+  })
+}
+
 exports.stubActivity = function() {
 
   return new Promise((resolve, reject) => {
@@ -84,6 +109,7 @@ exports.cleanUp = function() {
   return Promise.all([
     exports.removeActivities(),
     exports.removeLocations(),
-    exports.removeLists()
+    exports.removeLists(),
+    exports.removeUsers()
   ])
 }

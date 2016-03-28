@@ -1,17 +1,17 @@
 'use strict'
 
 const Lab    = require("lab");           // load Lab module
-const List   = require('../../app/models/list').List
 const lab    = exports.lab = Lab.script(); //export test script
 const Code   = require("code");      //assertion library
 const server = require("../../server"); // our index.js from above
 const Db     = require("../../database")
 const stubList = require('./testHelpers').stubList
 const cleanUp  = require('./testHelpers').cleanUp
+const User = require('../../app/models/user').User
 
 let listRecord
 
-lab.experiment.only("users_controller", () => {
+lab.experiment("users_controller", () => {
   lab.before((done) => {
     cleanUp().then(() => {
       done()
@@ -45,8 +45,11 @@ lab.experiment.only("users_controller", () => {
       Code.expect(response.result).to.be.a.object()
       Code.expect(response.result.user).to.be.a.object()
       Code.expect(response.result.user._id).to.not.be.null()
-      Code.expect(response.result.user.temp_token).to.not.be.null()
-      server.stop(done)
+      Code.expect(response.result.user.tempToken).to.not.be.null()
+      User.findOne({}, (err, user) => {
+        Code.expect(user.verificationCode).to.not.be.undefined()
+        server.stop(done)
+      })
     })
   })
 
