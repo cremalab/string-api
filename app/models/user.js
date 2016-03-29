@@ -11,7 +11,8 @@ const UserSchema = new Schema({
     tempToken: { type: String },
     tokenedAt: { type: Date },
     verificationCode: { type: Number },
-    name: {type: String }
+    name: {type: String },
+    verificationSentAt: { type: Date }
 })
 
 UserSchema.methods.generateAuthToken = function() {
