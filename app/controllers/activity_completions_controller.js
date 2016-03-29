@@ -19,6 +19,7 @@ exports.create = {
 
       let completion = new ActivityCompletion({
         _activity: activityId,
+        _list: activity._list,
         _location: activity._location,
         _user: request.currentUser()._id,
         description: activity.description

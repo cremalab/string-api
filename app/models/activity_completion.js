@@ -6,6 +6,7 @@ const Mongoose = require('mongoose'),
 const ActivityCompletionSchema = new Schema({
     _activity:    { type: Schema.Types.ObjectId, required: true, ref: 'activity'},
     _user:        { type: Schema.Types.ObjectId, required: true, ref: 'user' },
+    _list:        { type: Schema.Types.ObjectId, required: true, ref: 'list' },
     _location:    { type: Schema.Types.ObjectId, ref: 'location' },
     createdAt:    { type: Date, required: true, default: Date.now },
     description:  { type: String, required: true }
