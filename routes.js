@@ -2,6 +2,7 @@ const ListsController      = require('./app/controllers/lists_controller');
 const ActivitiesController = require('./app/controllers/activities_controller');
 const LocationsController  = require('./app/controllers/locations_controller');
 const LocationsSearchController  = require('./app/controllers/locations_search_controller');
+const ActivityCompletionsController  = require('./app/controllers/activity_completions_controller');
 
 const List     = require('./app/models/list').List
 const Activity = require('./app/models/activity').Activity
@@ -24,9 +25,11 @@ exports.endpoints = [
   { method: 'GET',    path: '/locations', config: LocationsController.getAll },
   { method: 'GET',    path: '/locations/{locationId}', config: LocationsController.getOne },
   { method: 'POST',   path: '/locations', config: LocationsController.create },
+
+  { method: 'POST',   path: '/activity_completions', config: ActivityCompletionsController.create },
+  { method: 'DELETE', path: '/activity_completions/{activityCompletionId}', config: ActivityCompletionsController.remove}
   // { method: 'GET',    path: '/locations/{locationId}', config: LocationsController.getOne },
   // { method: 'PUT',    path: '/locations/{locationId}', config: LocationsController.update },
-  // { method: 'DELETE', path: '/locations/{locationId}', config: LocationsController.remove}
 
 
 ];

@@ -63,7 +63,6 @@ exports.stubLocation = function() {
 }
 
 exports.stubActivity = function() {
-
   return new Promise((resolve, reject) => {
     return Promise.all([exports.stubLocation(), exports.stubList()]).then((values) => {
       let activity = new Activity({
@@ -78,7 +77,6 @@ exports.stubActivity = function() {
     })
   })
 }
-
 
 exports.cleanUp = function() {
   return Promise.all([
