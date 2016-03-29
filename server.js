@@ -46,11 +46,11 @@ server.register([
     const User = require('./app/models/user').User
 
     User.findOne({_id: decoded.userId}, (err, user) => {
-      if ( !user ) { return callback(`Could not find User with ID ${decoded.userId}`, false) }
+      if ( !user || err ) { return callback(err, false) }
       if ( user.token === decoded.token ) {
         return callback(null, true, user)
       } else {
-        return callback("Encoded token does not match", false)
+        return callback(null, false)
       }
     })
   }
