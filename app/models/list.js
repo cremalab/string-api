@@ -2,12 +2,14 @@
 
 const Mongoose = require('mongoose'),
       Schema = Mongoose.Schema,
-      Activity = require('./activity').Activity
+      Activity = require('./activity').Activity,
+      ActivityCompletion = require('./activity_completion').ActivityCompletion
 
 const ListSchema = new Schema({
     description: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
-    activityCount: { type: Number, default: 0 }
+    activityCount: { type: Number, default: 0 },
+    _creator: { type: Schema.Types.ObjectId, ref: 'user', required: true}
 })
 // ListSchema.plugin(deepPopulate);
 ListSchema.methods.collectActivities = function() {
@@ -24,6 +26,16 @@ ListSchema.methods.collectActivities = function() {
           }))
         })
         .catch((err) => reject(err))
+    })
+  })
+}
+
+ListSchema.methods.collectCompletions = function(user) {
+  return new Promise((resolve, reject) => {
+    return ActivityCompletion.find({_list: this._id, _user: user._id})
+    .exec((err, completions) => {
+      if (err) { reject(err) }
+      return resolve(completions)
     })
   })
 }

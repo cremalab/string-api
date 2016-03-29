@@ -13,12 +13,18 @@
     "good": "^6.6.0",
     "good-console": "^5.3.1",
     "hapi": "^13.2.1",
+    "hapi-auth-jwt2": "^5.4.1",
     "joi": "^8.0.5",
+    "jsonwebtoken": "^5.7.0",
     "mongoose": "^4.4.9",
     "mongoose-deep-populate": "^3.0.0",
-    "node-googleplaces": "^0.1.2"
+    "node-googleplaces": "^0.1.2",
+    "rand-token": "^0.2.1"
   },
   "devDependencies": {
     "ava": "^0.13.0"
+  },
+  "engines": {
+    "node": "4.2.1"
   }
 }

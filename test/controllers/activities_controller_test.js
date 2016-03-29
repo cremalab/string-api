@@ -7,33 +7,38 @@ const lab              = exports.lab = Lab.script();
 const Code             = require("code");
 const server           = require("../../server");
 const Db               = require("../../database")
-const removeActivities = require('./testHelpers').removeActivities
-const stubList         = require('./testHelpers').stubList
-const stubLocation     = require('./testHelpers').stubLocation
-const stubActivity     = require('./testHelpers').stubActivity
+const removeActivities = require('../testHelpers').removeActivities
+const cleanUp          = require('../testHelpers').cleanUp
+const stubList         = require('../testHelpers').stubList
+const stubLocation     = require('../testHelpers').stubLocation
+const stubActivity     = require('../testHelpers').stubActivity
+const stubAuthUser     = require('../testHelpers').stubAuthUser
+const authRequest      = require('../testHelpers').authRequest
 
-let listRecord, locationRecord, activityRecord;
+let listRecord, locationRecord, activityRecord, userRecord;
 
 lab.experiment("activities_controller", () => {
   lab.before((done) => {
     Promise.all([
-      removeActivities(),
-      stubList(),
+      cleanUp(),
       stubLocation(),
-      stubActivity()
+      stubAuthUser()
     ]).then((values) => {
-      listRecord = values[1]
-      locationRecord = values[2]
-      activityRecord = values[3]
-      done()
+      locationRecord = values[1]
+      userRecord     = values[2]
+      Promise.all([stubList(userRecord), stubActivity(userRecord)]).then((values) => {
+        listRecord     = values[0]
+        activityRecord = values[1]
+        done()
+      })
     })
   })
 
   lab.test("GET / (endpoint test)", (done) => {
-    var options = {
+    var options = authRequest({
       method: "GET",
       url: "/activities"
-    };
+    }, userRecord);
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
@@ -43,10 +48,10 @@ lab.experiment("activities_controller", () => {
   });
 
   lab.test("GET /id (endpoint test)", (done) => {
-    var options = {
+    var options = authRequest({
       method: "GET",
       url: `/activities/${activityRecord._id}`
-    };
+    }, userRecord);
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
       Code.expect(response.result).to.be.a.object();
@@ -57,10 +62,10 @@ lab.experiment("activities_controller", () => {
   });
 
   lab.test("POST / with empty payload", (done) => {
-    var options = {
+    var options = authRequest({
       method: "POST",
       url: "/activities"
-    };
+    }, userRecord);
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(400)  //  Expect http response status code to be 200 ("Ok")
@@ -69,7 +74,7 @@ lab.experiment("activities_controller", () => {
   })
 
   lab.test("POST / with valid payload", (done) => {
-    var options = {
+    var options = authRequest({
       method: "POST",
       url: "/activities",
       payload: {
@@ -77,7 +82,7 @@ lab.experiment("activities_controller", () => {
         _list: listRecord._id,
         _location: locationRecord._id
       }
-    };
+    }, userRecord);
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(201)  //  Expect http response status code to be 200 ("Ok")
@@ -92,13 +97,13 @@ lab.experiment("activities_controller", () => {
   lab.test("PUT / update activity", (done) => {
     // server.inject lets you similate an http request
     List.findOne({}, (err, list) => {
-      var options = {
+      var options = authRequest({
         method: "PUT",
         url: `/activities/${activityRecord.id}`,
         payload: {
           description: "Ate 10 tacos"
         }
-      };
+      }, userRecord);
       server.inject(options, (response) => {
         Code.expect(response.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
         Code.expect(response.result).to.be.a.object()
@@ -113,10 +118,10 @@ lab.experiment("activities_controller", () => {
 
   lab.test("DELETE / delete activity", (done) => {
 
-    var options = {
+    var options = authRequest({
       method: "DELETE",
       url: `/activities/${activityRecord.id}`
-    };
+    }, userRecord);
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200)
       // expect no activity with the ID of the old record

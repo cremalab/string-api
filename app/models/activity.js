@@ -9,7 +9,8 @@ const ActivitySchema = new Schema({
     _list:       { type: Schema.Types.ObjectId, required: true, ref: 'list' },
     createdAt:   { type: Date, required: true, default: Date.now },
     completedCount: { type: Number, default: 0 },
-    _location:   { type: Schema.Types.ObjectId, ref: 'location' }
+    _location:   { type: Schema.Types.ObjectId, ref: 'location' },
+    _creator:    { type: Schema.Types.ObjectId, ref: 'user', required: true }
 })
 
 ActivitySchema.methods.getLocationData = function() {

@@ -1,16 +1,32 @@
+'use strict'
+
 const Mongoose = require('mongoose'),
       Schema = Mongoose.Schema
 
 const ActivityCompletionSchema = new Schema({
-    activityId:   { type: Schema.Types.ObjectId, required: true },
-    description:  { type: String, required: true },
-    userId:       { type: Schema.Types.ObjectId, required: true },
+    _activity:    { type: Schema.Types.ObjectId, required: true, ref: 'activity'},
+    _user:        { type: Schema.Types.ObjectId, required: true, ref: 'user' },
+    _list:        { type: Schema.Types.ObjectId, required: true, ref: 'list' },
+    _location:    { type: Schema.Types.ObjectId, ref: 'location' },
     createdAt:    { type: Date, required: true, default: Date.now },
-    description:  { type: String, default: 0},
-    locationId:   { type: Schema.Types.ObjectId, required: true },
-    locationName: { type: String },
-    recommended:  { type: Boolean }
+    description:  { type: String, required: true }
 })
+
+ActivityCompletionSchema.pre("save", function(next) {
+
+  Mongoose.models["activityCompletion"].findOne({
+    _user : this._user, _activity: this._activity
+  }, '_activity', (err, results) => {
+    if(err) {
+      next(err);
+    } else if(results) {
+      this.invalidate("_activity", "You have already completed this activity");
+      next(new Error("You have already completed this activity"));
+    } else {
+      next();
+    }
+  });
+});
 
 const activityCompletion = Mongoose.model('activityCompletion', ActivityCompletionSchema)
 

@@ -6,7 +6,7 @@ const Joi    = require('joi'),
 
 exports.getAll = {
   handler: (request, reply) => {
-    List.find({}, (err, lists) => {
+    List.find({}).populate('_creator').exec((err, lists) => {
       if (!err) {
         reply({lists: lists});
       } else {
@@ -19,13 +19,19 @@ exports.getAll = {
 exports.getOne = {
   handler: (request, reply) => {
     List.findOne({'_id': request.params.listId})
+    .populate('_creator')
     .exec((err, list) => {
       if (err) { return reply(Boom.notFound(err)) }
       if (!list) { return reply(Boom.notFound()) }
-      list.collectActivities().then((activities) => {
-        let res = list.toJSON()
-        res.activities = activities
-        return reply({list: res});
+      Promise.all([
+        list.collectActivities(),
+        list.collectCompletions(request.currentUser())
+      ]).then((values) => {
+        const activities  = values[0]
+        const completions = values[1]
+        let res           = list.toJSON()
+        res.activities    = activities
+        return reply({list: res, userCompletions: completions });
       }).catch((err) => {
         reply(Boom.badImplementation(err))
       })
@@ -41,13 +47,14 @@ exports.create = {
   },
   handler: function(request, reply) {
     var list = new List(request.payload);
+    list._creator = request.currentUser()._id
     list.save(function(err, user) {
-      if (!err) {
-        reply({list: list}).created('/list/' + list._id); // HTTP 201
-      } else {
+      if (err) {
         if (11000 === err.code || 11001 === err.code) {
           reply(Boom.forbidden("please provide another list id, it already exist"));
         } else reply(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
+      } else {
+        reply({list: list}).created('/list/' + list._id); // HTTP 201
       }
     });
   }
@@ -62,30 +69,32 @@ exports.update = {
 
   handler: function(request, reply) {
     List.findOne({
-      '_id': request.params.listId
+      '_id': request.params.listId,
+      '_creator': request.currentUser()._id
     }, function(err, list) {
-      if (!err) {
+      if (err) {
+        reply(Boom.badImplementation(err))
+      } else {
         list.description = request.payload.description;
         list.save(function(err, list) {
           if (!err) {
-            reply({list: list}); // HTTP 201
+            reply({list: list})
           } else {
             if (11000 === err.code || 11001 === err.code) {
               reply(Boom.forbidden("please provide another user id, it already exist"));
-            } else reply(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
+            } else reply(Boom.forbidden(getErrorMessageFrom(err)))
           }
-        });
-      } else {
-        reply(Boom.badImplementation(err)); // 500 error
+        })
       }
-    });
+    })
   }
-};
+}
 
 exports.remove = {
   handler: function(request, reply) {
     List.findOne({
-      '_id': request.params.listId
+      '_id': request.params.listId,
+      '_creator': request.currentUser()._id
     }, function(err, list) {
       if (!err && list) {
         list.remove();
