@@ -2,7 +2,8 @@
 
 const Mongoose = require('mongoose'),
       Schema = Mongoose.Schema,
-      Activity = require('./activity').Activity
+      Activity = require('./activity').Activity,
+      ActivityCompletion = require('./activity_completion').ActivityCompletion
 
 const ListSchema = new Schema({
     description: { type: String, required: true },
