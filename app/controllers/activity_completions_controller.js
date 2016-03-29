@@ -20,8 +20,8 @@ exports.create = {
       let completion = new ActivityCompletion({
         _activity: activityId,
         _location: activity._location,
-        description: activity.description,
-        // _user: 1,
+        _user: request.currentUser()._id,
+        description: activity.description
       })
       completion.save((err, completion) => {
         if ( err ) { return reply(Boom.badRequest(err)) }

@@ -1,4 +1,27 @@
 * `gem install foreman`
 * `npm install`
 * create `.env` file in the project root with a `GOOGLE_API_KEY` variable
+* add a `SIGNING_SECRET` variable, it can be whatever string you want
 * `foreman run npm start`
+
+
+### Authentication
+Authentication is provided by using JSON Web Tokens and device-in-hand security. Authentication flow is as follows:
+
+1. To log in _or_ sign up, `POST` a payload of `{phone: 9999999999}` to `/users`
+2. The API will look up or create a user based on that phone number and return response with a `_id` and a `tempToken`. It will also send a text message with a 5 digit verification code to the phone number.
+3. Prompt the user to enter the verification code they received, and pass it and the `tempToken` to the server via a `POST` request to `/sessions`, like so: `{tempToken: '38fjdsf9j4jSSjfmdk', verificationCode: 11387}`
+4. If the verification code matches, the API will respond with a `201` and a payload of a `user` object with a `authToken` attribute.
+5. Save the `authToken` attribute and send it with all requests under the `Authorization` header.
+
+Example response from successful session request:
+
+```json
+{
+  "user": {
+    "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6ImttdTN0WEg3WDhnOVg1dVQiLCJ1c2VySWQiOiI1NmY5YjliMjg5ZjExNWNlZDc2M2YyMzIiLCJpYXQiOjE0NTkyMDY1Nzh9.W0XqueUgZAqsA6A6vrduGU0gpfip-aVAuus9FaNIS8c",
+    "id": "56f9b9b289f115ced763f232",
+    "name": null
+  }
+}
+```
