@@ -7,13 +7,13 @@ const server       = require("../../server"); // our index.js from above
 const Location     = require('../../app/models/location').Location
 const Activity     = require('../../app/models/activity').Activity
 const Db           = require("../../database")
-const cleanUp      = require('./testHelpers').cleanUp
-const stubActivity = require('./testHelpers').stubActivity
-const stubActivityCompletion = require('./testHelpers').stubActivityCompletion
-const stubLocation = require('./testHelpers').stubLocation
-const stubAuthUser = require('./testHelpers').stubAuthUser
-const authRequest  = require('./testHelpers').authRequest
-const stubList     = require('./testHelpers').stubList
+const cleanUp      = require('../testHelpers').cleanUp
+const stubActivity = require('../testHelpers').stubActivity
+const stubActivityCompletion = require('../testHelpers').stubActivityCompletion
+const stubLocation = require('../testHelpers').stubLocation
+const stubAuthUser = require('../testHelpers').stubAuthUser
+const authRequest  = require('../testHelpers').authRequest
+const stubList     = require('../testHelpers').stubList
 // const stubActivityCompletion  = require('./testHelpers').stubActivityCompletion
 
 let listRecord, locationRecord, activityRecord, userRecord, completionRecord;

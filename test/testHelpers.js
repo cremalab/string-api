@@ -1,10 +1,10 @@
 'use strict'
-const models             = require('../../app/models/index')
-const Activity           = require('../../app/models/activity').Activity
-const ActivityCompletion = require('../../app/models/activity_completion').ActivityCompletion
-const List               = require('../../app/models/list').List
-const User               = require('../../app/models/user').User
-const Location           = require('../../app/models/location').Location
+const models             = require('../app/models/index')
+const Activity           = require('../app/models/activity').Activity
+const ActivityCompletion = require('../app/models/activity_completion').ActivityCompletion
+const List               = require('../app/models/list').List
+const User               = require('../app/models/user').User
+const Location           = require('../app/models/location').Location
 const randtoken          = require('rand-token')
 
 exports.removeActivities = function() {

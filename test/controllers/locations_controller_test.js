@@ -6,10 +6,10 @@ const Code         = require("code");      //assertion library
 const server       = require("../../server"); // our index.js from above
 const Location     = require('../../app/models/location').Location
 const Db           = require("../../database")
-const cleanUp      = require('./testHelpers').cleanUp
-const stubLocation = require('./testHelpers').stubLocation
-const stubAuthUser = require('./testHelpers').stubAuthUser
-const authRequest  = require('./testHelpers').authRequest
+const cleanUp      = require('../testHelpers').cleanUp
+const stubLocation = require('../testHelpers').stubLocation
+const stubAuthUser = require('../testHelpers').stubAuthUser
+const authRequest  = require('../testHelpers').authRequest
 
 let locationRec, userRecord;
 

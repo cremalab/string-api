@@ -7,13 +7,13 @@ const lab              = exports.lab = Lab.script();
 const Code             = require("code");
 const server           = require("../../server");
 const Db               = require("../../database")
-const removeActivities = require('./testHelpers').removeActivities
-const cleanUp          = require('./testHelpers').cleanUp
-const stubList         = require('./testHelpers').stubList
-const stubLocation     = require('./testHelpers').stubLocation
-const stubActivity     = require('./testHelpers').stubActivity
-const stubAuthUser     = require('./testHelpers').stubAuthUser
-const authRequest      = require('./testHelpers').authRequest
+const removeActivities = require('../testHelpers').removeActivities
+const cleanUp          = require('../testHelpers').cleanUp
+const stubList         = require('../testHelpers').stubList
+const stubLocation     = require('../testHelpers').stubLocation
+const stubActivity     = require('../testHelpers').stubActivity
+const stubAuthUser     = require('../testHelpers').stubAuthUser
+const authRequest      = require('../testHelpers').authRequest
 
 let listRecord, locationRecord, activityRecord, userRecord;
 

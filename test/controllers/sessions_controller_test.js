@@ -1,13 +1,13 @@
 'use strict'
 
-const Lab    = require("lab");
-const lab    = exports.lab = Lab.script()
-const Code   = require("code")
-const server = require("../../server")
-const Db     = require("../../database")
-const stubUnauthUser = require('./testHelpers').stubUnauthUser
-const cleanUp  = require('./testHelpers').cleanUp
-const User = require('../../app/models/user').User
+const Lab            = require("lab");
+const lab            = exports.lab = Lab.script()
+const Code           = require("code")
+const server         = require("../../server")
+const Db             = require("../../database")
+const stubUnauthUser = require('../testHelpers').stubUnauthUser
+const cleanUp        = require('../testHelpers').cleanUp
+const User           = require('../../app/models/user').User
 
 let unauthUserRecord
 

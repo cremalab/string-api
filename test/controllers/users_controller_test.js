@@ -1,3 +1,4 @@
+
 'use strict'
 
 const Lab    = require("lab");           // load Lab module
@@ -5,8 +6,8 @@ const lab    = exports.lab = Lab.script(); //export test script
 const Code   = require("code");      //assertion library
 const server = require("../../server"); // our index.js from above
 const Db     = require("../../database")
-const stubList = require('./testHelpers').stubList
-const cleanUp  = require('./testHelpers').cleanUp
+const stubList = require('../testHelpers').stubList
+const cleanUp  = require('../testHelpers').cleanUp
 const User = require('../../app/models/user').User
 
 let listRecord

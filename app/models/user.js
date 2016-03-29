@@ -6,7 +6,16 @@ const Mongoose = require('mongoose'),
 
 const UserSchema = new Schema({
     createdAt: { type: Date, required: true, default: Date.now },
-    phone: { type: Number, required: true, unique: true },
+    phone: {
+      type: String,
+      validate: {
+        validator: function(v) {
+          return /\d{10}/.test(v);
+        },
+        message: '{VALUE} is not a valid phone number!'
+      },
+      required: [true, 'User phone number required']
+    },
     token: { type: String },
     tempToken: { type: String },
     tokenedAt: { type: Date },
