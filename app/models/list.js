@@ -29,6 +29,16 @@ ListSchema.methods.collectActivities = function() {
   })
 }
 
+ListSchema.methods.collectCompletions = function(user) {
+  return new Promise((resolve, reject) => {
+    return ActivityCompletion.find({_list: this._id, _user: user._id})
+    .exec((err, completions) => {
+      if (err) { reject(err) }
+      return resolve(completions)
+    })
+  })
+}
+
 ListSchema.methods.changeActivityCount = function(inc) {
   this.activityCount+=inc
   return this.save()

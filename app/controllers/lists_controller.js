@@ -22,10 +22,15 @@ exports.getOne = {
     .exec((err, list) => {
       if (err) { return reply(Boom.notFound(err)) }
       if (!list) { return reply(Boom.notFound()) }
-      list.collectActivities().then((activities) => {
-        let res = list.toJSON()
-        res.activities = activities
-        return reply({list: res});
+      Promise.all([
+        list.collectActivities(),
+        list.collectCompletions(request.currentUser())
+      ]).then((values) => {
+        const activities  = values[0]
+        const completions = values[1]
+        let res           = list.toJSON()
+        res.activities    = activities
+        return reply({list: res, userCompletions: completions });
       }).catch((err) => {
         reply(Boom.badImplementation(err))
       })

@@ -61,6 +61,7 @@ lab.experiment("lists_controller", () => {
       Code.expect(response.result.list).to.be.a.object();
       Code.expect(response.result.list.activities).to.be.a.array();
       Code.expect(response.result.list.activities[0].location).to.be.a.object();
+      Code.expect(response.result.userCompletions).to.be.a.array();
       server.stop(done);
     });
   });
