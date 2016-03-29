@@ -1,5 +1,6 @@
 'use strict'
 
+const JWT = require('jsonwebtoken')
 const Mongoose = require('mongoose'),
       Schema = Mongoose.Schema
 
@@ -12,6 +13,14 @@ const UserSchema = new Schema({
     verificationCode: { type: Number },
     name: {type: String }
 })
+
+UserSchema.methods.generateAuthToken = function() {
+  const authObj = {
+    token: this.token,
+    userId: this._id
+  }
+  return JWT.sign(authObj, process.env['SIGNING_SECRET'])
+}
 
 let User;
 if (Mongoose.models.user) {

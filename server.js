@@ -39,7 +39,6 @@ server.register([
 
   // bring your own validation function
   const validate = function (decoded, request, callback) {
-    console.log(decoded);
     if( !decoded.token || !decoded.userId ) {
       return callback(null, false)
     }

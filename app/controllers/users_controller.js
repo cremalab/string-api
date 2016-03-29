@@ -25,7 +25,7 @@ exports.findOrCreate = {
       user.verificationCode = codeGenerator.generate(5)
       user.tokenedAt  = Date.now()
 
-      console.log(`=========${user.verificationCode}`);
+      console.log(`=========VERIFICATION CODE: ${user.verificationCode}`);
 
       user.save((err, user) => {
         if (err) { return reply(Boom.badRequest(err)) }

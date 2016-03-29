@@ -3,8 +3,7 @@
 const Joi       = require('joi'),
       Boom      = require('boom'),
       User      = require('../models/user').User,
-      randtoken = require('rand-token'),
-      JWT       = require('jsonwebtoken')
+      randtoken = require('rand-token')
 
 exports.create = {
   auth: false,
@@ -28,17 +27,12 @@ exports.create = {
       user.token = token
       user.tokenedAt = Date.now()
 
-      const authObj = {
-        token: token,
-        userId: user._id
-      }
 
       user.save((err, user) => {
         if (err) { return reply(Boom.badRequest(err)) }
 
-        const authToken = JWT.sign(authObj, process.env['SIGNING_SECRET'])
         const userObj = {
-          authToken: authToken,
+          authToken: user.generateAuthToken(),
           id: user._id,
           name: user.name
         }

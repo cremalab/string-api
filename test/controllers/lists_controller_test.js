@@ -1,31 +1,35 @@
 'use strict'
 
-const Lab    = require("lab");           // load Lab module
-const List   = require('../../app/models/list').List
-const lab    = exports.lab = Lab.script(); //export test script
-const Code   = require("code");      //assertion library
-const server = require("../../server"); // our index.js from above
-const Db     = require("../../database")
-const stubList = require('./testHelpers').stubList
-const cleanUp  = require('./testHelpers').cleanUp
+const Lab          = require("lab");
+const List         = require('../../app/models/list').List
+const lab          = exports.lab = Lab.script();
+const Code         = require("code");
+const server       = require("../../server");
+const Db           = require("../../database")
+const stubList     = require('./testHelpers').stubList
+const stubAuthUser = require('./testHelpers').stubAuthUser
+const cleanUp      = require('./testHelpers').cleanUp
+const authRequest  = require('./testHelpers').authRequest
 
-let listRecord
+let listRecord, userRecord
 
 lab.experiment("lists_controller", () => {
   lab.before((done) => {
     List.remove({})
-    Promise.all([cleanUp(), stubList()]).then((values) => {
+    Promise.all([cleanUp(), stubList(), stubAuthUser()]).then((values) => {
       listRecord = values[1]
+      userRecord = values[2]
       done()
     });
   })
 
   // tests
   lab.test("GET / (endpoint test)", (done) => {
-    var options = {
+    var options = authRequest({
       method: "GET",
       url: "/lists"
-    };
+    }, userRecord);
+
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
@@ -36,10 +40,10 @@ lab.experiment("lists_controller", () => {
   });
 
   lab.test("GET /id (endpoint test)", {timeout: 10000}, (done) => {
-    var options = {
+    var options = authRequest({
       method: "GET",
       url: `/lists/${listRecord.id}`
-    };
+    }, userRecord)
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
@@ -52,10 +56,10 @@ lab.experiment("lists_controller", () => {
   });
 
   lab.test("POST / with empty payload", (done) => {
-    var options = {
+    var options = authRequest({
       method: "POST",
       url: "/lists"
-    };
+    }, userRecord)
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(400)  //  Expect http response status code to be 200 ("Ok")
@@ -64,13 +68,13 @@ lab.experiment("lists_controller", () => {
   })
 
   lab.test("POST / with valid payload", (done) => {
-    var options = {
+    var options = authRequest({
       method: "POST",
       url: "/lists",
       payload: {
         description: "#cheap #drinks in #midtown"
       }
-    };
+    }, userRecord)
     // server.inject lets you similate an http request
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(201)  //  Expect http response status code to be 200 ("Ok")
@@ -85,13 +89,13 @@ lab.experiment("lists_controller", () => {
   lab.test("PUT / update list", (done) => {
     // server.inject lets you similate an http request
     List.findOne({}, (err, list) => {
-      var options = {
+      var options = authRequest({
         method: "PUT",
         url: `/lists/${list._id}`,
         payload: {
           description: "#cheap #drinks in #midtown"
         }
-      };
+      }, userRecord)
       server.inject(options, (response) => {
         Code.expect(response.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
         Code.expect(response.result).to.be.a.object()
@@ -106,10 +110,10 @@ lab.experiment("lists_controller", () => {
   lab.test("DELETE / delete list", (done) => {
     // server.inject lets you similate an http request
     List.findOne({}, (err, list) => {
-      var options = {
+      var options = authRequest({
         method: "DELETE",
         url: `/lists/${list._id}`
-      };
+      }, userRecord)
       server.inject(options, (response) => {
         Code.expect(response.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
         Code.expect(response.result).to.be.a.object()

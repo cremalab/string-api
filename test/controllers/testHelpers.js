@@ -1,9 +1,10 @@
 'use strict'
-const models = require('../../app/models/index')
-const Activity = require('../../app/models/activity').Activity
-const List = require('../../app/models/list').List
-const User = require('../../app/models/user').User
-const Location = require('../../app/models/location').Location
+const models    = require('../../app/models/index')
+const Activity  = require('../../app/models/activity').Activity
+const List      = require('../../app/models/list').List
+const User      = require('../../app/models/user').User
+const Location  = require('../../app/models/location').Location
+const randtoken = require('rand-token')
 
 exports.removeActivities = function() {
   return new Promise((resolve, reject) => {
@@ -87,6 +88,22 @@ exports.stubUnauthUser = function() {
   })
 }
 
+exports.stubAuthUser = function() {
+  let user = new User({
+    phone: 9999999999,
+    tempToken: null,
+    verificationCode: null,
+    token: randtoken.generate(16),
+    tokenedAt: Date.now()
+  });
+  return new Promise((resolve, reject) => {
+    user.save((err, user) => {
+      if (err) {return reject(err)}
+      return resolve(user)
+    })
+  })
+}
+
 exports.stubActivity = function() {
 
   return new Promise((resolve, reject) => {
@@ -104,6 +121,12 @@ exports.stubActivity = function() {
   })
 }
 
+exports.authRequest = function(reqOpts, user) {
+  reqOpts.headers = {
+    "Authorization": user.generateAuthToken()
+  }
+  return reqOpts
+}
 
 exports.cleanUp = function() {
   return Promise.all([
