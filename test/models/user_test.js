@@ -13,14 +13,27 @@ lab.experiment("User", () => {
     cleanUp().then(() => done())
   })
 
-  lab.test.only("User validation", (done) => {
+  lab.test("User phone validation - invalid length", (done) => {
     let options = {
       phone: "9999"
     }
     let user = new User(options)
     user.save((err, user) => {
-      console.log(err);
       Code.expect(err).to.not.be.null()
+      Code.expect(user).to.be.undefined()
+      Code.expect(err.name).to.equal('ValidationError')
+      done()
+    })
+  });
+
+  lab.test("User phone validation - extra characters", (done) => {
+    let options = {
+      phone: "999-999-9999"
+    }
+    let user = new User(options)
+    user.save((err, user) => {
+      Code.expect(err).to.not.be.null()
+      Code.expect(user).to.be.undefined()
       Code.expect(err.name).to.equal('ValidationError')
       done()
     })
