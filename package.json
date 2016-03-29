@@ -23,5 +23,8 @@
   },
   "devDependencies": {
     "ava": "^0.13.0"
+  },
+  "engines": {
+    "node": "4.2.1"
   }
 }

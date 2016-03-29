@@ -31,6 +31,16 @@ UserSchema.methods.generateAuthToken = function() {
   return JWT.sign(authObj, process.env['SIGNING_SECRET'])
 }
 
+UserSchema.methods.toJSON = function() {
+  let obj = this.toObject()
+  delete obj.token
+  delete obj.tokenedAt
+  delete obj.tempToken
+  delete obj.phone
+  delete obj.verificationCode
+  return obj
+}
+
 let User;
 if (Mongoose.models.user) {
   User = Mongoose.model('user');
