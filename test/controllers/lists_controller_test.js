@@ -15,12 +15,13 @@ let listRecord, userRecord
 
 lab.experiment("lists_controller", () => {
   lab.before((done) => {
-    List.remove({})
-    Promise.all([cleanUp(), stubList(), stubAuthUser()]).then((values) => {
-      listRecord = values[1]
-      userRecord = values[2]
-      done()
-    });
+    Promise.all([cleanUp(), stubAuthUser()]).then((values) => {
+      userRecord = values[1]
+      stubList(userRecord).then((list) => {
+        listRecord = list
+        done()
+      })
+    })
   })
 
   // tests

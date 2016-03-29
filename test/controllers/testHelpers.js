@@ -42,8 +42,11 @@ exports.removeUsers = function() {
   })
 }
 
-exports.stubList = function() {
-  let list = new List({description: '#art #walk in the #crossroads'});
+exports.stubList = function(user) {
+  let list = new List({
+    description: '#art #walk in the #crossroads',
+    _creator: user._id
+  });
   return new Promise((resolve, reject) => {
     exports.stubLocation().then((location) => {
       list.save((err, list) => {
@@ -51,7 +54,8 @@ exports.stubList = function() {
         let activity = new Activity({
           description: 'Ordered a dozen donuts',
           _list: list._id,
-          _location: location._id
+          _location: location._id,
+          _creator: user._id
         })
         activity.save((err, activity) => {
           return resolve(list)
@@ -104,14 +108,14 @@ exports.stubAuthUser = function() {
   })
 }
 
-exports.stubActivity = function() {
-
+exports.stubActivity = function(user) {
   return new Promise((resolve, reject) => {
-    return Promise.all([exports.stubLocation(), exports.stubList()]).then((values) => {
+    return Promise.all([exports.stubLocation(), exports.stubList(user)]).then((values) => {
       let activity = new Activity({
         description: 'Ate 6 Whoppers',
         _list: values[1]._id,
-        _location: values[0]._id
+        _location: values[0]._id,
+        _creator: user._id
       });
       return activity.save((err, activity) => {
         if (err) {return reject(err)}

@@ -7,7 +7,8 @@ const Mongoose = require('mongoose'),
 const ListSchema = new Schema({
     description: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
-    activityCount: { type: Number, default: 0 }
+    activityCount: { type: Number, default: 0 },
+    _creator: { type: Schema.Types.ObjectId, ref: 'user', required: true}
 })
 // ListSchema.plugin(deepPopulate);
 ListSchema.methods.collectActivities = function() {

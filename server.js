@@ -48,20 +48,26 @@ server.register([
     User.findOne({_id: decoded.userId}, (err, user) => {
       if ( !user ) { return callback(`Could not find User with ID ${decoded.userId}`, false) }
       if ( user.token === decoded.token ) {
-        return callback(null, true)
+        return callback(null, true, user)
       } else {
         return callback("Encoded token does not match", false)
       }
     })
   }
 
+  // Authenticate with JWT
   server.auth.strategy('jwt', 'jwt',
-  { key: process.env['SIGNING_SECRET'],          // Never Share your secret key
-    validateFunc: validate,            // validate function defined above
-    verifyOptions: { algorithms: [ 'HS256' ] } // pick a strong algorithm
+  { key: process.env['SIGNING_SECRET'],
+    validateFunc: validate,
+    verifyOptions: { algorithms: [ 'HS256' ] }
   });
+  server.auth.default('jwt'); // User as default for all requests
 
-  server.auth.default('jwt');
+  // Decorate requests with a currentUser function
+  const currentUser = function () {
+    return this.auth.credentials
+  }
+  server.decorate('request', 'currentUser', currentUser)
 
   server.route(Routes.endpoints)
 

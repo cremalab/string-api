@@ -21,16 +21,16 @@ lab.experiment("activities_controller", () => {
   lab.before((done) => {
     Promise.all([
       cleanUp(),
-      stubList(),
       stubLocation(),
-      stubActivity(),
       stubAuthUser()
     ]).then((values) => {
-      listRecord = values[1]
-      locationRecord = values[2]
-      activityRecord = values[3]
-      userRecord = values[4]
-      done()
+      locationRecord = values[1]
+      userRecord     = values[2]
+      Promise.all([stubList(userRecord), stubActivity(userRecord)]).then((values) => {
+        listRecord     = values[0]
+        activityRecord = values[1]
+        done()
+      })
     })
   })
 

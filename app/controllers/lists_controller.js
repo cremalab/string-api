@@ -41,13 +41,14 @@ exports.create = {
   },
   handler: function(request, reply) {
     var list = new List(request.payload);
+    list._creator = request.currentUser()._id
     list.save(function(err, user) {
-      if (!err) {
-        reply({list: list}).created('/list/' + list._id); // HTTP 201
-      } else {
+      if (err) {
         if (11000 === err.code || 11001 === err.code) {
           reply(Boom.forbidden("please provide another list id, it already exist"));
         } else reply(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
+      } else {
+        reply({list: list}).created('/list/' + list._id); // HTTP 201
       }
     });
   }
@@ -62,9 +63,12 @@ exports.update = {
 
   handler: function(request, reply) {
     List.findOne({
-      '_id': request.params.listId
+      '_id': request.params.listId,
+      '_creator': request.currentUser()._id
     }, function(err, list) {
-      if (!err) {
+      if (err) {
+        reply(Boom.badImplementation(err)); // 500 error
+      } else {
         list.description = request.payload.description;
         list.save(function(err, list) {
           if (!err) {
@@ -75,8 +79,6 @@ exports.update = {
             } else reply(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
           }
         });
-      } else {
-        reply(Boom.badImplementation(err)); // 500 error
       }
     });
   }
@@ -85,7 +87,8 @@ exports.update = {
 exports.remove = {
   handler: function(request, reply) {
     List.findOne({
-      '_id': request.params.listId
+      '_id': request.params.listId,
+      '_creator': request.currentUser()._id
     }, function(err, list) {
       if (!err && list) {
         list.remove();
