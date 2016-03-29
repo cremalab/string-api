@@ -1,9 +1,17 @@
 * `gem install foreman`
 * `npm install`
-* create `.env` file in the project root with a `GOOGLE_API_KEY` variable
+* create `.env` file with the content outlined below
 * add a `SIGNING_SECRET` variable, it can be whatever string you want
 * `foreman run npm start`
 
+#### `.env` file contents
+```
+GOOGLE_API_KEY=<YOUR KEY HERE>
+SIGNING_SECRET=<SOME LONG STRING>
+TWILIO_SID=<GET FROM TWILIO>
+TWILIO_TOKEN=<GET FROM TWILIO>
+TWILIO_FROM_PHONE=+15005550006
+```
 
 ### Authentication
 Authentication is provided by using JSON Web Tokens and device-in-hand security. Authentication flow is as follows:
