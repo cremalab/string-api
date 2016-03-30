@@ -26,6 +26,7 @@ exports.create = {
       })
       completion.save((err, completion) => {
         if ( err ) { return reply(Boom.badRequest(err)) }
+        activity.changeCompletedCount(1)
         reply({activity_completion: completion})
           .created('/activity_completions/' + completion._id)
       })
@@ -44,6 +45,9 @@ exports.remove = {
     ActivityCompletion.findOne({_id: id}, (err, completion) => {
       if ( err ) { return reply(Boom.badRequest(err) ) }
       if ( !completion ) { return reply(Boom.notFound("Activity Completion not found")) }
+      Activity.findOne({_id: completion._activity}, (err, activity) => {
+        if (!err && activity) {activity.changeCompletedCount(-1)}
+      })
       completion.remove()
       reply({message: "Activity Completion deleted successfully"})
     })

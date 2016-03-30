@@ -16,6 +16,7 @@ const ActivitySchema = new Schema({
 ActivitySchema.methods.getLocationData = function() {
   return new Promise((resolve, reject) => {
     return Location.findOne({_id: this._location}).exec((err, location) => {
+      console.log(err);
       if (err) { reject(err) }
       location.getDetails().then((details) => {
         details._id = location._id
@@ -26,6 +27,11 @@ ActivitySchema.methods.getLocationData = function() {
       })
     })
   })
+}
+
+ActivitySchema.methods.changeCompletedCount = function(inc) {
+  this.completedCount+=inc
+  return this.save()
 }
 
 ActivitySchema.pre('remove', function(done) {
