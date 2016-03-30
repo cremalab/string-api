@@ -3,7 +3,8 @@
 const Joi       = require('joi'),
       Boom      = require('boom'),
       User      = require('../models/user').User,
-      randtoken = require('rand-token')
+      randtoken = require('rand-token'),
+      Messenger = require('../lib/messenger')
 
 const codeGenerator = randtoken.generator({chars: '0-9'});
 
@@ -26,6 +27,12 @@ exports.findOrCreate = {
       user.tempToken = tempToken
       user.verificationCode = codeGenerator.generate(5)
       user.tokenedAt  = Date.now()
+
+      const content = `Your String verification code: ${user.verificationCode}`
+      Messenger.sendTextMessage(user.phone, content).then((res) => {
+        user.verificationSentAt = Date.now()
+        user.save()
+      })
 
       console.log(`=========VERIFICATION CODE: ${user.verificationCode}`);
 
