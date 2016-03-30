@@ -24,6 +24,7 @@ const server = new Hapi.Server()
 server.connection({
     host: envConfig.server.host,
     port: process.env.PORT || 8000,
+    routes: { cors: true },
     labels: ['api']
 });
 
