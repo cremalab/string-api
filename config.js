@@ -26,6 +26,8 @@ module.exports = {
     }
   },
   production: {
-    uri: process.env['MONGOLAB_URI']
+    database: {
+      uri: process.env['MONGOLAB_URI']
+    }
   }
 };
