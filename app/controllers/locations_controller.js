@@ -6,6 +6,9 @@ const Joi      = require('joi'),
       Location = require('../models/location').Location
 
 exports.getAll = {
+  tags: ['api'],
+  description: 'Get all locations',
+  notes: 'Returns *all* locations, does not include Google Places data.',
   handler: (request, reply) => {
     Location.find({}).limit(20).exec((err, locations) => {
       if (!err) {
@@ -18,6 +21,14 @@ exports.getAll = {
 };
 
 exports.getOne = {
+  tags: ['api'],
+  description: 'Get a location',
+  notes: 'Returns a location _with_ Google Places data.',
+  validate: {
+    params: {
+      locationId: Joi.string().required()
+    }
+  },
   handler: (request, reply) => {
     Location.findOne({
       '_id': request.params.locationId
@@ -36,6 +47,9 @@ exports.getOne = {
 };
 
 exports.create = {
+  tags: ['api'],
+  description: 'Create a Location',
+  notes: 'Finds or creates Location with the passed `placeId`, which is an identifier for Google Places',
   validate: {
     payload: {
       placeId: Joi.string().required() // `place_id` prop of returned google suggestion

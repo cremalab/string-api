@@ -6,6 +6,9 @@ const Joi                = require('joi'),
       ActivityCompletion = require('../models/activity_completion').ActivityCompletion
 
 exports.create = {
+  tags: ['api'],
+  description: 'Complete an Activity',
+  notes: "Completes on the current user's behalf",
   validate: {
     payload: {
       _activity: Joi.string().required()
@@ -35,6 +38,9 @@ exports.create = {
 }
 
 exports.remove = {
+  tags: ['api'],
+  description: 'Mark an Activity as Incomplete',
+  notes: "...on the current user's behalf",
   validate: {
     params: {
       activityCompletionId: Joi.string().required()

@@ -8,6 +8,8 @@ const Joi       = require('joi'),
 const codeGenerator = randtoken.generator({chars: '0-9'});
 
 exports.findOrCreate = {
+  tags: ['api'],
+  description: 'Create user OR reset their tempToken',
   auth: false,
   validate: {
     payload: {
@@ -41,6 +43,8 @@ exports.findOrCreate = {
 }
 
 exports.update = {
+  tags: ['api'],
+  description: 'Create user OR reset their tempToken',
   validate: {
     payload: {
       name: Joi.string().required()

@@ -5,6 +5,9 @@ const Joi      = require('joi'),
       Activity = require('../models/activity').Activity
 
 exports.getAll = {
+  tags: ['api'],
+  description: 'Get all Activities',
+  notes: 'Probably not very useful.',
   handler: (request, reply) => {
     Activity.find({})
     .populate('_location')
@@ -20,6 +23,12 @@ exports.getAll = {
 };
 
 exports.getOne = {
+  tags: ['api'],
+  description: 'Get an Activity',
+  notes: "Includes location and Google Places location data",
+  validate: {
+    params: { activityId: Joi.string().required() }
+  },
   handler: (request, reply) => {
     Activity.findOne({
       '_id': request.params.activityId
@@ -43,11 +52,13 @@ exports.getOne = {
 };
 
 exports.create = {
+  tags: ['api'],
+  description: 'Create an Activity',
   validate: {
     payload: {
       description: Joi.string().required(),
-      _location: Joi.string().required(),
-      _list: Joi.string().required()
+      _location: Joi.string().required().meta({className: 'location'}),
+      _list: Joi.string().required().meta({className: 'list'})
     }
   },
   handler: function(request, reply) {
@@ -68,12 +79,16 @@ exports.create = {
 };
 
 exports.update = {
+  tags: ['api'],
+  description: 'Update an Activity',
   validate: {
+    params: {
+      activityId: Joi.string().required()
+    },
     payload: {
       description: Joi.string().required()
     }
   },
-
   handler: function(request, reply) {
     Activity.findOne({
       '_id': request.params.activityId
@@ -85,7 +100,7 @@ exports.update = {
             reply({activity: activity}); // HTTP 201
           } else {
             if (11000 === err.code || 11001 === err.code) {
-              reply(Boom.forbidden("please provide another user id, it already exist"));
+              reply(Boom.forbidden());
             } else reply(Boom.forbidden(err)); // HTTP 403
           }
         });
@@ -97,6 +112,13 @@ exports.update = {
 };
 
 exports.remove = {
+  tags: ['api'],
+  description: 'Delete an Activity',
+  validate: {
+    params: {
+      activityId: Joi.string().required()
+    }
+  },
   handler: function(request, reply) {
     Activity.findOne({
       '_id': request.params.activityId
