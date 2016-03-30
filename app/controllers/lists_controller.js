@@ -5,18 +5,30 @@ const Joi    = require('joi'),
       List   = require('../models/list').List
 
 exports.getAll = {
+  tags: ['api'],
+  description: 'Get all lists',
+  notes: 'Returns *all* lists. This will be scoped to user or location later. Does not include activities.',
   handler: (request, reply) => {
     List.find({}).populate('_creator').exec((err, lists) => {
       if (!err) {
         reply({lists: lists});
       } else {
-        reply(Boom.badImplementation(err));// 500 error
+        reply(Boom.badImplementation(err));
       }
     });
   }
 };
 
 exports.getOne = {
+  tags: ['api'],
+  description: 'Get an individual list',
+  notes: 'Returns list with populated activities and their Google Places \
+    location data. Could take a bit since it aggregates Google requests.',
+  validate: {
+    params: {
+      listId: Joi.string().required().description('_id of list')
+    }
+  },
   handler: (request, reply) => {
     List.findOne({'_id': request.params.listId})
     .populate('_creator')
@@ -40,10 +52,25 @@ exports.getOne = {
 };
 
 exports.create = {
+  tags: ['api'],
+  description: 'Create a list',
+  notes: 'Associates the list to the current user',
   validate: {
     payload: {
       description: Joi.string().required()
     }
+  },
+  response: {
+    schema: Joi.object({
+      list: Joi.object().keys({
+        _creator: Joi.any().required().meta({className: 'user'}),
+        __v: Joi.any().required(),
+        description: Joi.string().required(),
+        _id: Joi.any().required(),
+        activityCount: Joi.number().required(),
+        createdAt: Joi.date().required()
+      })
+    }).description('test')
   },
   handler: function(request, reply) {
     var list = new List(request.payload);
@@ -54,7 +81,7 @@ exports.create = {
           reply(Boom.forbidden("please provide another list id, it already exist"));
         } else reply(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
       } else {
-        reply({list: list}).created('/list/' + list._id); // HTTP 201
+        reply({list: list.toObject()}).created('/list/' + list._id); // HTTP 201
       }
     });
   }

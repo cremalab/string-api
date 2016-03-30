@@ -21,7 +21,8 @@ const server = new Hapi.Server()
 
 server.connection({
     host: 'localhost',
-    port: envConfig.server.port
+    port: envConfig.server.port,
+    labels: ['api']
 });
 
 let goodOptions = {
@@ -33,8 +34,41 @@ let goodOptions = {
 
 server.register([
   {register: require('good'), options: goodOptions},
-  require('hapi-auth-jwt2')
-], err => {
+  require('hapi-auth-jwt2'),
+  require('inert'),
+  require('vision'),
+  {
+    register: require('hapi-swaggered'),
+    options: {
+      auth: false,
+      tags: {
+        'foobar/test': 'Example foobar description'
+      },
+      info: {
+        title: 'String API',
+        description: 'Powered by node, hapi, joi, mongoose, hapi-swaggered, hapi-swaggered-ui and swagger-ui',
+        version: '0.1'
+      }
+    }
+  },
+  {
+    register: require('hapi-swaggered-ui'),
+    options: {
+      auth: false,
+      authorization: {
+        scope: 'header',
+        field: 'Authorization',
+        placeholder: 'paste your signed user authToken here'
+      },
+      title: 'String API',
+      path: '/docs',
+      auth: false,
+      swaggerOptions: {
+        validatorUrl: null
+      }
+    }
+  }
+], {select: 'api'}, err => {
 
 
   // bring your own validation function
