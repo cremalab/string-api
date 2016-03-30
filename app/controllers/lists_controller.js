@@ -110,7 +110,7 @@ exports.update = {
         _id: Joi.any().required(),
         activityCount: Joi.number().required(),
         createdAt: Joi.date().required(),
-        published: Joi.boolean().required()
+        isPublished: Joi.boolean().required()
       })
     }).description('test')
   },

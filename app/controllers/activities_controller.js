@@ -53,7 +53,7 @@ exports.create = {
   handler: function(request, reply) {
     var activity = new Activity(request.payload)
     activity._creator = request.currentUser()._id
-    
+
     activity.save(function(err, user) {
       if (err) {
         if (11000 === err.code || 11001 === err.code) {
