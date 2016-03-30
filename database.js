@@ -17,9 +17,11 @@ switch (process.env['NODE_ENV']) {
     break;
 }
 
-console.log(database);
-
-Mongoose.connect('mongodb://' + database.host + '/' + database.db)
+if (database.uri) {
+  Mongoose.connect(database.uri)
+} else {
+  Mongoose.connect('mongodb://' + database.host + '/' + database.db)
+}
 const db = Mongoose.connection
 
 db.on('error', console.error.bind(console, 'connection error'))
