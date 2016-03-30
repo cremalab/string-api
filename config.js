@@ -19,7 +19,7 @@ module.exports = {
     },
     database: {
       host: '127.0.0.1',
-      port: process.env['PORT'],
+      port: process.env.PORT,
       db: 'crema_il2',
       username: '',
       password: ''
@@ -28,7 +28,7 @@ module.exports = {
   production: {
     server: {
       host: '0.0.0.0',
-      port: process.env['PORT']
+      port: process.env.PORT
     },
     database: {
       uri: process.env['MONGOLAB_URI']

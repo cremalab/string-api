@@ -23,7 +23,7 @@ const server = new Hapi.Server()
 
 server.connection({
     host: envConfig.server.host,
-    port: envConfig.server.port,
+    port: process.env.PORT || 8000,
     labels: ['api']
 });
 
