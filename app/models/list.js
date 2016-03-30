@@ -10,7 +10,7 @@ const ListSchema = new Schema({
     createdAt: { type: Date, required: true, default: Date.now },
     activityCount: { type: Number, default: 0 },
     _creator: { type: Schema.Types.ObjectId, ref: 'user', required: true},
-    published: { type: Boolean, default: false }
+    isPublished: { type: Boolean, default: false }
 })
 // ListSchema.plugin(deepPopulate);
 ListSchema.methods.collectActivities = function() {

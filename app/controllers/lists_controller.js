@@ -69,7 +69,7 @@ exports.create = {
         _id: Joi.any().required(),
         activityCount: Joi.number().required(),
         createdAt: Joi.date().required(),
-        published: Joi.boolean().required()
+        isPublished: Joi.boolean().required()
       })
     }).description('test')
   },
@@ -98,7 +98,7 @@ exports.update = {
     },
     payload: {
       description: Joi.string(),
-      published: Joi.boolean(),
+      isPublished: Joi.boolean(),
     }
   },
   response: {
@@ -123,7 +123,7 @@ exports.update = {
         reply(Boom.badImplementation(err))
       } else {
         list.description = request.payload.description
-        list.published   = request.payload.published
+        list.isPublished   = request.payload.isPublished
         list.save(function(err, list) {
           if (!err) {
             reply({list: list.toObject()})
