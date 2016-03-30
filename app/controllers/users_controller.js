@@ -39,3 +39,18 @@ exports.findOrCreate = {
     })
   }
 }
+
+exports.update = {
+  validate: {
+    payload: {
+      name: Joi.string().required()
+    }
+  },
+  handler: (request, reply) => {
+    request.currentUser().name = request.payload.name
+    request.currentUser().save((err, user) => {
+      if (err) { return reply(Boom.badRequest(err)) }
+      reply({user: user}).code(200)
+    })
+  }
+}

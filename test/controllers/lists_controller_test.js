@@ -56,7 +56,6 @@ lab.experiment("lists_controller", () => {
       url: `/lists/${listRecord.id}`
     }, userRecord)
     server.inject(options, (response) => {
-      console.log(response.result);
       Code.expect(response.statusCode).to.equal(200);
       Code.expect(response.result).to.be.a.object();
       Code.expect(response.result.list).to.be.a.object();

@@ -1,19 +1,21 @@
 
 'use strict'
 
-const Lab    = require("lab");           // load Lab module
-const lab    = exports.lab = Lab.script(); //export test script
-const Code   = require("code");      //assertion library
-const server = require("../../server"); // our index.js from above
-const Db     = require("../../database")
-const stubList = require('../testHelpers').stubList
-const cleanUp  = require('../testHelpers').cleanUp
-const User = require('../../app/models/user').User
+const Lab          = require("lab");
+const lab          = exports.lab = Lab.script();
+const Code         = require("code");
+const server       = require("../../server");
+const Db           = require("../../database")
+const stubList     = require('../testHelpers').stubList
+const stubAuthUser = require('../testHelpers').stubAuthUser
+const cleanUp      = require('../testHelpers').cleanUp
+const authRequest  = require('../testHelpers').authRequest
+const User         = require('../../app/models/user').User
 
 let listRecord
 
 lab.experiment("users_controller", () => {
-  lab.before((done) => {
+  lab.beforeEach((done) => {
     cleanUp().then(() => {
       done()
     });
@@ -54,6 +56,39 @@ lab.experiment("users_controller", () => {
     })
   })
 
-  lab.test("PUT / update list")
+  lab.test("PUT / requires auth", (done) => {
+    stubAuthUser().then((userRecord) => {
+      var options = {
+        method: "PUT",
+        url: `/users`,
+        payload: {
+          name: "Justin Timberlake"
+        }
+      };
+      server.inject(options, (response) => {
+        Code.expect(response.statusCode).to.equal(401)
+        server.stop(done)
+      })
+    })
+  })
+
+  lab.test("PUT / with valid payload", (done) => {
+    stubAuthUser().then((userRecord) => {
+      let options = authRequest({
+        method: "PUT",
+        url: `/users`,
+        payload: {
+          name: "Justin Timberlake"
+        }
+      }, userRecord);
+      server.inject(options, (response) => {
+        Code.expect(response.statusCode).to.equal(200)
+        Code.expect(response.result).to.be.a.object()
+        Code.expect(response.result.user).to.be.a.object()
+        Code.expect(response.result.user.name).to.equal("Justin Timberlake")
+        server.stop(done)
+      })
+    })
+  })
 
 })

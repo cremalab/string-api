@@ -29,6 +29,7 @@ exports.endpoints = [
   { method: 'POST',   path: '/locations', config: LocationsController.create },
 
   { method: 'POST',    path: '/users', config: UsersController.findOrCreate },
+  { method: 'PUT',     path: '/users', config: UsersController.update },
 
   { method: 'POST',    path: '/sessions', config: SessionsController.create },
 
