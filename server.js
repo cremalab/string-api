@@ -11,6 +11,8 @@ switch (process.env['NODE_ENV']) {
   case 'test':
     envConfig = config.test
     break;
+  case 'production'
+    envConfig = config.production
   default:
     envConfig = config.development
     break;
