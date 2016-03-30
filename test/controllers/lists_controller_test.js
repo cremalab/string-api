@@ -101,7 +101,8 @@ lab.experiment("lists_controller", () => {
         method: "PUT",
         url: `/lists/${list._id}`,
         payload: {
-          description: "#cheap #drinks in #midtown"
+          description: "#cheap #drinks in #midtown",
+          published: true
         }
       }, userRecord)
       server.inject(options, (response) => {
@@ -109,7 +110,7 @@ lab.experiment("lists_controller", () => {
         Code.expect(response.result).to.be.a.object()
         Code.expect(response.result.list).to.be.a.object()
         Code.expect(response.result.list.description).to.not.be.null()
-        Code.expect(response.result.list._id).to.not.be.null()
+        Code.expect(response.result.list.published).to.be.true()
         server.stop(done)
       })
     })

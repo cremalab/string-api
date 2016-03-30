@@ -41,7 +41,7 @@ exports.getOne = {
       ]).then((values) => {
         const activities  = values[0]
         const completions = values[1]
-        let res           = list.toJSON()
+        let res           = list.toObject()
         res.activities    = activities
         return reply({list: res, userCompletions: completions });
       }).catch((err) => {
@@ -68,7 +68,8 @@ exports.create = {
         description: Joi.string().required(),
         _id: Joi.any().required(),
         activityCount: Joi.number().required(),
-        createdAt: Joi.date().required()
+        createdAt: Joi.date().required(),
+        published: Joi.boolean().required()
       })
     }).description('test')
   },
@@ -88,12 +89,31 @@ exports.create = {
 };
 
 exports.update = {
+  tags: ['api'],
+  description: 'Update a list',
+  notes: 'Description is currently the only editable field',
   validate: {
+    params: {
+      listId: Joi.string().required().description('_id of list')
+    },
     payload: {
-      description: Joi.string().required()
+      description: Joi.string(),
+      published: Joi.boolean(),
     }
   },
-
+  response: {
+    schema: Joi.object({
+      list: Joi.object().keys({
+        _creator: Joi.any().required().meta({className: 'user'}),
+        __v: Joi.any().required(),
+        description: Joi.string().required(),
+        _id: Joi.any().required(),
+        activityCount: Joi.number().required(),
+        createdAt: Joi.date().required(),
+        published: Joi.boolean().required()
+      })
+    }).description('test')
+  },
   handler: function(request, reply) {
     List.findOne({
       '_id': request.params.listId,
@@ -102,10 +122,11 @@ exports.update = {
       if (err) {
         reply(Boom.badImplementation(err))
       } else {
-        list.description = request.payload.description;
+        list.description = request.payload.description
+        list.published   = request.payload.published
         list.save(function(err, list) {
           if (!err) {
-            reply({list: list})
+            reply({list: list.toObject()})
           } else {
             if (11000 === err.code || 11001 === err.code) {
               reply(Boom.forbidden("please provide another user id, it already exist"));
@@ -118,6 +139,12 @@ exports.update = {
 }
 
 exports.remove = {
+  tags: ['api'],
+  validate: {
+    params: {
+      listId: Joi.string().required().description('_id of list')
+    }
+  },
   handler: function(request, reply) {
     List.findOne({
       '_id': request.params.listId,
