@@ -26,6 +26,10 @@ module.exports = {
     }
   },
   production: {
+    server: {
+      host: '0.0.0.0'
+      port: process.env['PORT']
+    },
     database: {
       uri: process.env['MONGOLAB_URI']
     }

@@ -22,7 +22,7 @@ switch (process.env['NODE_ENV']) {
 const server = new Hapi.Server()
 
 server.connection({
-    host: 'localhost',
+    host: envConfig.server.host,
     port: envConfig.server.port,
     labels: ['api']
 });
