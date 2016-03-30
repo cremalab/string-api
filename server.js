@@ -17,7 +17,7 @@ switch (process.env['NODE_ENV']) {
 }
 
 // Create a server with a host and port
-const server = new Hapi.Server(+process.env.PORT || 8000, '0.0.0.0')
+const server = new Hapi.Server()
 
 server.connection({
     host: 'localhost',
