@@ -69,7 +69,8 @@ exports.create = {
         _id: Joi.any().required(),
         activityCount: Joi.number().required(),
         createdAt: Joi.date().required(),
-        isPublished: Joi.boolean().required()
+        isPublished: Joi.boolean().required(),
+        isKept: Joi.boolean().required()
       })
     }).description('test')
   },
@@ -99,6 +100,7 @@ exports.update = {
     payload: {
       description: Joi.string(),
       isPublished: Joi.boolean(),
+      isKept: Joi.boolean()
     }
   },
   response: {
@@ -110,7 +112,8 @@ exports.update = {
         _id: Joi.any().required(),
         activityCount: Joi.number().required(),
         createdAt: Joi.date().required(),
-        isPublished: Joi.boolean().required()
+        isPublished: Joi.boolean().required(),
+        isKept: Joi.boolean().required()
       })
     }).description('test')
   },
