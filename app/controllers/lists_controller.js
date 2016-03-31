@@ -7,9 +7,23 @@ const Joi    = require('joi'),
 exports.getAll = {
   tags: ['api'],
   description: 'Get all lists',
-  notes: 'Returns *all* lists. This will be scoped to user or location later. Does not include activities.',
+  notes: "If passed a userId param from /users/{userId}/lists, returns user's list. \
+    Otherwise it returns *all* lists.",
+  validate: {
+    params: {
+      userId: Joi.string().description('_id of user to show lists created by')
+    }
+  },
   handler: (request, reply) => {
-    List.find({}).populate('_creator').exec((err, lists) => {
+    let query = {}
+    const userId = request.params.userId
+    if ( userId ) {
+      query = { _creator: userId }
+      if ( userId !== request.currentUser()._id ) {
+        query.isPublished = true
+      }
+    }
+    List.find(query).populate('_creator').exec((err, lists) => {
       if (!err) {
         reply({lists: lists});
       } else {

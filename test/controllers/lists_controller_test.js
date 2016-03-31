@@ -50,6 +50,20 @@ lab.experiment("lists_controller", () => {
     });
   });
 
+  lab.test("GET /users/{userId}/lists", (done) => {
+    var options = authRequest({
+      method: "GET",
+      url: `/users/${userRecord._id}/lists`
+    }, userRecord);
+
+    server.inject(options, (response) => {
+      Code.expect(response.statusCode).to.equal(200);
+      Code.expect(response.result).to.be.a.object();
+      Code.expect(response.result.lists).to.be.a.array();
+      server.stop(done);
+    });
+  });
+
   lab.test("GET /id (endpoint test)", {timeout: 10000}, (done) => {
     var options = authRequest({
       method: "GET",

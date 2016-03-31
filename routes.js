@@ -34,7 +34,9 @@ exports.endpoints = [
   { method: 'POST',    path: '/sessions', config: SessionsController.create },
 
   { method: 'POST',   path: '/activity_completions', config: ActivityCompletionsController.create },
-  { method: 'DELETE', path: '/activity_completions/{activityCompletionId}', config: ActivityCompletionsController.remove}
+  { method: 'DELETE', path: '/activity_completions/{activityCompletionId}', config: ActivityCompletionsController.remove},
+
+  { method: 'GET',    path: '/users/{userId}/lists', config: ListsController.getAll }
   // { method: 'GET',    path: '/locations/{locationId}', config: LocationsController.getOne },
   // { method: 'PUT',    path: '/locations/{locationId}', config: LocationsController.update },
 
