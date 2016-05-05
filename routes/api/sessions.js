@@ -1,0 +1,32 @@
+'use strict'
+
+const keystone = require('keystone')
+const Boom     = require('boom')
+const User     = keystone.list('User')
+
+exports.create = (req, res) => {
+  User.model.findOne({tempToken: req.body.tempToken}, (err, user) => {
+    if ( err )   { return reply(Boom.badRequest(err)) }
+    if ( !user ) { return reply(Boom.badRequest(err)) }
+
+    if ( req.body.verificationCode !== user.verificationCode ) {
+      return reply(Boom.forbidden("Validation Code does not match"))
+    }
+
+    const token = randtoken.generate(16)
+    user.tempToken = null
+    user.token = token
+    user.tokenedAt = Date.now()
+
+    user.save((err, user) => {
+      if (err) { return res.json(Boom.badRequest(err)) }
+
+      const userObj = {
+        authToken: user.generateAuthToken(),
+        id: user._id,
+        name: user.name
+      }
+      res.status(201).json({user: userObj})
+    })
+  })
+}

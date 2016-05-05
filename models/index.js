@@ -1,0 +1,5 @@
+require('./user')
+require('./activity')
+require('./activity_list')
+require('./activity_completion')
+require('./location')
