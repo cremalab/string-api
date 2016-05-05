@@ -29,3 +29,4 @@ ActivityCompletion.schema.pre("save", function(next) {
 });
 
 ActivityCompletion.register()
+module.exports = ActivityCompletion

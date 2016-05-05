@@ -53,3 +53,4 @@ Activity.schema.pre('save', function(done) {
 
 
 Activity.register()
+module.exports = Activity

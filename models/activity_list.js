@@ -47,3 +47,4 @@ ActivityList.schema.methods.changeActivityCount = function(inc) {
 }
 
 ActivityList.register()
+module.exports = ActivityList

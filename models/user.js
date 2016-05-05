@@ -71,3 +71,4 @@ User.schema.methods.toJSON = function() {
 
 User.defaultColumns = 'name, email, isAdmin';
 User.register();
+module.exports = User

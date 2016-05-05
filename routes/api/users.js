@@ -4,7 +4,8 @@ const keystone  = require('keystone')
 const Boom      = require('boom')
 const Messenger = require('../../lib/messenger')
 const User = keystone.list('User')
-
+const randtoken = require('rand-token')
+const codeGenerator = randtoken.generator({chars: '0-9'});
 
 exports.create = (request, response) => {
   User.model.findOne({phone: request.body.phone}, (err, user) => {

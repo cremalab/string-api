@@ -17,3 +17,4 @@ Location.schema.methods.getDetails = function() {
 }
 
 Location.register();
+module.exports = Location
