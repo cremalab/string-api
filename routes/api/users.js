@@ -42,6 +42,6 @@ exports.update = (request, response) => {
   request.currentUser.name = request.body.name
   request.currentUser.save((err, user) => {
     if (err) { return reply(Boom.badRequest(err)) }
-    response.code(200).json({user: user})
+    response.status(200).json({user: user})
   })
 }

@@ -99,7 +99,7 @@ describe('Activities Route', function() {
       })
   })
 
-  it('update activity', function(done) {
+  it('delete activity', function(done) {
     request(app)
       .delete(`/api/activities/${activityRecord._id}`)
       .set({"Authorization": userRecord.generateAuthToken() })

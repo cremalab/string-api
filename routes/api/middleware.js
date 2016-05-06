@@ -6,10 +6,11 @@ const JWT      = require('jsonwebtoken')
 const User     = keystone.list('User')
 
 exports.checkAPIKey = (req, res, next) => {
+  console.log('CHECK');
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.json(Boom.unauthorized(null, 'Token'));
+    return res.status(401).json(Boom.unauthorized(null, 'Token'));
   }
 
   if (token.split('.').length !== 3) {
@@ -19,19 +20,19 @@ exports.checkAPIKey = (req, res, next) => {
   let decoded;
   try {decoded = JWT.decode(token);}
   catch(e) { // request should still FAIL if the token does not decode.
-    return res.json(Boom.unauthorized('Invalid token format', 'Token'));
+    return res.status(401).json(Boom.unauthorized('Invalid token format', 'Token'));
   }
 
   JWT.verify(token, process.env['SIGNING_SECRET'], {}, (err, decoded) => {
     if (err) {
-      return res.json(Boom.unauthorized('Invalid token', 'Token'), null, { credentials: null });
+      return res.status(401).json(Boom.unauthorized('Invalid token', 'Token'), null, { credentials: null });
     } else {
       checkUserToken(decoded).then( (user) => {
         req.currentUser = user
         res.locals.currentUser = user
         next()
       }, (err) => {
-        return res.json(Boom.unauthorized(err))
+        return res.status(401).json(Boom.unauthorized(err))
       })
     }
   })
