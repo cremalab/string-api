@@ -24,6 +24,7 @@ test.beforeEach(async t => {
 test.cb('index', t => {
   request(app)
     .get("/api/activities")
+    .set({"Authorization": userRecord.generateAuthToken() })
     .end( (err, res) => {
       t.notOk(err);
       t.is(res.statusCode, 200);
@@ -35,6 +36,7 @@ test.cb('index', t => {
 test.cb('show', t => {
   request(app)
     .get(`/api/activities/${activityRecord._id}`)
+    .set({"Authorization": userRecord.generateAuthToken() })
     .end( (err, res) => {
       t.notOk(err);
       t.is(res.statusCode, 200);
@@ -44,15 +46,62 @@ test.cb('show', t => {
     })
 });
 
-test.cb.only('create with empty payload', t => {
+test.cb('create with empty payload', t => {
   request(app)
     .post(`/api/activities`)
     .set({"Authorization": userRecord.generateAuthToken() })
     .send({})
-    // .set("Authorization", userRecord.generateAuthToken())
     .end( (err, res) => {
       t.notOk(err);
       t.is(res.statusCode, 422);
       t.end()
+    })
+})
+
+test.cb('create with valid payload', t => {
+  request(app)
+    .post(`/api/activities`)
+    .set({"Authorization": userRecord.generateAuthToken() })
+    .send({
+      description: "Ate 10 tacos",
+      activity_list: listRecord._id,
+      location: locationRecord._id
+    })
+    .end( (err, res) => {
+      t.notOk(err);
+      t.is(res.statusCode, 201);
+      t.is(typeof res.body.activity, 'object')
+      t.not(res.body.activity._id, undefined)
+      t.end()
+    })
+})
+
+test.cb('update', t => {
+  request(app)
+    .put(`/api/activities/${activityRecord._id}`)
+    .set({"Authorization": userRecord.generateAuthToken() })
+    .send({
+      description: "Ate 500 tacos"
+    })
+    .end( (err, res) => {
+      t.notOk(err);
+      t.is(res.statusCode, 200);
+      t.is(typeof res.body.activity, 'object')
+      t.is(res.body.activity.description, "Ate 500 tacos")
+      t.end()
+    })
+})
+
+test.cb('update', t => {
+  request(app)
+    .delete(`/api/activities/${activityRecord._id}`)
+    .set({"Authorization": userRecord.generateAuthToken() })
+    .end( (err, res) => {
+      t.notOk(err);
+      t.is(res.statusCode, 200);
+      keystone.list('Activity').model.findOne({id: activityRecord.id}, (err, activity) => {
+        if (activity) { t.fail() }
+        if (!activity) {t.end()}
+      })
     })
 })

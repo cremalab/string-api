@@ -46,11 +46,10 @@ exports.create = (req, res) => {
   activity.save(function(err, user) {
     if (err) {
       if (11000 === err.code || 11001 === err.code) {
-        res.json(Boom.forbidden("please provide another activity id, it already exist"))
-      } else res.json(Boom.badRequest(err))
+        res.status(403).json(Boom.forbidden("please provide another activity id, it already exist"))
+      } else res.status(422).json(Boom.badRequest(err))
     } else {
-
-      res.status(210).json({activity: activity})
+      res.status(201).json({activity: activity})
     }
   });
 }
@@ -60,7 +59,7 @@ exports.update = (req, res) => {
     '_id': req.params.activityId
   }, function(err, activity) {
     if (!err) {
-      activity.description = request.body.description;
+      activity.description = req.body.description;
       activity.save(function(err, activity) {
         if (!err) {
           res.json({activity: activity}); // HTTP 201
@@ -79,7 +78,7 @@ exports.update = (req, res) => {
 
 exports.destroy = (req, res) => {
   Activity.model.findOne({
-    '_id': request.params.activityId
+    '_id': req.params.activityId
   }, function(err, activity) {
     if (!err && activity) {
       activity.remove();
@@ -88,9 +87,9 @@ exports.destroy = (req, res) => {
       });
     } else if (!err) {
       // Couldn't find the object.
-      res.json(Boom.notFound());
+      res.status(404).json(Boom.notFound());
     } else {
-      res.json(Boom.badRequest("Could not delete Activity"));
+      res.status(422).json(Boom.badRequest("Could not delete Activity"));
     }
   });
 }
