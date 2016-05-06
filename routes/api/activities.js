@@ -3,6 +3,7 @@
 const keystone = require('keystone')
 const Boom     = require('boom')
 const Activity = keystone.list('Activity')
+const Places   = require('../../lib/places')
 
 exports.index = (req, res) => {
   Activity.model.find({})
@@ -21,13 +22,13 @@ exports.show = (req, response) => {
   Activity.model.findOne({
     '_id': req.params.activityId
   })
-  .populate('location, list')
+  .populate('location list')
   .exec((err, activity) => {
     if (err) {
       response.json(Boom.notFound(err));
     } else {
       let res = activity.toJSON()
-      activity.getLocationData().then((details) => {
+      Places.getDetails(activity.location.placeId).then((details) => {
         res.location = details
         response.json({activity: res})
       }).catch((err) => {
@@ -39,8 +40,8 @@ exports.show = (req, response) => {
 }
 
 exports.create = (req, res) => {
-  var activity = new Activity.model(request.body)
-  activity.creator = request.currentUser()._id
+  var activity = new Activity.model(req.body)
+  activity.creator = req.currentUser._id
 
   activity.save(function(err, user) {
     if (err) {

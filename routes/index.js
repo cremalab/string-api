@@ -18,9 +18,10 @@
  * http://expressjs.com/api.html#app.VERB
  */
 
-var keystone = require('keystone');
-var middleware = require('./middleware');
-var importRoutes = keystone.importer(__dirname);
+const keystone = require('keystone');
+const middleware = require('./middleware');
+const importRoutes = keystone.importer(__dirname);
+const apiMiddleware = require('./api/middleware')
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
@@ -39,7 +40,7 @@ exports = module.exports = function(app) {
 	app.get('/', routes.views.index);
 
 	// API
-
+	app.all('/api*', apiMiddleware.checkAPIKey);
 	app.post('/api/sessions', keystone.middleware.api, routes.api.sessions.create)
 
 	app.post('/api/users', keystone.middleware.api, routes.api.users.create)
