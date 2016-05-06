@@ -40,12 +40,13 @@ exports = module.exports = function(app) {
 	app.get('/', routes.views.index);
 
 	// API
-	app.all('/api*', apiMiddleware.checkAPIKey);
+	app.post('/api/users', keystone.middleware.api, routes.api.users.create)
 	app.post('/api/sessions', keystone.middleware.api, routes.api.sessions.create)
 
-	app.post('/api/users', keystone.middleware.api, routes.api.users.create)
-	app.put('/api/users', keystone.middleware.api, routes.api.users.update)
+	app.all('/api*', apiMiddleware.checkAPIKey);
 
+	app.put('/api/users', apiMiddleware.checkAPIKey);
+	app.put('/api/users', keystone.middleware.api, routes.api.users.update)
 	app.get('/api/lists', keystone.middleware.api, routes.api.lists.index);
 	app.post('/api/lists', keystone.middleware.api, routes.api.lists.create);
 	app.get('/api/lists/:listId', keystone.middleware.api, routes.api.lists.show);

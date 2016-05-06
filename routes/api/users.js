@@ -9,7 +9,7 @@ const codeGenerator = randtoken.generator({chars: '0-9'});
 
 exports.create = (request, response) => {
   User.model.findOne({phone: request.body.phone}, (err, user) => {
-    if ( err ) { return reply(Boom.badRequest(err)) }
+    if ( err ) { return res.status(422).json(Boom.badRequest(err)) }
     if ( !user ) {
       user = new User.model({phone: request.body.phone})
     }
@@ -19,15 +19,15 @@ exports.create = (request, response) => {
     user.tokenedAt  = Date.now()
 
     const content = `Your String verification code: ${user.verificationCode}`
-    Messenger.sendTextMessage(user.phone, content).then((res) => {
-      user.verificationSentAt = Date.now()
-      user.save()
-    })
+    user.verificationSentAt = Date.now()
+    user.save()
+    // Messenger.sendTextMessage(user.phone, content).then((res) => {
+    // })
 
     console.log(`=========VERIFICATION CODE: ${user.verificationCode}`);
 
     user.save((err, user) => {
-      if (err) { return reply(Boom.badRequest(err)) }
+      if (err) { return response.status(400).json(Boom.badRequest(err)) }
       response.status(201).json({
         user: {
           _id: user._id,
@@ -39,9 +39,9 @@ exports.create = (request, response) => {
 }
 
 exports.update = (request, response) => {
-  // request.currentUser().name = request.body.name
-  // request.currentUser().save((err, user) => {
-  //   if (err) { return reply(Boom.badRequest(err)) }
-  //   response.json({user: user}).code(200)
-  // })
+  request.currentUser.name = request.body.name
+  request.currentUser.save((err, user) => {
+    if (err) { return reply(Boom.badRequest(err)) }
+    response.code(200).json({user: user})
+  })
 }

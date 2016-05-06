@@ -1,14 +1,7 @@
 'use strict'
 
-const keystone  = require('../keystone')
 const randtoken = require('rand-token')
-const port      = process.env.TEST_PORT || 5150;
-
-keystone.set('port', port);
-keystone.set('mongo','mongodb://localhost/string_api_test');
-
-exports.keystone = keystone
-
+const keystone  = require('./keystoneTestHelper')
 
 var Activity           = keystone.list('Activity').model
 var List               = keystone.list('ActivityList').model
@@ -16,6 +9,12 @@ var Location           = keystone.list('Location').model
 var User               = keystone.list('User').model
 var ActivityCompletion = keystone.list('ActivityCompletion').model
 var ActivityCompletion = keystone.list('ActivityCompletion').model
+
+require('chai')
+
+// test.after(t => {
+//   keystone.httpServer.close()
+// });
 
 exports.removeActivities = function() {
   return new Promise((resolve, reject) => {
