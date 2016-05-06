@@ -32,7 +32,6 @@ exports.show = (req, response) => {
         res.location = details
         response.json({activity: res})
       }).catch((err) => {
-        console.log(err);
         response.json({activity: res})
       })
     }

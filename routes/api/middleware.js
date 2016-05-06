@@ -6,7 +6,6 @@ const JWT      = require('jsonwebtoken')
 const User     = keystone.list('User')
 
 exports.checkAPIKey = (req, res, next) => {
-  console.log('CHECK');
   const token = req.headers.authorization;
 
   if (!token) {

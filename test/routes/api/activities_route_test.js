@@ -42,7 +42,6 @@ describe('Activities Route', function() {
       .get(`/api/activities/${activityRecord._id}`)
       .set({"Authorization": userRecord.generateAuthToken() })
       .end( (err, res) => {
-        console.log('end');
         expect(res.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
         expect(res.body).to.be.a('object');
         expect(res.body.activity).to.be.an('object');
