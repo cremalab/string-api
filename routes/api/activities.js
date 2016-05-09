@@ -28,6 +28,7 @@ exports.show = (req, response) => {
       response.json(Boom.notFound(err));
     } else {
       let res = activity.toJSON()
+      // response.json({activity: res})
       Places.getDetails(activity.location.placeId).then((details) => {
         res.location = details
         response.json({activity: res})

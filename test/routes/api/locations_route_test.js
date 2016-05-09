@@ -51,7 +51,6 @@ describe('Locations Route', function() {
         expect(res.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
         expect(res.body).to.be.an('object')
         expect(res.body.location).to.be.an('object')
-        // expect(res.body.location._id).to.contain(locationRec._id)
         expect(res.body.location.name).to.not.be.undefined
         done()
       })

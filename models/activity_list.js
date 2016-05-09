@@ -20,6 +20,7 @@ ActivityList.schema.methods.collectActivities = function() {
       let dataLookups = activities.map((activity) => activity.getLocationData())
       Promise.all(dataLookups)
         .then((locations) => {
+          console.log(locations);
           resolve(activities.map((activity, i) => {
             activity = Object.assign({}, activity.toJSON())
             activity.location = locations[i]

@@ -58,8 +58,7 @@ keystone.set('nav', {
 	'Activity Lists': 'ActivityList'
 });
 
+module.exports = keystone;
 // Start Keystone to connect to your database and initialise the web server
 
-keystone.start();
-
-module.exports = keystone;
+// keystone.start();

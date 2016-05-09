@@ -36,7 +36,7 @@ describe('Activities Route', function() {
       })
   });
 
-  it('should return object for show', function(done) {
+  it.only('should return object for show', function(done) {
     this.timeout(5000);
     request(app)
       .get(`/api/activities/${activityRecord._id}`)

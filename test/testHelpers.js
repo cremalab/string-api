@@ -5,6 +5,9 @@ const keystone  = require('./keystoneTestHelper')
 const request   = require('supertest');
 const app       = keystone.app;
 const Path      = require('path')
+const nock      = require('nock');
+const fs        = require('fs')
+
 
 var Activity           = keystone.list('Activity').model
 var List               = keystone.list('ActivityList').model
@@ -14,6 +17,20 @@ var ActivityCompletion = keystone.list('ActivityCompletion').model
 var ActivityCompletion = keystone.list('ActivityCompletion').model
 
 require('chai')
+
+var appendLogToFile = function(content) {
+  fs.appendFile(Path.join(__dirname, 'requestLog.txt'), content);
+}
+
+// nock.recorder.rec({
+//   logging: appendLogToFile,
+//   output_objects: false
+// });
+//
+// beforeEach( function() {
+//   require('./routes/api/nockOptions')
+// })
+// var nockCallObjects = nock.recorder.play();
 
 exports.removeActivities = function() {
   return new Promise((resolve, reject) => {

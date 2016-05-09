@@ -41,8 +41,7 @@ describe('Locations Route', function() {
   })
 
 
-  it.only('should return an authToken on valid POST', function(done) {
-    console.log(unauthUserRecord.verificationCode);
+  it('should return an authToken on valid POST', function(done) {
     request(app)
       .post("/api/sessions")
       .send({
