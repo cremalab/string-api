@@ -42,7 +42,6 @@ exports.show = (req, res) => {
       res.json(Boom.notFound(err));
     } else {
       Places.getDetails(location.placeId).then((details) => {
-        console.log('hello');
         // details._id = location._id
         details.id  = location.id
         res.json({location: details});

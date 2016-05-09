@@ -148,7 +148,7 @@ exports.stubActivityCompletion = function(activity, user) {
     let completion = new ActivityCompletion({
       user: user._id,
       activity: activity._id,
-      list: activity._list,
+      activity_list: activity.activity_list,
       location: activity._location,
       description: "Drank a Dark & Stormy"
     })

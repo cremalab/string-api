@@ -14,9 +14,9 @@ ActivityCompletion.add({
 })
 
 ActivityCompletion.schema.pre("save", function(next) {
-  ActivityCompletion.findOne({
-    _user : this._user, _activity: this._activity
-  }, '_activity', (err, results) => {
+  ActivityCompletion.model.findOne({
+    user : this.user, activity: this.activity
+  }, 'activity', (err, results) => {
     if(err) {
       next(err);
     } else if(results) {
