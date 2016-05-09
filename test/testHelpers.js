@@ -2,6 +2,9 @@
 
 const randtoken = require('rand-token')
 const keystone  = require('./keystoneTestHelper')
+const request   = require('supertest');
+const app       = keystone.app;
+const Path      = require('path')
 
 var Activity           = keystone.list('Activity').model
 var List               = keystone.list('ActivityList').model
@@ -11,10 +14,6 @@ var ActivityCompletion = keystone.list('ActivityCompletion').model
 var ActivityCompletion = keystone.list('ActivityCompletion').model
 
 require('chai')
-
-// test.after(t => {
-//   keystone.httpServer.close()
-// });
 
 exports.removeActivities = function() {
   return new Promise((resolve, reject) => {

@@ -9,8 +9,6 @@ exports.create = (req, res) => {
   User.model.findOne({tempToken: req.body.tempToken}, (err, user) => {
     if ( err )   { return res.json(Boom.badRequest(err)) }
     if ( !user ) { return res.json(Boom.badRequest(err)) }
-    console.log(req.body.verificationCode);
-    console.log(user.verificationCode);
     if ( req.body.verificationCode !== String(user.verificationCode) ) {
       return res.json(Boom.forbidden("Validation Code does not match"))
     }

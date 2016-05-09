@@ -16,14 +16,14 @@ exports.index = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  let placeId = request.payload.placeId
+  let placeId = req.body.placeId
 
   Places.getDetails(placeId).then((details) => {
     findOrCreateLocation(placeId).then((location) => {
       // merge ID with google details
       details.id  = location.id
       details._id = location.id
-      res.json({location: details}).created('/locations/' + location._id); // HTTP 201
+      res.status(201).json({location: details}).created('/locations/' + location._id); // HTTP 201
     }, (err) => {
       res.json(Boom.badImplementation(err))
     })
@@ -35,14 +35,15 @@ exports.create = (req, res) => {
 }
 
 exports.show = (req, res) => {
-  Location.findOne({
+  Location.model.findOne({
     '_id': req.params.locationId
   }, (err, location) => {
     if (err) {
       res.json(Boom.notFound(err));
     } else {
       Places.getDetails(location.placeId).then((details) => {
-        details._id = location._id
+        console.log('hello');
+        // details._id = location._id
         details.id  = location.id
         res.json({location: details});
       })
