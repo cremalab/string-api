@@ -20,21 +20,36 @@ Activity.schema.methods.changeCompletedCount = function(inc) {
   return this.save()
 }
 
-// Activity.schema.pre('remove', function(done) {
-//   ActivityList.model.findOne({_id: this._list}).then((list) => {
-//     if (list) {list.changeActivityCount(-1)}
-//   })
-//   done()
-// })
-//
-// Activity.schema.pre('save', function(done) {
-//   if (this.isNew) {
-//     ActivityList.model.findOne({_id: this._list}).then((list) => {
-//       if (list) {list.changeActivityCount(1)}
-//     })
-//   }
-//   done()
-// })
+Activity.schema.methods.getLocationData = function() {
+  return new Promise((resolve, reject) => {
+    return keystone.list('Location').model.findOne({_id: this.location}).exec((err, location) => {
+      if (err) { reject(err) }
+      location.getDetails().then((details) => {
+        details._id = location._id
+        details.id = location.id
+        resolve(details)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  })
+}
+
+Activity.schema.pre('remove', function(done) {
+  keystone.list('ActivityList').model.findOne({_id: this.list}, (err, list) => {
+    if (list) {list.changeActivityCount(-1)}
+  })
+  done()
+})
+
+Activity.schema.pre('save', function(done) {
+  if (this.isNew) {
+    keystone.list('ActivityList').model.findOne({_id: this.list}, (err, list) => {
+      if (list) {list.changeActivityCount(1)}
+    })
+  }
+  done()
+})
 
 
 Activity.register()

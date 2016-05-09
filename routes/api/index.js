@@ -1,5 +1,5 @@
 module.exports = {
-  lists: require('./lists'),
+  lists: require('./activity_lists'),
   locations: require('./locations'),
   sessions: require('./sessions'),
   users: require('./users'),

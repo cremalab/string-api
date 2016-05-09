@@ -71,7 +71,7 @@ exports.stubList = function(user) {
         if (err) {return reject(err)}
         let activity = new Activity({
           description: 'Ordered a dozen donuts',
-          list: list._id,
+          activity_list: list._id,
           location: location._id,
           creator: user._id
         })

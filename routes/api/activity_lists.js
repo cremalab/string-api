@@ -15,57 +15,57 @@ exports.index = (req, res) => {
 }
 
 exports.show = (req, res) => {
-  ActivityList.model.findOne({'_id': request.params.listId})
+  ActivityList.model.findOne({'_id': req.params.listId})
   .populate('creator')
   .exec((err, list) => {
-    if (err) { return res.json(Boom.notFound(err)) }
-    if (!list) { return res.json(Boom.notFound()) }
+    if (err) { return res.status(422).json(Boom.notFound(err)) }
+    if (!list) { return res.status(404).json(Boom.notFound()) }
     Promise.all([
       list.collectActivities(),
-      list.collectCompletions(request.currentUser())
+      list.collectCompletions(req.currentUser)
     ]).then((values) => {
       const activities  = values[0]
       const completions = values[1]
-      let res           = list.toObject()
-      res.activities    = activities
-      return reply({list: res, userCompletions: completions });
+      let listJSON      = list.toObject()
+      listJSON.activities    = activities
+      return res.status(200).json({list: listJSON, userCompletions: completions });
     }).catch((err) => {
-      res.json(Boom.badImplementation(err))
+      res.status(422).json(Boom.badImplementation(err))
     })
   });
 }
 
 exports.create = (req, res) => {
   var list = new ActivityList.model(req.body);
-  list.creator = req.currentUser()._id
+  list.creator = req.currentUser._id
   list.save(function(err, user) {
     if (err) {
       if (11000 === err.code || 11001 === err.code) {
-        res.json(Boom.forbidden("please provide another list id, it already exist"));
-      } else res.json(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
+        res.status(422).json(Boom.forbidden("please provide another list id, it already exist"));
+      } else res.status(422).json(Boom.forbidden(err)); // HTTP 403
     } else {
-      res.json({list: list.toObject()}).created('/list/' + list._id); // HTTP 201
+      res.status(201).json({list: list.toObject()})
     }
   });
 }
 
 exports.update = (req, res) => {
   ActivityList.model.findOne({
-    '_id': request.params.listId,
-    'creator': request.currentUser()._id
+    '_id': req.params.listId,
+    'creator': req.currentUser._id
   }, function(err, list) {
     if (err) {
-      reply(Boom.badImplementation(err))
+      res.status(422).json(Boom.badImplementation(err))
     } else {
-      list.description = request.payload.description
-      list.isPublished   = request.payload.isPublished
+      list.description = req.body.description
+      list.isPublished   = req.body.isPublished
       list.save(function(err, list) {
         if (!err) {
-          reply({list: list.toObject()})
+          res.status(200).json({list: list.toObject()})
         } else {
           if (11000 === err.code || 11001 === err.code) {
-            reply(Boom.forbidden("please provide another user id, it already exist"));
-          } else reply(Boom.forbidden(getErrorMessageFrom(err)))
+            res.status(422).json(Boom.forbidden("please provide another user id, it already exist"));
+          } else res.status(403).json(Boom.forbidden(err))
         }
       })
     }
@@ -74,8 +74,8 @@ exports.update = (req, res) => {
 
 exports.destroy = (req, res) => {
   ActivityList.model.findOne({
-    '_id': request.params.listId,
-    'creator': request.currentUser()._id
+    '_id': req.params.listId,
+    'creator': req.currentUser._id
   }, function(err, list) {
     if (!err && list) {
       list.remove();

@@ -46,11 +46,11 @@ exports = module.exports = function(app) {
 	app.all('/api*', apiMiddleware.checkAPIKey);
 
 	app.put('/api/users', keystone.middleware.api, routes.api.users.update)
-	app.get('/api/lists', keystone.middleware.api, routes.api.lists.index);
-	app.post('/api/lists', keystone.middleware.api, routes.api.lists.create);
-	app.get('/api/lists/:listId', keystone.middleware.api, routes.api.lists.show);
-	app.put('/api/lists/:listId', keystone.middleware.api, routes.api.lists.update);
-	app.delete('/api/lists/:listId', keystone.middleware.api, routes.api.lists.destroy);
+	app.get('/api/activity_lists', keystone.middleware.api, routes.api.activity_lists.index);
+	app.post('/api/activity_lists', keystone.middleware.api, routes.api.activity_lists.create);
+	app.get('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.show);
+	app.put('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.update);
+	app.delete('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.destroy);
 
 	app.get('/api/activities', keystone.middleware.api, routes.api.activities.index);
 	app.post('/api/activities', keystone.middleware.api, routes.api.activities.create);

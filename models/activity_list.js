@@ -15,7 +15,7 @@ ActivityList.add({
 
 ActivityList.schema.methods.collectActivities = function() {
   return new Promise((resolve, reject) => {
-    return Activity.find({_list: this._id}).exec((err, activities) => {
+    return keystone.list('Activity').model.find({activity_list: this._id}).exec((err, activities) => {
       if (err) { reject(err) }
       let dataLookups = activities.map((activity) => activity.getLocationData())
       Promise.all(dataLookups)
@@ -33,7 +33,7 @@ ActivityList.schema.methods.collectActivities = function() {
 
 ActivityList.schema.methods.collectCompletions = function(user) {
   return new Promise((resolve, reject) => {
-    return ActivityCompletion.find({_list: this._id, _user: user._id})
+    return keystone.list('ActivityCompletion').model.find({activity_list: this._id, user: user._id})
     .exec((err, completions) => {
       if (err) { reject(err) }
       return resolve(completions)
