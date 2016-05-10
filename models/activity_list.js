@@ -20,7 +20,6 @@ ActivityList.schema.methods.collectActivities = function() {
       let dataLookups = activities.map((activity) => activity.getLocationData())
       Promise.all(dataLookups)
         .then((locations) => {
-          console.log(locations);
           resolve(activities.map((activity, i) => {
             activity = Object.assign({}, activity.toJSON())
             activity.location = locations[i]
@@ -46,6 +45,13 @@ ActivityList.schema.methods.changeActivityCount = function(inc) {
   this.activityCount+=inc
   return this.save()
 }
+
+ActivityList.relationship({
+  path: 'activities', ref: 'Activity', refPath: 'activity_list'
+});
+ActivityList.relationship({
+  path: 'completions', ref: 'ActivityCompletion', refPath: 'activity'
+});
 
 ActivityList.register()
 module.exports = ActivityList

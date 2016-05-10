@@ -43,7 +43,6 @@ describe('Locations Route', function() {
   })
 
   it('show a location with details', function(done) {
-    this.timeout(5000);
     request(app)
       .get(`/api/locations/${locationRec.id}`)
       .set({"Authorization": userRecord.generateAuthToken() })
@@ -57,7 +56,6 @@ describe('Locations Route', function() {
   })
 
   it('should create new locations', function(done) {
-    this.timeout(5000);
     request(app)
       .post(`/api/locations`)
       .set({"Authorization": userRecord.generateAuthToken() })
@@ -71,6 +69,7 @@ describe('Locations Route', function() {
         expect(res.body.location.id).to.not.be.undefined
         expect(res.body.location.name).to.not.be.undefined
         expect(res.body.location.place_id).to.not.be.undefined
+        expect(res.body.location.name).to.not.be.undefined
         done()
       })
   })

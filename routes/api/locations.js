@@ -17,9 +17,9 @@ exports.index = (req, res) => {
 
 exports.create = (req, res) => {
   let placeId = req.body.placeId
-
+  let name    = req.body.name
   Places.getDetails(placeId).then((details) => {
-    findOrCreateLocation(placeId).then((location) => {
+    findOrCreateLocation(placeId, {name: name}).then((location) => {
       // merge ID with google details
       details.id  = location.id
       details._id = location.id
@@ -60,14 +60,16 @@ exports.search = (req, res) => {
 
 // private
 
-function findOrCreateLocation(placeId) {
+function findOrCreateLocation(placeId, attrs) {
+  attrs = attrs || {}
   return new Promise((resolve, reject) => {
     Location.model.findOne({placeId: placeId}, (err, location) => {
       if (err) { return reject(err) }
       if (location) {
         resolve(location)
       } else {
-        var location = new Location.model({placeId: placeId})
+        attrs = Object.assign({}, attrs, {placeId: placeId})
+        var location = new Location.model(attrs)
         location.save((err, location) => {
           if (err) { return reject(err) }
           resolve(location)

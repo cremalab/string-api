@@ -26,11 +26,6 @@ var appendLogToFile = function(content) {
 //   logging: appendLogToFile,
 //   output_objects: false
 // });
-//
-// beforeEach( function() {
-//   require('./routes/api/nockOptions')
-// })
-// var nockCallObjects = nock.recorder.play();
 
 exports.removeActivities = function() {
   return new Promise((resolve, reject) => {
