@@ -2,7 +2,9 @@
 
 const keystone = require('keystone');
 const Types = keystone.Field.Types;
-const ActivityList = new keystone.List('ActivityList');
+const ActivityList = new keystone.List('ActivityList', {
+  map: {name: 'description'}
+});
 
 ActivityList.add({
   description: { type: Types.Textarea, required: true, initial: true },
@@ -10,7 +12,7 @@ ActivityList.add({
   activityCount: { type: Types.Number, default: 0 },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
   isPublished: { type: Types.Boolean, default: false },
-  isKept: { type: Types.Boolean, default: false },
+  isKept: { type: Types.Boolean, default: false }
 })
 
 ActivityList.schema.methods.collectActivities = function() {
@@ -46,11 +48,13 @@ ActivityList.schema.methods.changeActivityCount = function(inc) {
   return this.save()
 }
 
+ActivityList.schema.pre('remove', function(done) {
+  keystone.list('Activity').model.where('activity_list', this.id).remove().exec()
+  done()
+})
+
 ActivityList.relationship({
   path: 'activities', ref: 'Activity', refPath: 'activity_list'
-});
-ActivityList.relationship({
-  path: 'completions', ref: 'ActivityCompletion', refPath: 'activity'
 });
 
 ActivityList.register()

@@ -2,8 +2,12 @@
 
 const keystone = require('keystone');
 const Types = keystone.Field.Types;
-const Location = new keystone.List('Location');
 const Places = require('../lib/places')
+const Location = new keystone.List('Location', {
+  searchFields: 'name placeId',
+  defaultColumns: 'name placeId',
+  track: true
+});
 
 Location.add({
   createdAt:  { type: Types.Datetime, required: true, default: Date.now },

@@ -26,7 +26,9 @@ keystone.init({
 	'auto update': true,
 	'session': true,
 	'auth': true,
-	'user model': 'User'
+	'user model': 'User',
+	'google server api key': process.env.GOOGLE_API_KEY,
+	'google api key': process.env.GOOGLE_API_KEY
 
 });
 
