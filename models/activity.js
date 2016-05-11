@@ -4,7 +4,7 @@ const keystone = require('keystone');
 const Types = keystone.Field.Types;
 const Activity = new keystone.List('Activity', {
   searchFields: 'description',
-  defaultColumns: 'description location',
+  defaultColumns: 'description, location, creator, createdAt',
   drilldown: 'activity_list',
   sortable: true,
   sortContext: 'ActivityList:activities',
