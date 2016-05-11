@@ -6,6 +6,9 @@ const Activity = new keystone.List('Activity', {
   searchFields: 'description',
   defaultColumns: 'description location',
   drilldown: 'activity_list',
+  sortable: true,
+  sortContext: 'ActivityList:activities',
+  defaultSort: 'createdAt',
   map: {name: 'description'}
 });
 
