@@ -57,11 +57,10 @@ exports.update = (req, res) => {
     if (err) {
       res.status(422).json(Boom.badImplementation(err))
     } else {
-      list.description = req.body.description
-      list.isPublished   = req.body.isPublished
+      list = Object.assign(list, req.body)
       list.save(function(err, list) {
         if (!err) {
-          res.status(200).json({list: list.toObject()})
+          res.status(200).json({activity_list: list.toObject()})
         } else {
           if (11000 === err.code || 11001 === err.code) {
             res.status(422).json(Boom.forbidden("please provide another user id, it already exist"));
