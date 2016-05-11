@@ -6,7 +6,8 @@ const Places = require('../lib/places')
 const Location = new keystone.List('Location', {
   searchFields: 'name placeId',
   defaultColumns: 'name, placeId',
-  track: true
+  track: true,
+  searchFields: 'name, placeId'
 });
 
 Location.add({

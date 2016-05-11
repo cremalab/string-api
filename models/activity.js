@@ -50,7 +50,7 @@ Activity.schema.pre('remove', function(done) {
 
 Activity.schema.pre('save', function(done) {
   if (this.isNew) {
-    keystone.list('ActivityList').model.findOne({_id: this.list}, (err, list) => {
+    keystone.list('ActivityList').model.findOne({_id: this.activity_list}, (err, list) => {
       if (list) {list.changeActivityCount(1)}
     })
   }
