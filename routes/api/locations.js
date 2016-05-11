@@ -17,8 +17,8 @@ exports.index = (req, res) => {
 
 exports.create = (req, res) => {
   let placeId = req.body.placeId
-  let name    = req.body.name
   Places.getDetails(placeId).then((details) => {
+    let name    = details.name
     findOrCreateLocation(placeId, {name: name}).then((location) => {
       // merge ID with google details
       details.id  = location.id
@@ -52,9 +52,9 @@ exports.show = (req, res) => {
 
 exports.search = (req, res) => {
   Places.autoComplete(req.params.search).then((results) => {
-    res.json({results: results})
+    res.status(200).json({results: results})
   }, (err) => {
-    res.json(Boom.badImplementation(err))
+    res.status(422).json(Boom.badImplementation(err))
   })
 }
 

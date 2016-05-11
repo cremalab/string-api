@@ -12,7 +12,7 @@ exports.create = (req, res) => {
   User.model.findOne({tempToken: req.body.tempToken}, (err, user) => {
     if ( err )   { return res.status(400).json(Boom.badRequest(err)) }
     if ( !user ) { return res.status(404).json(Boom.badRequest(err)) }
-    if ( req.body.verificationCode !== user.verificationCode ) {
+    if ( parseInt(req.body.verificationCode) !== parseInt(user.verificationCode) ) {
       return res.status(403).json(Boom.forbidden("Validation Code does not match"))
     }
 

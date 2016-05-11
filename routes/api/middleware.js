@@ -21,7 +21,6 @@ exports.checkAPIKey = (req, res, next) => {
   catch(e) { // request should still FAIL if the token does not decode.
     return res.status(401).json(Boom.unauthorized('Invalid token format', 'Token'));
   }
-
   JWT.verify(token, process.env['SIGNING_SECRET'], {}, (err, decoded) => {
     if (err) {
       return res.status(401).json(Boom.unauthorized('Invalid token', 'Token'), null, { credentials: null });
@@ -42,8 +41,8 @@ function checkUserToken(decoded) {
     if( !decoded.token || !decoded.userId ) {
       reject("No token provided")
     }
-    User.model.findOne({_id: decoded.userId}, (err, user) => {
-      if ( !user || err ) { reject(err) }
+    User.model.findById(decoded.userId, (err, user) => {
+      if ( !user || err ) { return reject(err) }
       if ( user.token === decoded.token ) {
         resolve(user)
       } else {

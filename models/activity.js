@@ -40,8 +40,6 @@ Activity.schema.methods.getLocationData = function() {
 
 Activity.schema.pre('remove', function(done) {
   keystone.list('ActivityList').model.findOne({_id: this.list}, (err, list) => {
-    console.log("LIST EXISTS?");
-    console.log(list);
     if (list) {list.changeActivityCount(-1)}
   })
   done()

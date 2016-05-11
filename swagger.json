@@ -1,0 +1,598 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/activities": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "activities"
+        ],
+        "summary": "Get all Activities",
+        "description": "Probably not very useful."
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "activities"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "body",
+            "name": "Description_location_listModel",
+            "schema": {
+              "$ref": "#/definitions/Description_location_listModel"
+            }
+          }
+        ],
+        "summary": "Create an Activity"
+      }
+    },
+    "/activities/{activityId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "activities"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "type": "string",
+            "name": "activityId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get an Activity",
+        "description": "Includes location and Google Places location data"
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "activities"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "type": "string",
+            "name": "activityId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "in": "body",
+            "name": "DescriptionModel",
+            "schema": {
+              "$ref": "#/definitions/DescriptionModel"
+            }
+          }
+        ],
+        "summary": "Update an Activity"
+      },
+      "delete": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "activities"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "type": "string",
+            "name": "activityId",
+            "in": "path"
+          }
+        ],
+        "summary": "Delete an Activity"
+      }
+    },
+    "/activity_completions": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "activity_completions"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "body",
+            "name": "_activityModel",
+            "schema": {
+              "$ref": "#/definitions/_activityModel"
+            }
+          }
+        ],
+        "summary": "Complete an Activity",
+        "description": "Completes on the current user's behalf"
+      }
+    },
+    "/activity_completions/{activityCompletionId}": {
+      "delete": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "activity_completions"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "type": "string",
+            "name": "activityCompletionId",
+            "in": "path"
+          }
+        ],
+        "summary": "Mark an Activity as Incomplete",
+        "description": "...on the current user's behalf"
+      }
+    },
+    "/lists": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "lists"
+        ],
+        "summary": "Get all lists",
+        "description": "Returns *all* lists. This will be scoped to user or location later. Does not include activities."
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "test",
+            "schema": {
+              "$ref": "#/definitions/ListModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "lists"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "body",
+            "name": "DescriptionModel",
+            "schema": {
+              "$ref": "#/definitions/DescriptionModel"
+            }
+          }
+        ],
+        "summary": "Create a list",
+        "description": "Associates the list to the current user"
+      }
+    },
+    "/lists/{listId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "lists"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "_id of list",
+            "type": "string",
+            "name": "listId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get an individual list",
+        "description": "Returns list with populated activities and their Google Places     location data. Could take a bit since it aggregates Google requests."
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "test",
+            "schema": {
+              "$ref": "#/definitions/ListModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "lists"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "_id of list",
+            "type": "string",
+            "name": "listId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "in": "body",
+            "name": "DescriptionIsPublishedIsKeptModel",
+            "schema": {
+              "$ref": "#/definitions/DescriptionIsPublishedIsKeptModel"
+            }
+          }
+        ],
+        "summary": "Update a list",
+        "description": "Description is currently the only editable field"
+      },
+      "delete": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "lists"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "_id of list",
+            "type": "string",
+            "name": "listId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/locations": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "locations"
+        ],
+        "summary": "Get all locations",
+        "description": "Returns *all* locations, does not include Google Places data."
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "locations"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "body",
+            "name": "PlaceIdModel",
+            "schema": {
+              "$ref": "#/definitions/PlaceIdModel"
+            }
+          }
+        ],
+        "summary": "Create a Location",
+        "description": "Finds or creates Location with the passed `placeId`, which is an identifier for Google Places"
+      }
+    },
+    "/locations/{locationId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "locations"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "type": "string",
+            "name": "locationId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get a location",
+        "description": "Returns a location _with_ Google Places data."
+      }
+    },
+    "/locations_search/{search}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "locations_search"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "partial search term for autocomplete",
+            "type": "string",
+            "name": "search",
+            "in": "path"
+          }
+        ],
+        "summary": "Search for a location",
+        "description": "Currently searches `establishments` only from Google Places. Returns Google Places results"
+      }
+    },
+    "/users": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "users"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "body",
+            "name": "PhoneModel",
+            "schema": {
+              "$ref": "#/definitions/PhoneModel"
+            }
+          }
+        ],
+        "summary": "Create user OR reset their tempToken"
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "users"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "in": "body",
+            "name": "NameModel",
+            "schema": {
+              "$ref": "#/definitions/NameModel"
+            }
+          }
+        ],
+        "summary": "Create user OR reset their tempToken"
+      }
+    }
+  },
+  "definitions": {
+    "Description_location_listModel": {
+      "required": [
+        "description",
+        "_location",
+        "_list"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "_location": {
+          "type": "string"
+        },
+        "_list": {
+          "type": "string"
+        }
+      }
+    },
+    "DescriptionModel": {
+      "required": [
+        "description"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "_activityModel": {
+      "required": [
+        "_activity"
+      ],
+      "properties": {
+        "_activity": {
+          "type": "string"
+        }
+      }
+    },
+    "_creator__vDescription_idActivityCountCreatedAtIsPublishedIsKeptModel": {
+      "required": [
+        "description",
+        "activityCount",
+        "createdAt",
+        "isPublished",
+        "isKept"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "activityCount": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isPublished": {
+          "type": "boolean"
+        },
+        "isKept": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ListModel": {
+      "properties": {
+        "list": {
+          "$ref": "#/definitions/_creator__vDescription_idActivityCountCreatedAtIsPublishedIsKeptModel"
+        }
+      }
+    },
+    "DescriptionIsPublishedIsKeptModel": {
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "isPublished": {
+          "type": "boolean"
+        },
+        "isKept": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PlaceIdModel": {
+      "required": [
+        "placeId"
+      ],
+      "properties": {
+        "placeId": {
+          "type": "string"
+        }
+      }
+    },
+    "PhoneModel": {
+      "required": [
+        "phone"
+      ],
+      "properties": {
+        "phone": {
+          "type": "number"
+        }
+      }
+    },
+    "NameModel": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "foobar/test",
+      "description": "Example foobar description"
+    }
+  ],
+  "info": {
+    "title": "String API",
+    "description": "Powered by node, hapi, joi, mongoose, hapi-swaggered, hapi-swaggered-ui and swagger-ui",
+    "version": "0.1"
+  }
+}

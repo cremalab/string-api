@@ -7,9 +7,9 @@ const ActivityList = keystone.list('ActivityList')
 exports.index = (req, res) => {
   ActivityList.model.find({}).populate('creator').exec((err, lists) => {
     if (!err) {
-      res.json({lists: lists});
+      return res.status(200).json({activity_lists: lists});
     } else {
-      res.json(Boom.badImplementation(err));
+      return res.status(400).json(Boom.badImplementation(err));
     }
   });
 }
@@ -28,7 +28,7 @@ exports.show = (req, res) => {
       const completions = values[1]
       let listJSON      = list.toObject()
       listJSON.activities    = activities
-      return res.status(200).json({list: listJSON, userCompletions: completions });
+      return res.status(200).json({activity_list: listJSON, userCompletions: completions });
     }).catch((err) => {
       res.status(422).json(Boom.badImplementation(err))
     })
@@ -44,7 +44,7 @@ exports.create = (req, res) => {
         res.status(422).json(Boom.forbidden("please provide another list id, it already exist"));
       } else res.status(422).json(Boom.forbidden(err)); // HTTP 403
     } else {
-      res.status(201).json({list: list.toObject()})
+      res.status(201).json({activity_list: list.toObject()})
     }
   });
 }
