@@ -9,9 +9,7 @@ const Types = keystone.Field.Types;
  * ==========
  */
 
-var User = new keystone.List('User', {
-	map: {name: 'phone'}
-});
+var User = new keystone.List('User');
 
 User.add({
 	name: { type: Types.Name, required: true, index: true },
