@@ -61,5 +61,6 @@ Activity.relationship({
   path: 'completions', ref: 'ActivityCompletion', refPath: 'activity'
 });
 
+
 Activity.register()
 module.exports = Activity
