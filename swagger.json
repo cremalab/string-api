@@ -1,5 +1,8 @@
 {
   "swagger": "2.0",
+  "host": "localhost:8000",
+  "produces": ["application/json"],
+  "basePath": "/api",
   "paths": {
     "/activities": {
       "get": {
@@ -180,7 +183,7 @@
         "description": "...on the current user's behalf"
       }
     },
-    "/lists": {
+    "/activity_lists": {
       "get": {
         "responses": {
           "default": {
@@ -191,10 +194,10 @@
           "application/json"
         ],
         "tags": [
-          "lists"
+          "activity_lists"
         ],
-        "summary": "Get all lists",
-        "description": "Returns *all* lists. This will be scoped to user or location later. Does not include activities."
+        "summary": "Get all activity_lists",
+        "description": "Returns *all* activity_lists. This will be scoped to user or location later. Does not include activities."
       },
       "post": {
         "consumes": [
@@ -212,7 +215,7 @@
           "application/json"
         ],
         "tags": [
-          "lists"
+          "activity_lists"
         ],
         "parameters": [
           {
@@ -228,7 +231,7 @@
         "description": "Associates the list to the current user"
       }
     },
-    "/lists/{listId}": {
+    "/activity_lists/{listId}": {
       "get": {
         "responses": {
           "default": {
@@ -239,7 +242,7 @@
           "application/json"
         ],
         "tags": [
-          "lists"
+          "activity_lists"
         ],
         "parameters": [
           {
@@ -269,7 +272,7 @@
           "application/json"
         ],
         "tags": [
-          "lists"
+          "activity_lists"
         ],
         "parameters": [
           {
@@ -289,7 +292,7 @@
           }
         ],
         "summary": "Update a list",
-        "description": "Description is currently the only editable field"
+        "description": "Use to update description, isPublished, and isKept"
       },
       "delete": {
         "responses": {
@@ -301,7 +304,7 @@
           "application/json"
         ],
         "tags": [
-          "lists"
+          "activity_lists"
         ],
         "parameters": [
           {
@@ -471,17 +474,17 @@
     "Description_location_listModel": {
       "required": [
         "description",
-        "_location",
-        "_list"
+        "location",
+        "activity_list"
       ],
       "properties": {
         "description": {
           "type": "string"
         },
-        "_location": {
+        "location": {
           "type": "string"
         },
-        "_list": {
+        "activity_list": {
           "type": "string"
         }
       }
@@ -498,10 +501,10 @@
     },
     "_activityModel": {
       "required": [
-        "_activity"
+        "activity"
       ],
       "properties": {
-        "_activity": {
+        "activity": {
           "type": "string"
         }
       }
