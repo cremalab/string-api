@@ -27,7 +27,10 @@ exports.create = (req, res) => {
       const userObj = {
         authToken: user.generateAuthToken(),
         id: user._id,
-        name: user.name
+        name: user.name,
+        phone: user.phone,
+        name: user.name,
+        email: user.email
       }
       res.status(201).json({user: userObj})
     })
