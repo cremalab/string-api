@@ -52,9 +52,5 @@ ActivityCompletion.schema.virtual('activity_list').get(function() {
   return this.activity.activity_list
 });
 
-// ActivityCompletion.schema.virtual('activity_list.name').get(function() {
-//   return this.activity.activity_list
-// });
-
 ActivityCompletion.register()
 module.exports = ActivityCompletion
