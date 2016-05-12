@@ -572,7 +572,7 @@
       ],
       "properties": {
         "phone": {
-          "type": "number"
+          "type": "string"
         }
       }
     },

@@ -20,7 +20,6 @@ exports.create = (request, response) => {
 
     const content = `Your String verification code: ${user.verificationCode}`
     user.verificationSentAt = Date.now()
-    user.save()
     // Messenger.sendTextMessage(user.phone, content).then((res) => {
     // })
 
@@ -44,4 +43,18 @@ exports.update = (request, response) => {
     if (err) { return reply(Boom.badRequest(err)) }
     response.status(200).json({user: user})
   })
+}
+
+exports.current = (request, response) => {
+  const user = request.currentUser
+  const userObj = {
+    authToken: user.generateAuthToken(),
+    id: user._id,
+    name: user.name,
+    phone: user.phone,
+    name: user.name,
+    email: user.email
+  }
+
+  response.status(200).json({user: userObj})
 }

@@ -46,6 +46,9 @@ exports = module.exports = function(app) {
 	app.all('/api*', apiMiddleware.checkAPIKey);
 
 	app.put('/api/users', keystone.middleware.api, routes.api.users.update)
+	app.get('/api/my_profile', keystone.middleware.api, routes.api.users.current)
+	app.put('/api/my_profile', keystone.middleware.api, routes.api.users.update)
+
 	app.get('/api/activity_lists', keystone.middleware.api, routes.api.activity_lists.index);
 	app.post('/api/activity_lists', keystone.middleware.api, routes.api.activity_lists.create);
 	app.get('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.show);

@@ -14,7 +14,7 @@ var User = new keystone.List('User', {
 });
 
 User.add({
-	name: { type: Types.Name, required: true, index: true },
+	name: { type: String, index: true, initial: true },
 	email: { type: Types.Email, initial: true, index: true },
 	password: { type: Types.Password, initial: true },
 	token: { type: String },
@@ -24,6 +24,7 @@ User.add({
 		initial: true,
 		validate: {
 			validator: function(v) {
+				console.log(v);
 				return /\d{10}/.test(v);
 			},
 			message: '{VALUE} is not a valid phone number!'
