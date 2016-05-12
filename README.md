@@ -12,6 +12,9 @@ TWILIO_TOKEN=<GET FROM TWILIO>
 TWILIO_FROM_PHONE=+15005550006
 ```
 
+### Docs
+API docs can be viewed in the Swagger UI at `/docs`
+
 ### Authentication
 Authentication is provided by using JSON Web Tokens and device-in-hand security. Authentication flow is as follows:
 
