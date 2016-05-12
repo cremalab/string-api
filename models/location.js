@@ -12,9 +12,11 @@ const Location = new keystone.List('Location', {
 
 Location.add({
   createdAt:  { type: Types.Datetime, required: true, default: Date.now },
-  placeId:   { type: String },
-  name: { type: String },
-  info: { type: Types.Location }
+  placeId:   {
+    type: String, initial: true, label: "Google Maps Place ID",
+    note: "Unique identifier for Google API lookup" },
+  name: { type: String, initial: true },
+  info: { type: Types.Location, initial: true }
 })
 
 Location.schema.methods.getDetails = function() {

@@ -57,7 +57,8 @@ keystone.set('nav', {
 	'users': 'User',
 	'activities': 'Activity',
 	'locations': 'Location',
-	'Activity Lists': 'ActivityList'
+	'Activity Lists': 'ActivityList',
+	'Completions': 'ActivityCompletion'
 });
 
 module.exports = keystone;

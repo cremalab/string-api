@@ -13,14 +13,12 @@ exports.create = (req, res) => {
 
     let completion = new ActivityCompletion.model({
       activity: activityId,
-      activity_list: activity.activity_list,
       location: activity.location,
       user: req.currentUser._id,
       description: activity.description
     })
     completion.save((err, completion) => {
       if ( err ) { return res.status(422).json(Boom.badRequest(err)) }
-      activity.changeCompletedCount(1)
       res.status(201).json({activity_completion: completion})
     })
   })
