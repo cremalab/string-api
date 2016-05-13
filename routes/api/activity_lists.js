@@ -5,7 +5,8 @@ const Boom     = require('boom')
 const ActivityList = keystone.list('ActivityList')
 
 exports.index = (req, res) => {
-  ActivityList.model.find({}).populate('creator').exec((err, lists) => {
+  ActivityList.model.find({}).populate('creator').sort('-createdAt')
+  .exec((err, lists) => {
     if (!err) {
       return res.status(200).json({activity_lists: lists});
     } else {

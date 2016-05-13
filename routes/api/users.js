@@ -20,9 +20,7 @@ exports.create = (request, response) => {
 
     const content = `Your String verification code: ${user.verificationCode}`
     user.verificationSentAt = Date.now()
-    // Messenger.sendTextMessage(user.phone, content).then((res) => {
-    // })
-
+    Messenger.sendTextMessage(user.phone, content)
     console.log(`=========VERIFICATION CODE: ${user.verificationCode}`);
 
     user.save((err, user) => {
@@ -34,6 +32,7 @@ exports.create = (request, response) => {
         }
       })
     })
+
   })
 }
 
