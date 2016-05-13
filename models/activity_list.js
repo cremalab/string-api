@@ -13,8 +13,8 @@ ActivityList.add({
   createdAt: { type: Types.Datetime, required: true, default: Date.now },
   activityCount: { type: Types.Number, default: 0 },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
-  isPublished: { type: Types.Boolean, default: false },
-  isKept: { type: Types.Boolean, default: false } // See below
+  isPublished: { type: Types.Boolean, default: false, initial: true },
+  isKept: { type: Types.Boolean, default: false, initial: true } // See below
 })
 
 // The isKept attribute exists so the client can actually persist an ActivityList
