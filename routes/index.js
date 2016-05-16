@@ -55,6 +55,8 @@ exports = module.exports = function(app) {
 	app.put('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.update);
 	app.delete('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.destroy);
 
+	app.get('/api/my_activity_lists', keystone.middleware.api, routes.api.activity_lists.mine);
+
 	app.get('/api/activities', keystone.middleware.api, routes.api.activities.index);
 	app.post('/api/activities', keystone.middleware.api, routes.api.activities.create);
 	app.get('/api/activities/:activityId', keystone.middleware.api, routes.api.activities.show);

@@ -9,7 +9,35 @@ exports.index = (req, res) => {
     page: req.query.page || 1,
 		perPage: 20,
 		maxPages: 10
+  }).where({
+    isKept: true,
+    isPublished: true
   }).populate('creator').sort('-createdAt')
+  .exec((err, data) => {
+    if (!err) {
+      return res.status(200).json({
+        activity_lists: data.results,
+        pagination: {
+          next: data.next,
+          last: data.last,
+          total: data.total,
+          totalPages: data.totalPages,
+          currentPage: data.currentPage
+        }
+      });
+    } else {
+      return res.status(400).json(Boom.badImplementation(err));
+    }
+  });
+}
+
+exports.mine = (req, res) => {
+  ActivityList.paginate({
+    page: req.query.page || 1,
+		perPage: 20,
+		maxPages: 10
+  }).where({creator: req.currentUser._id})
+  .populate('creator').sort('-createdAt')
   .exec((err, data) => {
     if (!err) {
       return res.status(200).json({
