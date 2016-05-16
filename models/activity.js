@@ -15,7 +15,7 @@ const Activity = new keystone.List('Activity', {
 Activity.add({
   description: { type: Types.Textarea, required: true, initial: true },
   activity_list: { type: Types.Relationship, ref: 'ActivityList', required: true, initial: true },
-  location: { type: Types.Relationship, ref: 'Location' },
+  location: { type: Types.Relationship, ref: 'Location', initial: true },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
   createdAt:   { type: Types.Datetime, required: true, default: Date.now },
   completedCount: { type: Number, default: 0 },
