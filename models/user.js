@@ -24,7 +24,6 @@ User.add({
 		initial: true,
 		validate: {
 			validator: function(v) {
-				console.log(v);
 				return /\d{10}/.test(v);
 			},
 			message: '{VALUE} is not a valid phone number!'

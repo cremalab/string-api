@@ -5,10 +5,23 @@ const Boom     = require('boom')
 const ActivityList = keystone.list('ActivityList')
 
 exports.index = (req, res) => {
-  ActivityList.model.find({}).populate('creator').sort('-createdAt')
-  .exec((err, lists) => {
+  ActivityList.paginate({
+    page: req.query.page || 1,
+		perPage: 20,
+		maxPages: 10
+  }).populate('creator').sort('-createdAt')
+  .exec((err, data) => {
     if (!err) {
-      return res.status(200).json({activity_lists: lists});
+      return res.status(200).json({
+        activity_lists: data.results,
+        pagination: {
+          next: data.next,
+          last: data.last,
+          total: data.total,
+          totalPages: data.totalPages,
+          currentPage: data.currentPage
+        }
+      });
     } else {
       return res.status(400).json(Boom.badImplementation(err));
     }
