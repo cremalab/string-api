@@ -14,10 +14,6 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
   // Interpret Swagger resources and attach metadata to request - must be first in swagger-tools middleware chain
   keystone.app.use(middleware.swaggerMetadata());
 
-  // Validate Swagger requests
-  keystone.app.use(middleware.swaggerValidator());
-
-
   // Start the server
   keystone.start()
 });

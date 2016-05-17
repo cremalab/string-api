@@ -104,9 +104,7 @@ exports.update = (req, res) => {
         if (!err) {
           res.status(200).json({activity_list: list.toObject()})
         } else {
-          if (11000 === err.code || 11001 === err.code) {
-            res.status(422).json(Boom.forbidden("please provide another user id, it already exist"));
-          } else res.status(403).json(Boom.forbidden(err))
+          res.status(422).json(Boom.badImplementation(err));
         }
       })
     }

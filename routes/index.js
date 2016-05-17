@@ -24,6 +24,7 @@ const importRoutes = keystone.importer(__dirname);
 const apiMiddleware = require('./api/middleware')
 
 // Common Middleware
+keystone.pre('routes', middleware.initErrorHandlers);
 keystone.pre('routes', middleware.initLocals);
 keystone.pre('render', middleware.flashMessages);
 

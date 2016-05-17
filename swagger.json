@@ -39,9 +39,9 @@
           {
             "required": false,
             "in": "body",
-            "name": "Description_location_listModel",
+            "name": "activity",
             "schema": {
-              "$ref": "#/definitions/Description_location_listModel"
+              "$ref": "#/definitions/activity"
             }
           }
         ],
@@ -97,9 +97,9 @@
           {
             "required": false,
             "in": "body",
-            "name": "DescriptionModel",
+            "name": "activity_list",
             "schema": {
-              "$ref": "#/definitions/DescriptionModel"
+              "$ref": "#/definitions/activity_list"
             }
           }
         ],
@@ -221,9 +221,9 @@
           {
             "required": false,
             "in": "body",
-            "name": "DescriptionModel",
+            "name": "activity_list",
             "schema": {
-              "$ref": "#/definitions/DescriptionModel"
+              "$ref": "#/definitions/activity_list"
             }
           }
         ],
@@ -471,12 +471,7 @@
     }
   },
   "definitions": {
-    "Description_location_listModel": {
-      "required": [
-        "description",
-        "location",
-        "activity_list"
-      ],
+    "activity": {
       "properties": {
         "description": {
           "type": "string"
@@ -489,7 +484,7 @@
         }
       }
     },
-    "DescriptionModel": {
+    "activity_list": {
       "required": [
         "description"
       ],
