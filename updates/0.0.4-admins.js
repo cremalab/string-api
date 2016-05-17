@@ -9,7 +9,7 @@
 
 exports.create = {
 	User: [
-		{ 'name': 'Admin', email: 'ross@cremalab.com', password: 'changeMe', isAdmin: true, phone: '9999999999' }
+		{ 'name': 'Admin', email: 'support@cremalab.com', password: 'changeMe', isAdmin: true, phone: '9999999999' }
 	]
 };
 

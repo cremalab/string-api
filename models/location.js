@@ -22,7 +22,7 @@ Location.add({
 })
 
 Location.schema.methods.getDetails = function() {
-  return Places.getDetails(this.placeId)
+  return Places.getDetails(this)
 }
 
 Location.relationship({
