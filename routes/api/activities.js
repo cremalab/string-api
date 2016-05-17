@@ -39,8 +39,8 @@ exports.show = (req, response) => {
   });
 }
 
-exports.create = (req, res) => {
-  var activity = new Activity.model(req.body)
+exports.create = (req, res,d) => {
+  var activity = new Activity.model(req.swagger.params.activity.value)
   activity.creator = req.currentUser._id
 
   activity.save(function(err, user) {
@@ -58,19 +58,20 @@ exports.update = (req, res) => {
   Activity.model.findOne({
     '_id': req.params.activityId
   }, function(err, activity) {
+    if (!activity) {
+      res.status(404).json(Boom.notFound(err))
+    }
     if (!err) {
       activity.description = req.body.description;
       activity.save(function(err, activity) {
         if (!err) {
-          res.json({activity: activity}); // HTTP 201
+          res.status(200).json({activity: activity}); // HTTP 201
         } else {
-          if (11000 === err.code || 11001 === err.code) {
-            res.json(Boom.forbidden());
-          } else res.json(Boom.forbidden(err)); // HTTP 403
+          res.status(422).json(Boom.forbidden(err))
         }
       });
     } else {
-      res.json(Boom.badImplementation(err)); // 500 error
+      res.status(422).json(Boom.badImplementation(err)); // 500 error
     }
   });
 }

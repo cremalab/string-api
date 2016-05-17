@@ -9,7 +9,35 @@ exports.index = (req, res) => {
     page: req.query.page || 1,
 		perPage: 20,
 		maxPages: 10
+  }).where({
+    isKept: true,
+    isPublished: true
   }).populate('creator').sort('-createdAt')
+  .exec((err, data) => {
+    if (!err) {
+      return res.status(200).json({
+        activity_lists: data.results,
+        pagination: {
+          next: data.next,
+          last: data.last,
+          total: data.total,
+          totalPages: data.totalPages,
+          currentPage: data.currentPage
+        }
+      });
+    } else {
+      return res.status(400).json(Boom.badImplementation(err));
+    }
+  });
+}
+
+exports.mine = (req, res) => {
+  ActivityList.paginate({
+    page: req.query.page || 1,
+		perPage: 20,
+		maxPages: 10
+  }).where({creator: req.currentUser._id})
+  .populate('creator').sort('-createdAt')
   .exec((err, data) => {
     if (!err) {
       return res.status(200).json({
@@ -76,9 +104,7 @@ exports.update = (req, res) => {
         if (!err) {
           res.status(200).json({activity_list: list.toObject()})
         } else {
-          if (11000 === err.code || 11001 === err.code) {
-            res.status(422).json(Boom.forbidden("please provide another user id, it already exist"));
-          } else res.status(403).json(Boom.forbidden(err))
+          res.status(422).json(Boom.badImplementation(err));
         }
       })
     }

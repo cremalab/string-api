@@ -24,6 +24,7 @@ const importRoutes = keystone.importer(__dirname);
 const apiMiddleware = require('./api/middleware')
 
 // Common Middleware
+keystone.pre('routes', middleware.initErrorHandlers);
 keystone.pre('routes', middleware.initLocals);
 keystone.pre('render', middleware.flashMessages);
 
@@ -54,6 +55,8 @@ exports = module.exports = function(app) {
 	app.get('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.show);
 	app.put('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.update);
 	app.delete('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.destroy);
+
+	app.get('/api/my_activity_lists', keystone.middleware.api, routes.api.activity_lists.mine);
 
 	app.get('/api/activities', keystone.middleware.api, routes.api.activities.index);
 	app.post('/api/activities', keystone.middleware.api, routes.api.activities.create);

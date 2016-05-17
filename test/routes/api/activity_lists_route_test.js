@@ -37,7 +37,19 @@ describe('Locations Route', function() {
       .end( (err, res) => {
         expect(res.statusCode).to.equal(200)
         expect(res.body).to.be.an('object')
-        expect(res.body.lists).to.be.an('array')
+        expect(res.body.activity_lists).to.be.an('array')
+        done()
+      })
+  })
+
+  it("should list only a user's lists", function(done) {
+    request(app)
+      .get("/api/my_activity_lists")
+      .set({"Authorization": userRecord.generateAuthToken() })
+      .end( (err, res) => {
+        expect(res.statusCode).to.equal(200)
+        // unique creator IDs, should only be one
+        expect([...new Set(res.body.activity_lists.map(l=>l.creator))].length).to.equal(1)
         done()
       })
   })
@@ -50,9 +62,9 @@ describe('Locations Route', function() {
       .end( (err, res) => {
         expect(res.statusCode).to.equal(200);
         expect(res.body).to.be.an('object')
-        expect(res.body.list).to.be.an('object')
-        expect(res.body.list.activities).to.be.an('array')
-        expect(res.body.list.activities[0].location).to.be.an('object')
+        expect(res.body.activity_list).to.be.an('object')
+        expect(res.body.activity_list.activities).to.be.an('array')
+        expect(res.body.activity_list.activities[0].location).to.be.an('object')
         expect(res.body.userCompletions).to.be.an('array')
         done()
       })
@@ -80,9 +92,9 @@ describe('Locations Route', function() {
       .end( (err, res) => {
         expect(res.statusCode).to.equal(201)
         expect(res.body).to.be.an('object')
-        expect(res.body.list).to.be.an('object')
-        expect(res.body.list.description).to.not.be.null
-        expect(res.body.list.isPublished).to.be.true
+        expect(res.body.activity_list).to.be.an('object')
+        expect(res.body.activity_list.description).to.not.be.null
+        expect(res.body.activity_list.isPublished).to.be.true
         done()
       })
   })
@@ -99,10 +111,10 @@ describe('Locations Route', function() {
       .end( (err, res) => {
         expect(res.statusCode).to.equal(200)
         expect(res.body).to.be.an('object')
-        expect(res.body.list).to.be.an('object')
-        expect(res.body.list.description).to.not.be.null
-        expect(res.body.list.description).to.equal('a fun Saturday')
-        expect(res.body.list.isPublished).to.be.true
+        expect(res.body.activity_list).to.be.an('object')
+        expect(res.body.activity_list.description).to.not.be.null
+        expect(res.body.activity_list.description).to.equal('a fun Saturday')
+        expect(res.body.activity_list.isPublished).to.be.true
         done()
       })
   })

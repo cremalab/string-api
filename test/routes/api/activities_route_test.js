@@ -80,6 +80,7 @@ describe('Activities Route', function() {
   })
 
   it('update activity', function(done) {
+    this.timeout(5000)
     request(app)
       .put(`/api/activities/${activityRecord._id}`)
       .set({"Authorization": userRecord.generateAuthToken() })
