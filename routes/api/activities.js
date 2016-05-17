@@ -29,7 +29,7 @@ exports.show = (req, response) => {
     } else {
       let res = activity.toJSON()
       // response.json({activity: res})
-      Places.getDetails(activity.location.placeId).then((details) => {
+      Places.getDetails(activity.location).then((details) => {
         res.location = details
         response.json({activity: res})
       }).catch((err) => {
