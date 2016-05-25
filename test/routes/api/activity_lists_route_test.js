@@ -119,6 +119,22 @@ describe('Locations Route', function() {
       })
   })
 
+  it('should mark string as kept if published', function(done) {
+    request(app)
+      .put(`/api/activity_lists/${listRecord._id}`)
+      .set({"Authorization": userRecord.generateAuthToken() })
+      .send({
+        description: "a fun Saturday",
+        isPublished: true
+      })
+      .end( (err, res) => {
+        expect(res.statusCode).to.equal(200)
+        expect(res.body).to.be.an('object')
+        expect(res.body.activity_list).to.be.an('object')
+        expect(res.body.activity_list.isKept).to.be.true
+        done()
+      })
+  })
 
   it('should delete lists', function(done) {
     request(app)

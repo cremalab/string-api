@@ -100,6 +100,7 @@ exports.update = (req, res) => {
       res.status(422).json(Boom.badImplementation(err))
     } else {
       list = Object.assign(list, req.body)
+      if (list.isPublished && !list.isKept) {list.isKept = true}
       list.save(function(err, list) {
         if (!err) {
           res.status(200).json({activity_list: list.toObject()})
