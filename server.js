@@ -3,6 +3,7 @@
 const keystoneApp  = require('./keystone.js')
 const swaggerTools = require('swagger-tools');
 const swaggerDoc   = require('./swagger.json');
+const socketEvents = require('./lib/socketEvents')
 
 // Initialize the Swagger middleware
 swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
@@ -13,5 +14,10 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
   keystoneApp.app.use(middleware.swaggerUi());
 
   // Start the server
-  keystoneApp.start()
+  keystoneApp.start({
+    onHttpServerCreated: () => {
+      keystoneApp.set('io', require('socket.io').listen(keystoneApp.httpServer))
+      socketEvents.register(keystoneApp)
+    }
+  })
 });

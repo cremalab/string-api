@@ -9,6 +9,7 @@
  */
 
 var _ = require('underscore');
+var keystone = require('keystone');
 
 
 /**
