@@ -29,8 +29,8 @@ describe.only('chatActions', function() {
         status: { code: 200, errorType: 'success' },
         sessionId: '00000000-0000-0000-0000-000000000000' }
       return actions.handle('string.type', res).then((res) => {
-        expect(res).to.be.a('string')
-        expect(res).to.equal('What kind of activity are you interested in?')
+        expect(res).to.be.an('object')
+        expect(res.text).to.equal('What kind of activity are you interested in?')
       })
     })
 
@@ -53,8 +53,8 @@ describe.only('chatActions', function() {
         status: { code: 200, errorType: 'success' },
         sessionId: '00000000-0000-0000-0000-000000000000' }
       return actions.handle('string.type', res).then((res) => {
-        expect(res).to.be.a('string')
-        expect(res).to.contain('Who are you going with')
+        expect(res).to.be.an('object')
+        expect(res.text).to.contain('Who are you going with')
       })
     })
   })
@@ -79,10 +79,11 @@ describe.only('chatActions', function() {
       sessionId: '00000000-0000-0000-0000-000000000000' }
     return actions.handle('string.get_location_suggestions', res).then((res) => {
       expect(res).to.be.an('object')
-      expect(Object.keys(res)).to.include('nameKey')
-      expect(Object.keys(res)).to.include('item')
-      expect(Object.keys(res)).to.include('imageUrl')
-      expect(Object.keys(res)).to.include('eventType')
+      expect(Object.keys(res)).to.include('text')
+      expect(Object.keys(res)).to.include('media')
+      expect(res.media).to.be.an('array')
+      expect(Object.keys(res.media[0])).to.include('data')
+      expect(res.media.map(m => m.type)).to.include('location')
     })
   })
 
