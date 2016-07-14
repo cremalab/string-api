@@ -6,7 +6,7 @@ const Path = require('path')
 require('dotenv').load({path: Path.join(__dirname, '.env')});
 
 // Require keystone
-const keystone = require('keystone');
+const keystone = require('keystone')
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -31,6 +31,9 @@ keystone.init({
 	'google api key': process.env.GOOGLE_API_KEY
 
 });
+
+// Set mongoose to use native promises
+keystone.get('mongoose').Promise = global.Promise
 
 // Load your project's Models
 
