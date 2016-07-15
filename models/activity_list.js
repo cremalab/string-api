@@ -57,6 +57,8 @@ ActivityList.schema.methods.changeActivityCount = function(inc) {
   return this.save()
 }
 
+ActivityList.relationship({ path: 'string_builders', ref: 'StringBuilder', refPath: 'activity_list' });
+
 ActivityList.schema.pre('remove', function(done) {
   keystone.list('Activity').model.where('activity_list', this.id).remove().exec()
   done()

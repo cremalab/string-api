@@ -7,6 +7,7 @@ require('dotenv').load({path: Path.join(__dirname, '.env')});
 
 // Require keystone
 const keystone = require('keystone')
+const mongoose = require('mongoose')
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -28,7 +29,8 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 	'google server api key': process.env.GOOGLE_API_KEY,
-	'google api key': process.env.GOOGLE_API_KEY
+	'google api key': process.env.GOOGLE_API_KEY,
+	'mongoose': mongoose
 
 });
 
@@ -61,7 +63,8 @@ keystone.set('nav', {
 	'activities': 'Activity',
 	'locations': 'Location',
 	'Activity Lists': 'ActivityList',
-	'Completions': 'ActivityCompletion'
+	'Completions': 'ActivityCompletion',
+	'String Builders': 'StringBuilder'
 });
 
 module.exports = keystone;
