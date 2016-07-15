@@ -3,6 +3,8 @@
 const keystone = require('keystone');
 const Types = keystone.Field.Types;
 const Places = require('../lib/places')
+const random = require('mongoose-simple-random')
+
 const Location = new keystone.List('Location', {
   searchFields: 'name placeId',
   defaultColumns: 'name, placeId',
@@ -28,6 +30,8 @@ Location.schema.methods.getDetails = function() {
 Location.relationship({
   path: 'activities', ref: 'Activity', refPath: 'location'
 });
+
+Location.schema.plugin(random)
 
 Location.register();
 module.exports = Location

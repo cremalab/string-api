@@ -1,10 +1,11 @@
 'use strict'
 
+const random   = require('mongoose-simple-random')
 const keystone = require('keystone');
-const Types = keystone.Field.Types;
+const Types    = keystone.Field.Types;
 const Activity = new keystone.List('Activity', {
   searchFields: 'description',
-  defaultColumns: 'description, location, creator, createdAt',
+  defaultColumns: 'description, location, creator, createdAt, category',
   drilldown: 'activity_list',
   sortable: true,
   sortContext: 'ActivityList:activities',
@@ -18,8 +19,11 @@ Activity.add({
   location: { type: Types.Relationship, ref: 'Location', initial: true },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
   createdAt:   { type: Types.Datetime, required: true, default: Date.now },
+  category: { type: Types.Select, options: 'eat, drink, see, do', initial: true },
   completedCount: { type: Number, default: 0 },
 })
+
+Activity.schema.plugin(random)
 
 Activity.schema.methods.changeCompletedCount = function(inc) {
   this.completedCount+=inc

@@ -78,17 +78,19 @@ exports.show = (req, res) => {
 }
 
 exports.create = (req, res) => {
+  console.log('LIST CREATE!');
   var list = new ActivityList.model(req.body);
   list.creator = req.currentUser._id
-  list.save(function(err, user) {
-    if (err) {
-      if (11000 === err.code || 11001 === err.code) {
-        res.status(422).json(Boom.forbidden("please provide another list id, it already exist"));
-      } else res.status(422).json(Boom.forbidden(err)); // HTTP 403
-    } else {
-      res.status(201).json({activity_list: list.toObject()})
-    }
-  });
+  console.log(list);
+  return list.save()
+  // return list.save().then((model) => {
+  //   console.log(model);
+  //   return res.status(201).json({activity_list: list.toObject()})
+  // }).catch((err) => {
+  //   if (11000 === err.code || 11001 === err.code) {
+  //     res.status(422).json(Boom.forbidden("please provide another list id, it already exist"));
+  //   } else res.status(422).json(Boom.forbidden(err)); // HTTP 403
+  // });
 }
 
 exports.update = (req, res) => {

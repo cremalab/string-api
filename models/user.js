@@ -35,7 +35,10 @@ User.add({
 	verificationSentAt: { type: Types.Datetime, label: "Verification Code Sent At" },
 	activity_lists: { type: Types.Relationship, ref: 'ActivityList', many: true },
 	activities: { type: Types.Relationship, ref: 'Activity', many: true },
-	activityCompletions: { type: Types.Relationship, ref: 'ActivityCompletion', many: true }
+	activityCompletions: { type: Types.Relationship, ref: 'ActivityCompletion', many: true },
+	string_builders: { type: Types.Relationship, ref: 'StringBuilder', many: true,
+		filters: { user: ':_id', }
+	}
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true }
 });
@@ -48,6 +51,7 @@ User.schema.virtual('canAccessKeystone').get(function() {
 User.relationship({ path: 'activity_lists', ref: 'ActivityList', refPath: 'creator' });
 User.relationship({ path: 'activities', ref: 'Activity', refPath: 'creator' });
 User.relationship({ path: 'activity_completions', ref: 'ActivityCompletion', refPath: 'user' });
+User.relationship({ path: 'string_builders', ref: 'StringBuilder', refPath: 'user' });
 
 User.schema.methods.generateAuthToken = function() {
   const authObj = {
