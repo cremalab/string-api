@@ -7,6 +7,7 @@
     "async": "^1.5.0",
     "boom": "^3.1.2",
     "dotenv": "^1.1.0",
+    "joi": "^9.0.0",
     "jsonwebtoken": "^5.7.0",
     "keystone": "^0.3.16",
     "mongoose-simple-random": "^0.3.3",
