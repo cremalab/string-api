@@ -3,7 +3,7 @@ const Joi     = require('joi')
 const botMessageSchema = Joi.object({
   text: Joi.string().required().example('I am String and I am cool.'),
   date: Joi.date().required(),
-  id: Joi.string().required().example(),
+  id: Joi.string().required(),
   position: Joi.string().valid(['left', 'right', 'center']).required().example('right'),
   sentiment: Joi.string().valid(['friendly', 'sad', 'annoyed']).example('friendly'),
   name: Joi.string().required().valid("String").example('String'),
@@ -22,4 +22,4 @@ const botMessageSchema = Joi.object({
   responseAction: Joi.string().optional().example('string.type')
 })
 
-module.exports botMessageSchema
+module.exports = botMessageSchema

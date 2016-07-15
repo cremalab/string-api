@@ -8,7 +8,7 @@ const app = keystone.app;
 
 let listRecord, locationRecord, activityRecord, userRecord;
 
-describe.only('chatActions', function() {
+describe('chatActions', function() {
   describe('handle', () => {
     it('should return a response for string.type', () => {
       const res = { id: 'd5adc5ab-ab98-4a40-b327-630eb458e27f',

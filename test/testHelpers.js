@@ -16,7 +16,9 @@ var User               = keystone.list('User').model
 var ActivityCompletion = keystone.list('ActivityCompletion').model
 var ActivityCompletion = keystone.list('ActivityCompletion').model
 
-require('chai')
+const chai = require('chai')
+const chaiAsPromised = require("chai-as-promised")
+chai.use(chaiAsPromised)
 
 var appendLogToFile = function(content) {
   fs.appendFile(Path.join(__dirname, 'requestLog.txt'), content);
@@ -145,7 +147,8 @@ exports.stubActivity = function(user) {
         description: 'Ate 6 Whoppers',
         activity_list: values[1]._id,
         location: values[0]._id,
-        creator: user._id
+        creator: user._id,
+        category: 'eat'
       });
       return activity.save((err, activity) => {
         if (err) {return reject(err)}
