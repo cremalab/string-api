@@ -34,7 +34,7 @@ StringBuilder.add({
 
 StringBuilder.schema.methods.rejectLocations = function(location_ids) {
   this.rejected_locations = R.uniq(this.rejected_locations.concat(location_ids))
-  return this.save().then((s) => {console.log("SAVED");return this})
+  return this.save().then((s) => this)
 }
 
 StringBuilder.register();
