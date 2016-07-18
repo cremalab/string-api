@@ -1,12 +1,13 @@
 'use strict'
 
 const keystone = require('keystone');
-const Types = keystone.Field.Types;
-const random = require('mongoose-simple-random')
+const Types    = keystone.Field.Types;
+const random   = require('mongoose-simple-random')
+const R        = require('ramda')
 
 const StringBuilder = new keystone.List('StringBuilder', {
   searchFields: 'user last_location',
-  defaultColumns: 'name, last_location, user, current_activity_category',
+  defaultColumns: 'name, last_location, user, activity_category',
   track: true,
   searchFields: 'name, placeId'
 });
@@ -24,12 +25,17 @@ StringBuilder.add({
     type: Types.Relationship, ref: 'Location', initial: true,
     label: 'Last Suggested Location'
   },
-  current_activity_category: {
+  activity_category: {
     type: Types.Select, options: 'eat, drink, see, do', initial: true,
     label: 'Current Activity Category'
   },
   activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true },
 })
+
+StringBuilder.schema.methods.rejectLocations = function(location_ids) {
+  this.rejected_locations = R.uniq(this.rejected_locations.concat(location_ids))
+  return this.save().then((s) => {console.log("SAVED");return this})
+}
 
 StringBuilder.register();
 module.exports = StringBuilder

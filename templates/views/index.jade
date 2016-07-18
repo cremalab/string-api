@@ -26,7 +26,10 @@ block content
 block js
 	script.
 		var socket = io()
-		socket.on('botMessage', function(message) {
-			console.log('bot message!');
-			console.log(message)
+		socket.on('connect', function() { 
+			console.log('connected')
+			socket.on('botMessage', function(message) {
+				console.log('bot message!');
+				console.log(message)
+			})
 		})
