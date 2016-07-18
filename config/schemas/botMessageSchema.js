@@ -17,7 +17,7 @@ const botMessageSchema = Joi.object({
       paramName: Joi.string().required().example('activity_type'),
       paramValue: Joi.string().required().example('eat')
     })).optional(),
-    multi: Joi.boolean().required().default(false)
+    multi: Joi.boolean().optional().default(false)
   }),
   responseAction: Joi.string().optional().example('string.type')
 })
