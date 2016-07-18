@@ -21,7 +21,7 @@ const testLocale = {
   }
 }
 
-describe.only('i18n', function() {
+describe('i18n', function() {
   describe('t', () => {
     it('should accept a locale object', () => {
       console.log(i18n.t('example', {}, testLocale));
