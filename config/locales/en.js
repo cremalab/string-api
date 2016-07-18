@@ -29,7 +29,9 @@ module.exports = {
         rejected_suggestion_acknowledgement: `Okay, I'll try again.`
       },
 
-      suggest_activity: `Maybe this will prime your appetite:`
+      suggest_activity: `Maybe this will prime your appetite:`,
+      successful_activity_suggestion: `Nice, got it.`,
+      prompt_activity: `Tell me a little about what you did!`
     },
     'type:drink': {
       start_confirmation: `Let's find something to wet your whistle.`,
@@ -55,7 +57,9 @@ module.exports = {
         rejected_suggestion_acknowledgement: `Okay, I'll try again.`
       },
 
-      suggest_activity: `How's this for starters?:`
+      suggest_activity: `How's this for starters?:`,
+      successful_activity_suggestion: `Nice, got it.`,
+      prompt_activity: `Tell me a little about what you did!`
     },
     'type:see': {
       start_confirmation: `Plenty to look at around here.`,
@@ -82,6 +86,8 @@ module.exports = {
       },
 
       successful_suggestion: `Cool! I thought you'd like that.`,
+      successful_activity_suggestion: `Nice, got it.`,
+      prompt_activity: `Tell me a little about what you did!`
     },
     'type:do': {
       suggest_activity: `Give this a shot:`,
@@ -108,6 +114,8 @@ module.exports = {
       },
 
       successful_suggestion: `Cool! I thought you'd like that.`,
+      successful_activity_suggestion: `Nice, got it.`,
+      prompt_activity: `Tell me a little about what you did!`
     }
   },
 
