@@ -8,7 +8,7 @@ const app = keystone.app;
 
 let listRecord, locationRecord, activityRecord, userRecord;
 
-describe.only('locationSearcher', function() {
+describe('locationSearcher', function() {
   before(() => {
     return Promise.all([helpers.cleanUp(), helpers.stubAuthUser()]).then((values) => {
       userRecord = values[1]
