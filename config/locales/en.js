@@ -58,8 +58,8 @@ module.exports = {
       suggest_activity: `How's this for starters?:`
     },
     'type:see': {
-      suggest_activity: `Try checking this out first:`
-      start_confirmation: `Plenty to look at around here.`
+      start_confirmation: `Plenty to look at around here.`,
+      suggest_activity: `Try checking this out first:`,
 
       'party_type:solo': {
         finding_suggestions: `Let's find a place of solitude for you. `,
@@ -84,8 +84,8 @@ module.exports = {
       successful_suggestion: `Cool! I thought you'd like that.`,
     },
     'type:do': {
-      suggest_activity: `Give this a shot:`
-      start_confirmation: `Plenty to do around here.`
+      suggest_activity: `Give this a shot:`,
+      start_confirmation: `Plenty to do around here.`,
 
       'party_type:solo': {
         finding_suggestions: `Let's something you can do alone.`,
@@ -106,7 +106,7 @@ module.exports = {
         finding_suggestions: `Something to do for two, let me think...`,
         rejected_suggestion_acknowledgement: `Okay, I'll try again.`
       },
-      
+
       successful_suggestion: `Cool! I thought you'd like that.`,
     }
   },
