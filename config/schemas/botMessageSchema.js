@@ -20,7 +20,9 @@ const botMessageSchema = Joi.object({
     multi: Joi.boolean().optional().default(false)
   }),
   responseAction: Joi.string().optional().example('string.type'),
-  responseParams: Joi.object().optional().description('additional params to pass with the response')
+  responseParams: Joi.object().optional().description('additional params to pass with the response'),
+  responseType: Joi.string().required().valid(['choice', 'text'])
+    .description('lets the client know what UI to provide for answering the question')
 })
 
 module.exports = botMessageSchema

@@ -119,6 +119,10 @@ module.exports = {
     }
   },
 
+  activities: {
+    created: `Thanks for letting me know!`
+  },
+
   errors: {
     no_locations: `This is embarassing...I'm all out of places to {activity_type}.`,
     no_activities: `Doesn't look like anybody has told me about things they've done here. You could be the first!`

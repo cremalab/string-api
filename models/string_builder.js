@@ -37,7 +37,8 @@ StringBuilder.add({
 })
 
 StringBuilder.schema.methods.rejectLocations = function(location_ids) {
-  this.rejected_locations = R.uniq(this.rejected_locations.concat(location_ids))
+  const isAvail = (val,key) => !R.isNil(val)
+  this.rejected_locations = R.uniq(R.filter(isAvail, this.rejected_locations).concat(location_ids))
   return this.save().then((s) => this)
 }
 

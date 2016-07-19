@@ -9,7 +9,7 @@ const ActivityList = new keystone.List('ActivityList', {
 });
 
 ActivityList.add({
-  description: { type: Types.Textarea, required: true, initial: true },
+  description: { type: Types.Textarea, initial: true },
   createdAt: { type: Types.Datetime, required: true, default: Date.now },
   activityCount: { type: Types.Number, default: 0 },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
