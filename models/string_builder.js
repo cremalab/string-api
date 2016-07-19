@@ -7,7 +7,7 @@ const R        = require('ramda')
 
 const StringBuilder = new keystone.List('StringBuilder', {
   searchFields: 'user last_location',
-  defaultColumns: 'name, last_location, user, activity_category',
+  defaultColumns: 'name, last_location, user, activity_category, createdAt',
   track: true,
   searchFields: 'name, placeId'
 });
