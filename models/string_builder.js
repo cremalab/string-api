@@ -26,7 +26,7 @@ StringBuilder.add({
     label: 'Last Suggested Location'
   },
   last_activity: {
-    type: Types.Relationship, ref: 'Actvity', initial: true,
+    type: Types.Relationship, ref: 'Activity', initial: true,
     label: 'Last Suggested Activity'
   },
   activity_category: {
