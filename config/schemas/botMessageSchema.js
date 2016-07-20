@@ -14,14 +14,13 @@ const botMessageSchema = Joi.object({
   responseOptions: Joi.object({
     items: Joi.array().items(Joi.object({
       text: Joi.string().required().example('Eat'),
-      paramName: Joi.string().required().example('activity_type'),
-      paramValue: Joi.alternatives().try(Joi.string().required().example('eat'), Joi.boolean())
+      params: Joi.object().required().example({activity_type: 'eat'}),
     })).optional(),
     multi: Joi.boolean().optional().default(false)
   }),
   responseAction: Joi.string().optional().example('string.type'),
   responseParams: Joi.object().optional().description('additional params to pass with the response'),
-  responseType: Joi.string().required().valid(['choice', 'text'])
+  responseType: Joi.string().valid(['choice', 'text'])
     .description('lets the client know what UI to provide for answering the question')
 })
 
