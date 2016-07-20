@@ -29,7 +29,7 @@ StringBuilder.add({
     type: Types.Relationship, ref: 'Activity', initial: true,
     label: 'Last Suggested Activity'
   },
-  activity_category: {
+  activity_type: {
     type: Types.Select, options: 'eat, drink, see, do', initial: true,
     label: 'Current Activity Category'
   },

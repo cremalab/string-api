@@ -1,6 +1,7 @@
 module.exports = {
   strings: {
     start: `What kind of activity are you interested in?`,
+    continue: `What's next?`,
     suggest_location: `Why don't you try {name}? It has {rating} stars`,
     suggest_location_again: `Alright, let's try again. Why don't you try {name}? It has {rating} stars`,
     ask_party_type: `Who are you going with?`,
