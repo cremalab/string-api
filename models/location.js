@@ -31,6 +31,10 @@ Location.relationship({
   path: 'activities', ref: 'Activity', refPath: 'location'
 });
 
+Location.schema.post('save', function(done) {
+  this.getDetails().then(done)
+})
+
 Location.schema.plugin(random)
 
 Location.register();
