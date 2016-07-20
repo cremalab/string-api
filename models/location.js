@@ -31,7 +31,7 @@ Location.relationship({
   path: 'activities', ref: 'Activity', refPath: 'location'
 });
 
-Location.schema.post('save', function(done) {
+Location.schema.pre('save', function(done) {
   this.getDetails().then(done)
 })
 
