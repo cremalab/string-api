@@ -37,5 +37,9 @@ Location.schema.pre('save', function(done) {
 
 Location.schema.plugin(random)
 
+Location.relationship({
+  path: 'activities', ref: 'Activity', refPath: 'location'
+});
+
 Location.register();
 module.exports = Location
