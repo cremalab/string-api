@@ -19,26 +19,15 @@ ActivityCompletion.add({
 })
 
 ActivityCompletion.schema.pre("save", function(next) {
-  ActivityCompletion.model.findOne({
-    user : this.user, activity: this.activity
-  }, 'activity', (err, results) => {
-    if(err) {
-      next(err);
-    } else if(results) {
-      this.invalidate("_activity", "You have already completed this activity");
-      next(new Error("You have already completed this activity"));
-    } else {
-      keystone.list('Activity').model.findById(this.activity, (err, activity) => {
-        if (err) {return next(new Error(err))}
-        if (!activity) {
-          this.invalidate("Activity does not exist")
-          return next()
-        }
-        activity.changeCompletedCount(1)
-      })
-      next();
+  keystone.list('Activity').model.findById(this.activity, (err, activity) => {
+    if (err) {return next(new Error(err))}
+    if (!activity) {
+      this.invalidate("Activity does not exist")
+      return next()
     }
-  });
+    activity.changeCompletedCount(1)
+    next();
+  })
 });
 
 ActivityCompletion.schema.pre("remove", function(next) {

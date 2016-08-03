@@ -7,7 +7,7 @@ const R        = require('ramda')
 
 const StringBuilder = new keystone.List('StringBuilder', {
   searchFields: 'user last_location',
-  defaultColumns: 'name, last_location, user, activity_category, createdAt',
+  defaultColumns: 'name, last_location, user, activity_type, createdAt',
   track: true,
   searchFields: 'name, placeId'
 });
@@ -29,7 +29,7 @@ StringBuilder.add({
     type: Types.Relationship, ref: 'Activity', initial: true,
     label: 'Last Suggested Activity'
   },
-  activity_category: {
+  activity_type: {
     type: Types.Select, options: 'eat, drink, see, do', initial: true,
     label: 'Current Activity Category'
   },
