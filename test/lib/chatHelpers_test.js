@@ -3,7 +3,7 @@ const chatHelpers = require('../../lib/chatHelpers')
 require('../testHelpers')
 const expect   = require('chai').expect
 
-describe.only('chatHelpers', function() {
+describe('chatHelpers', function() {
   describe('areSimilar', ()=> {
     it('should return a boolean', () => {
       let match = chatHelpers.areSimilar(

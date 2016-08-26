@@ -1,22 +1,17 @@
 'use strict'
 const actions = require('../../lib/chatActions')
-const helpers  = require('../testHelpers')
-const keystone = require('../keystoneTestHelper');
+require('../testHelpers')
 const expect   = require('chai').expect
-
-const app = keystone.app;
-
-let listRecord, locationRecord, activityRecord, userRecord;
 
 describe('chatActions', function() {
   describe('handle', () => {
-    it('should return a response for string.type', () => {
+    it('should return a response for string:type', () => {
       const res = { id: 'd5adc5ab-ab98-4a40-b327-630eb458e27f',
         timestamp: '2016-07-14T20:19:11.6Z',
         result:
          { source: 'agent',
            resolvedQuery: 'let\'s go',
-           action: 'string.type',
+           action: 'string:start',
            actionIncomplete: false,
            parameters: {},
            contexts: [ [Object], [Object], [Object] ],
@@ -28,19 +23,19 @@ describe('chatActions', function() {
            score: 1 },
         status: { code: 200, errorType: 'success' },
         sessionId: '00000000-0000-0000-0000-000000000000' }
-      return actions.handle('string.type', res).then((res) => {
+      return actions.handle('string:type', res).then((res) => {
         expect(res).to.be.an('object')
         expect(res.text).to.equal('What kind of activity are you interested in?')
       })
     })
 
-    it('should return a response for string.party_type', () => {
+    it('should return a response for string:party_type', () => {
       const res = { id: 'fd948abc-39f4-4932-8814-6ab7b4947315',
         timestamp: '2016-07-14T20:19:14.48Z',
         result:
          { source: 'agent',
            resolvedQuery: 'eat',
-           action: 'string.type',
+           action: 'string:set_activity_type',
            actionIncomplete: false,
            parameters: { activity_type: 'eat' },
            contexts: [ [Object], [Object], [Object] ],
@@ -52,20 +47,20 @@ describe('chatActions', function() {
            score: 1 },
         status: { code: 200, errorType: 'success' },
         sessionId: '00000000-0000-0000-0000-000000000000' }
-      return actions.handle('string.type', res).then((res) => {
+      return actions.handle('string:set_activity_type', res).then((res) => {
         expect(res).to.be.an('object')
         expect(res.text).to.contain('Who are you going with')
       })
     })
   })
 
-  it('should return an object for string.get_location_suggestions', () => {
+  it('should return an object for string:get_location_suggestions', () => {
     const res = { id: '8f02ab8f-83e2-4954-90fc-64195764d7ce',
       timestamp: '2016-07-14T20:34:42.429Z',
       result:
        { source: 'agent',
          resolvedQuery: 'nobody',
-         action: 'string.get_location_suggestions',
+         action: 'string:get_location_suggestions',
          actionIncomplete: false,
          parameters: { party_type: 'solo' },
          contexts: [ [Object], [Object], [Object] ],
@@ -77,7 +72,7 @@ describe('chatActions', function() {
          score: 1 },
       status: { code: 200, errorType: 'success' },
       sessionId: '00000000-0000-0000-0000-000000000000' }
-    return actions.handle('string.get_location_suggestions', res).then((res) => {
+    return actions.handle('string:get_location_suggestions', res).then((res) => {
       expect(res).to.be.an('object')
       expect(Object.keys(res)).to.include('text')
       expect(Object.keys(res)).to.include('media')
@@ -87,4 +82,4 @@ describe('chatActions', function() {
     })
   })
 
-});
+})
