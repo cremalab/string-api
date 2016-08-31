@@ -21,6 +21,7 @@ Activity.add({
   createdAt:   { type: Types.Datetime, required: true, default: Date.now },
   category: { type: Types.Select, options: 'eat, drink, see, do', initial: true },
   completedCount: { type: Number, default: 0 },
+  image: { type: Types.CloudinaryImage, initial: true, folder: 'activities' }
 })
 
 Activity.schema.plugin(random)

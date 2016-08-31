@@ -39,8 +39,13 @@ keystone.init({
 // Set mongoose to use native promises
 keystone.get('mongoose').Promise = global.Promise
 
-// Load your project's Models
+keystone.set('cloudinary config', {
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+})
 
+// Load your project's Models
 keystone.import('models');
 
 // Setup common locals for your templates. The following are required for the

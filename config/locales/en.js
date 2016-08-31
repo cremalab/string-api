@@ -121,7 +121,9 @@ module.exports = {
   },
 
   activities: {
-    created: `Thanks for letting me know!`
+    created: `Thanks for letting me know!`,
+    declined_photo_upload: `Cool, no worries. Other users can use their imaginations 😋`,
+    prompt_image: `Would you like to share an image with the rest of the String community?`
   },
 
   errors: {
