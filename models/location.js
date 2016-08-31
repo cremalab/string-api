@@ -13,7 +13,6 @@ const Location = new keystone.List('Location', {
 });
 
 Location.add({
-  createdAt:  { type: Types.Datetime, required: true, default: Date.now },
   placeId:   {
     type: String, initial: true, label: "Google Maps Place ID",
     note: "Unique identifier for Google API lookup",

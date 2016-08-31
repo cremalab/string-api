@@ -13,8 +13,6 @@ const StringBuilder = new keystone.List('StringBuilder', {
 });
 
 StringBuilder.add({
-  createdAt:  { type: Types.Datetime, required: true, default: Date.now },
-  updatedAt:  { type: Types.Datetime, required: true, default: Date.now },
   user: { type: Types.Relationship, ref: 'User', required: true, initial: true },
   rejected_locations: { type: Types.Relationship, ref: 'Location', many: true, initial: true },
   party_type: {

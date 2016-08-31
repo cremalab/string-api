@@ -8,10 +8,10 @@ const socketEvents = require('./lib/socketEvents')
 // Initialize the Swagger middleware
 swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
   // Interpret Swagger resources and attach metadata to request - must be first in swagger-tools middleware chain
-  keystoneApp.app.use(middleware.swaggerMetadata());
+  // keystoneApp.app.use(middleware.swaggerMetadata());
 
   // Serve the Swagger documents and Swagger UI
-  keystoneApp.app.use(middleware.swaggerUi());
+  // keystoneApp.app.use(middleware.swaggerUi());
 
   // Start the server
   keystoneApp.start({
