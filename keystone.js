@@ -69,7 +69,6 @@ keystone.set('nav', {
 	'String Builders': 'StringBuilder'
 });
 
-console.log(keystone.get('mongoose'));
 module.exports = keystone;
 // Start Keystone to connect to your database and initialise the web server
 
