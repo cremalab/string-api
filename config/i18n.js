@@ -10,7 +10,7 @@ const getDeepValue = R.curry((obj, key) => {
 module.exports = {
   t: (key, values = {}, locale) => {
     locale = locale || en
-    translation = getDeepValue(locale)
+    let translation = getDeepValue(locale)
     if (!translation(key)) throw new Error(`Translation ${key} does not exist`)
     return Object.keys(values).reduce((mem, v) => {
       return mem.replace(`{${v}}`, values[v])

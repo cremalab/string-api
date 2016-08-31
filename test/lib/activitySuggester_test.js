@@ -1,14 +1,12 @@
 'use strict'
 const ActivitySuggester = require('../../lib/activitySuggester')
 const helpers  = require('../testHelpers')
-const keystone = require('../keystoneTestHelper')
 const expect   = require('chai').expect
 
-const app = keystone.app
 
-let listRecord, locationRecord, activityRecord, userRecord;
+let activityRecord, userRecord
 
-describe.only('activitySuggester', function() {
+describe('activitySuggester', function() {
   before(() => {
     return Promise.all([helpers.cleanUp(), helpers.stubAuthUser()]).then((values) => {
       userRecord = values[1]
@@ -23,19 +21,19 @@ describe.only('activitySuggester', function() {
       expect(() => ActivitySuggester.suggest({activity_type: 'eat'})).to.throw.rejected
     })
     it('should reject if no activity_type', () => {
-      expect(() => ActivitySuggester.suggest({location_id: '111aaa'})).to.throw.rejected
+      expect(() => ActivitySuggester.suggest({location: '111aaa'})).to.throw.rejected
     })
     it('should return a promise', () => {
-      expect(() => ActivitySuggester.suggest({location_id: '111aaa'})).to.resolve
+      expect(() => ActivitySuggester.suggest({location: '111aaa'})).to.resolve
     })
     it('should return an Activity', () => {
       return ActivitySuggester.suggest({
-        location_id: activityRecord.location,
+        location: activityRecord.location,
         activity_type: 'eat'
       }).then((activity) => {
         expect(activity).to.be.an('object')
-        expect(activity.location).to.equal(activityRecord.location)
+        expect(String(activity.location)).to.equal(String(activityRecord.location))
       })
     })
   })
-});
+})

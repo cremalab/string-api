@@ -1,5 +1,8 @@
 module.exports = {
   strings: {
+    cancel: [
+      'cancel', 'start over', 'start again', 'exit', 'quit'
+    ],
     start: `What kind of activity are you interested in?`,
     continue: `What's next?`,
     suggest_location: `Why don't you try {name}? It has {rating} stars`,
