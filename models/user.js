@@ -15,7 +15,7 @@ var User = new keystone.List('User', {
 
 User.add({
 	name: { type: String, index: true, initial: true },
-	email: { type: Types.Email, initial: true, index: true },
+	email: { type: Types.Email, initial: true, index: true, displayGravatar: true },
 	password: { type: Types.Password, initial: true },
 	token: { type: String },
 	tempToken: { type: String },
