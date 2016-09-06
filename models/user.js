@@ -1,8 +1,8 @@
 'use strict'
 
 const JWT = require('jsonwebtoken')
-const keystone = require('keystone');
-const Types = keystone.Field.Types;
+const keystone = require('keystone')
+const Types = keystone.Field.Types
 
 /**
  * User Model
@@ -10,48 +10,48 @@ const Types = keystone.Field.Types;
  */
 
 var User = new keystone.List('User', {
-	searchFields: 'name, phone, email'
-});
+  searchFields: 'name, phone, email'
+})
 
 User.add({
-	name: { type: String, index: true, initial: true },
-	email: { type: Types.Email, initial: true, index: true, displayGravatar: true },
-	password: { type: Types.Password, initial: true },
-	token: { type: String },
-	tempToken: { type: String },
-	phone: {
-		type: String,
-		initial: true,
-		validate: {
-			validator: function(v) {
-				return /\d{10}/.test(v);
-			},
-			message: '{VALUE} is not a valid phone number!'
-		},
-		required: [true, 'User phone number required']
-	},
-	tokenedAt: { type: Types.Datetime },
-	verificationCode: { type: Types.Number, label: "Verification Code"},
-	verificationSentAt: { type: Types.Datetime, label: "Verification Code Sent At" },
-	activity_lists: { type: Types.Relationship, ref: 'ActivityList', many: true },
-	activities: { type: Types.Relationship, ref: 'Activity', many: true },
-	activityCompletions: { type: Types.Relationship, ref: 'ActivityCompletion', many: true },
-	string_builders: { type: Types.Relationship, ref: 'StringBuilder', many: true,
-		filters: { user: ':_id', }
-	}
+  name: { type: String, index: true, initial: true },
+  email: { type: Types.Email, initial: true, index: true, displayGravatar: true },
+  password: { type: Types.Password, initial: true },
+  token: { type: String },
+  tempToken: { type: String },
+  phone: {
+    type: String,
+    initial: true,
+    validate: {
+      validator: function(v) {
+        return /\d{10}/.test(v)
+      },
+      message: '{VALUE} is not a valid phone number!'
+    },
+    required: [true, 'User phone number required']
+  },
+  tokenedAt: { type: Types.Datetime },
+  verificationCode: { type: Types.Number, label: 'Verification Code'},
+  verificationSentAt: { type: Types.Datetime, label: 'Verification Code Sent At' },
+  activity_lists: { type: Types.Relationship, ref: 'ActivityList', many: true },
+  activities: { type: Types.Relationship, ref: 'Activity', many: true },
+  activityCompletions: { type: Types.Relationship, ref: 'ActivityCompletion', many: true },
+  string_builders: { type: Types.Relationship, ref: 'StringBuilder', many: true,
+    filters: { user: ':_id' }
+  }
 }, 'Permissions', {
-	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true }
-});
+  isAdmin: { type: Boolean, label: 'Can access Keystone', index: true }
+})
 
 // Provide access to Keystone
 User.schema.virtual('canAccessKeystone').get(function() {
-	return this.isAdmin;
-});
+  return this.isAdmin
+})
 
-User.relationship({ path: 'activity_lists', ref: 'ActivityList', refPath: 'creator' });
-User.relationship({ path: 'activities', ref: 'Activity', refPath: 'creator' });
-User.relationship({ path: 'activity_completions', ref: 'ActivityCompletion', refPath: 'user' });
-User.relationship({ path: 'string_builders', ref: 'StringBuilder', refPath: 'user' });
+User.relationship({ path: 'activity_lists', ref: 'ActivityList', refPath: 'creator' })
+User.relationship({ path: 'activities', ref: 'Activity', refPath: 'creator' })
+User.relationship({ path: 'activity_completions', ref: 'ActivityCompletion', refPath: 'user' })
+User.relationship({ path: 'string_builders', ref: 'StringBuilder', refPath: 'user' })
 
 User.schema.methods.generateAuthToken = function() {
   const authObj = {
@@ -75,6 +75,6 @@ User.schema.methods.toJSON = function() {
  * Registration
  */
 
-User.defaultColumns = 'name, email, isAdmin';
-User.register();
+User.defaultColumns = 'name, email, isAdmin'
+User.register()
 module.exports = User
