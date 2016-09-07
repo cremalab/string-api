@@ -6,9 +6,9 @@ const expect   = require('chai').expect
 
 const app = keystone.app
 
-let listRecord, locationRecord, activityRecord, userRecord;
+let listRecord, locationRecord, activityRecord, userRecord
 
-describe.only('activitySuggester', function() {
+describe('activitySuggester', function() {
   before(() => {
     return Promise.all([helpers.cleanUp(), helpers.stubAuthUser()]).then((values) => {
       userRecord = values[1]
@@ -30,12 +30,12 @@ describe.only('activitySuggester', function() {
     })
     it('should return an Activity', () => {
       return ActivitySuggester.suggest({
-        location_id: activityRecord.location,
+        location: activityRecord.location,
         activity_type: 'eat'
       }).then((activity) => {
         expect(activity).to.be.an('object')
-        expect(activity.location).to.equal(activityRecord.location)
+        expect(String(activity.location)).to.equal(String(activityRecord.location))
       })
     })
   })
-});
+})

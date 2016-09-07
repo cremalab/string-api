@@ -2,10 +2,10 @@
 
 const randtoken = require('rand-token')
 const keystone  = require('./keystoneTestHelper')
-const request   = require('supertest');
-const app       = keystone.app;
+const request   = require('supertest')
+const app       = keystone.app
 const Path      = require('path')
-const nock      = require('nock');
+const nock      = require('nock')
 const fs        = require('fs')
 
 
@@ -17,11 +17,11 @@ var ActivityCompletion = keystone.list('ActivityCompletion').model
 var ActivityCompletion = keystone.list('ActivityCompletion').model
 
 const chai = require('chai')
-const chaiAsPromised = require("chai-as-promised")
+const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
 var appendLogToFile = function(content) {
-  fs.appendFile(Path.join(__dirname, 'requestLog.txt'), content);
+  fs.appendFile(Path.join(__dirname, 'requestLog.txt'), content)
 }
 
 // nock.recorder.rec({
@@ -78,7 +78,7 @@ exports.stubList = function(user) {
   let list = new List({
     description: '#art #walk in the #crossroads',
     creator: user._id
-  });
+  })
   return new Promise((resolve, reject) => {
     exports.stubLocation().then((location) => {
       list.save((err, list) => {
@@ -100,7 +100,7 @@ exports.stubList = function(user) {
 exports.stubLocation = function() {
   let location = new Location({
     placeId: 'ChIJ99ro0TzvwIcRZ4gy5tGQ_4o'
-  });
+  })
   return new Promise((resolve, reject) => {
     location.save((err, location) => {
       if (err) {return reject(err)}
@@ -114,8 +114,8 @@ exports.stubUnauthUser = function() {
     phone: 9999999999,
     tempToken: 'mbjAzOEOB1KKWhMB',
     verificationCode: 12345,
-    tokenedAt: Date.now(),
-  });
+    tokenedAt: Date.now()
+  })
   return new Promise((resolve, reject) => {
     user.save((err, user) => {
       if (err) {return reject(err)}
@@ -131,7 +131,7 @@ exports.stubAuthUser = function() {
     verificationCode: null,
     token: randtoken.generate(16),
     tokenedAt: Date.now()
-  });
+  })
   return new Promise((resolve, reject) => {
     user.save((err, user) => {
       if (err) {return reject(err)}
@@ -149,7 +149,7 @@ exports.stubActivity = function(user) {
         location: values[0]._id,
         creator: user._id,
         category: 'eat'
-      });
+      })
       return activity.save((err, activity) => {
         if (err) {return reject(err)}
         return resolve(activity)
@@ -165,7 +165,7 @@ exports.stubActivityCompletion = function(activity, user) {
       activity: activity._id,
       activity_list: activity.activity_list,
       location: activity._location,
-      description: "Drank a Dark & Stormy"
+      description: 'Drank a Dark & Stormy'
     })
     completion.save((err, completion) => {
       if ( err ) { return reject(err) }
@@ -176,7 +176,7 @@ exports.stubActivityCompletion = function(activity, user) {
 
 exports.authRequest = function(reqOpts, user) {
   reqOpts.headers = {
-    "Authorization": user.generateAuthToken()
+    'Authorization': user.generateAuthToken()
   }
   return reqOpts
 }
