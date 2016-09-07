@@ -1,8 +1,8 @@
 'use strict'
 
 const keystoneApp  = require('./keystone.js')
-const swaggerTools = require('swagger-tools');
-const swaggerDoc   = require('./swagger.json');
+const swaggerTools = require('swagger-tools')
+const swaggerDoc   = require('./swagger.json')
 const socketEvents = require('./lib/socketEvents')
 
 // Initialize the Swagger middleware
@@ -20,4 +20,4 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
       socketEvents.register(keystoneApp)
     }
   })
-});
+})

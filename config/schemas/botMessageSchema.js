@@ -6,7 +6,7 @@ const botMessageSchema = Joi.object({
   id: Joi.string().required(),
   position: Joi.string().valid(['left', 'right', 'center']).required().example('right'),
   sentiment: Joi.string().valid(['friendly', 'sad', 'annoyed']).example('friendly'),
-  name: Joi.string().required().valid("String").example('String'),
+  name: Joi.string().required().valid('String').example('String'),
   media: Joi.array().items(Joi.object({
     type: Joi.string().required().example('image'),
     data: Joi.any().required().example('http://www.silly-string.com/images/logo.png')
@@ -14,7 +14,7 @@ const botMessageSchema = Joi.object({
   responseOptions: Joi.object({
     items: Joi.array().items(Joi.object({
       text: Joi.string().required().example('Eat'),
-      params: Joi.object().required().example({activity_type: 'eat'}),
+      params: Joi.object().required().example({activity_type: 'eat'})
     })).optional(),
     multi: Joi.boolean().optional().default(false)
   }),

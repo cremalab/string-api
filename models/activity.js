@@ -1,8 +1,8 @@
 'use strict'
 
 const random   = require('mongoose-simple-random')
-const keystone = require('keystone');
-const Types    = keystone.Field.Types;
+const keystone = require('keystone')
+const Types    = keystone.Field.Types
 const Activity = new keystone.List('Activity', {
   searchFields: 'description',
   defaultColumns: 'description, location, creator, createdAt, category',
@@ -11,7 +11,7 @@ const Activity = new keystone.List('Activity', {
   sortContext: 'ActivityList:activities',
   defaultSort: 'createdAt',
   map: {name: 'description'}
-});
+})
 
 Activity.add({
   description: { type: Types.Textarea, required: true, initial: true },
@@ -64,7 +64,7 @@ Activity.schema.pre('save', function(done) {
 
 Activity.relationship({
   path: 'completions', ref: 'ActivityCompletion', refPath: 'activity'
-});
+})
 
 
 Activity.register()
