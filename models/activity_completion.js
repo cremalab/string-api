@@ -31,22 +31,31 @@ ActivityCompletion.add({
 })
 
 ActivityCompletion.schema.pre('save', function(next) {
-  keystone.list('Activity').model.findById(this.activity, (err, activity) => {
-    if (err) {return next(new Error(err))}
-    if (!activity) {
-      this.invalidate('Activity does not exist')
-      return next()
-    }
-    activity.changeCompletedCount(1)
-    next()
+  let recommendationInc = 0, completedInc = 0
+  if ( this.isModified('recommended') ) {
+    if (this.recommended == 'yes') {recommendationInc = 1}
+    if (this.recommended == 'no')  {recommendationInc = -1}
+  }
+  if (this.isNew) { completedInc = 1 }
+  keystone.list('Activity').model.findOneAndUpdate({_id: this.activity}, {
+    $inc: {completedCount: completedInc, recommendationScore: recommendationInc}
+  }, {new: true}).then(() => {
+    return next()
   })
 })
 
 ActivityCompletion.schema.pre('remove', function(next) {
-  keystone.list('Activity').model.findById(this.activity, (err, activity) => {
-    activity.changeCompletedCount(-1)
+  let recommendationInc = 0
+  if (this.recommended == 'yes') {recommendationInc = -1}
+  if (this.recommended == 'no')  {recommendationInc = 1}
+  return keystone.list('Activity').model.findOneAndUpdate({_id: this.activity}, {
+    $inc: {completedCount: -1, recommendationScore: recommendationInc}
+  }, {}).then(() => {
+    return next()
+  }).catch(() => {
+    this.invalidate('Activity does not exist')
+    return next()
   })
-  next()
 })
 
 ActivityCompletion.schema.virtual('activity_list').get(function() {
