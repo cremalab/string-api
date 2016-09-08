@@ -18,6 +18,7 @@ var ActivityCompletion = keystone.list('ActivityCompletion').model
 
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
+const should = require('chai').should()
 chai.use(chaiAsPromised)
 
 var appendLogToFile = function(content) {

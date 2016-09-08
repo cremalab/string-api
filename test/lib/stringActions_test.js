@@ -6,12 +6,13 @@ const i18n               = require('../../config/i18n')
 const keystone           = require('keystone')
 const StringBuilder      = keystone.list('StringBuilder')
 const ActivityCompletion = keystone.list('ActivityCompletion')
+const Activity           = keystone.list('Activity')
 
 const chatInterface = {
   send: (msg) => msg
 }
 
-describe.only('stringActions', function() {
+describe('stringActions', function() {
   describe('string:start', () => {
     it('should return a text prompt', () => {
       return actions.handle('string:start', {}).then((res) => {
@@ -245,6 +246,56 @@ describe.only('stringActions', function() {
         expect(res.responseOptions).to.be.an('Object')
         expect(res.responseOptions.items).to.be.an('Array')
         expect(res.responseAction).to.equal('string:respond_to_activity_suggestion')
+      })
+    })
+  })
+
+  describe.only('string:create_activity', () => {
+    let userRec, locationRec
+    before(() => {
+      return helpers.stubAuthUser().then((user) => {
+        userRec = user
+        return helpers.stubActivity(userRec).then((activity) => {
+          locationRec = activity.location
+          return new StringBuilder.model({
+            user: userRec,
+            activity_type: 'eat',
+            party_type: 'solo',
+            last_location: locationRec
+          }).save()
+        })
+      })
+    })
+    it('should fail when missing params', () => {
+      return actions.handle('string:create_activity', {
+        currentUser: userRec,
+        params: {}
+      }, chatInterface).should.eventually.be.rejected
+    })
+    it('should respond with prompt to upload image', () => {
+      return actions.handle('string:create_activity', {
+        currentUser: userRec,
+        text: `Burrito Thursday! BYOB!`,
+        params: {
+          location: `${locationRec}`,
+          category: `eat`
+        }
+      }, chatInterface).should.eventually.have.property('responseAction', 'activity:handle_image_choice')
+    })
+    it('should create a new activity', () => {
+      return actions.handle('string:create_activity', {
+        currentUser: userRec,
+        text: `Burrito Thursday! BYOB!`,
+        params: {
+          location: `${locationRec}`,
+          category: `eat`
+        }
+      }, chatInterface).then(() => {
+        return Activity.model.findOne({location: `${locationRec}`}, {}, {sort: '-createdAt'}).then((activity) => {
+          expect(String(activity.location)).to.equal(String(locationRec))
+          expect(activity.description).to.equal(`Burrito Thursday! BYOB!`)
+          expect(String(activity.creator)).to.equal(String(userRec._id))
+        })
       })
     })
   })

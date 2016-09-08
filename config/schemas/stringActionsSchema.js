@@ -32,6 +32,16 @@ module.exports = {
       activity: Joi.string().required(),
       activity_type: Joi.string().required()
     }).required().description('key/value pairs for data to be sent back')
+  }),
+  create_activity: Joi.object({
+    currentUser: Joi.object({}).required().unknown(true),
+    text: Joi.string().required(),
+    token: Joi.string(),
+    action: Joi.string(),
+    params: Joi.object({
+      location: Joi.string().required(),
+      category: Joi.string().required()
+    }).required().description('key/value pairs for data to be sent back')
   })
 
 }
