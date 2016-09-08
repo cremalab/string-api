@@ -123,7 +123,12 @@ module.exports = {
   activities: {
     created: `Thanks for letting me know!`,
     declined_photo_upload: `Cool, no worries. Other users can use their imaginations 😋`,
-    prompt_image: `Would you like to share an image with the rest of the String community?`
+    prompt_image: `Would you like to share an image with the rest of the String community?`,
+    prompt_recommendation: `Would you recommend this activity?`,
+    acknowledge_recommendation: {
+      positive: `Thanks! We'll let everyone know this is a good thing`,
+      negative: `Bummer. We'll inform others so they won't have a bad time.`
+    }
   },
 
   errors: {

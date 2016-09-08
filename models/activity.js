@@ -20,8 +20,8 @@ Activity.add({
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
   createdAt:   { type: Types.Datetime, required: true, default: Date.now },
   category: { type: Types.Select, options: 'eat, drink, see, do', initial: true },
-  completedCount: { type: Number, default: 0 },
-  image: { type: Types.CloudinaryImage, initial: true, folder: 'activities' }
+  completedCount: { type: Number, default: 0, noedit: true },
+  recommendationScore: { type: Number, default: 0, noedit: true }
 })
 
 Activity.schema.plugin(random)
