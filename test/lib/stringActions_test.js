@@ -12,7 +12,7 @@ const chatInterface = {
   send: (msg) => msg
 }
 
-describe('stringActions', function() {
+describe.only('stringActions', function() {
   describe('string:start', () => {
     it('should return a text prompt', () => {
       return actions.handle('string:start', {}).then((res) => {
@@ -188,7 +188,7 @@ describe('stringActions', function() {
         })
       })
     })
-    it('should return a continued prompt when accepted', () => {
+    it('should return a media prompt when accepted', () => {
       return new StringBuilder.model({
         user: userRec,
         activity_type: 'eat',
@@ -201,9 +201,7 @@ describe('stringActions', function() {
           params: {accepted: true, activity: `${activityRec._id}`, activity_type: 'eat'}
         }, chatInterface)
       }).then((res) => {
-        expect(res.responseParams).to.be.ok
-        expect(res.responseParams).to.have.key('continued')
-        expect(res.responseParams.continued).to.be.true
+        expect(res.responseAction).to.equal('activity:handle_image_choice')
       })
     })
     it('should create an ActivityCompletion when accepted', () => {
@@ -250,7 +248,7 @@ describe('stringActions', function() {
     })
   })
 
-  describe.only('string:create_activity', () => {
+  describe('string:create_activity', () => {
     let userRec, locationRec
     before(() => {
       return helpers.stubAuthUser().then((user) => {

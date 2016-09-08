@@ -18,8 +18,16 @@ ActivityCompletion.add({
     label: 'Completed with:'
   },
   location:      { type: Types.Relationship, ref: 'Location'},
+  recommended:   {
+    type: Types.Select,
+    options: 'yes, no',
+    initial: true,
+    label: 'Recommended?',
+    index: true
+  },
   createdAt:     { type: Date, required: true, default: Date.now, initial: true },
-  description:   { type: String, initial: true }
+  description:   { type: String, initial: true },
+  image: { type: Types.CloudinaryImage, initial: true, folder: 'activity_completions' }
 })
 
 ActivityCompletion.schema.pre('save', function(next) {
