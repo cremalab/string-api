@@ -1,5 +1,6 @@
 'use strict'
 
+const contentTagger = require('../lib/contentTagger')
 const random   = require('mongoose-simple-random')
 const keystone = require('keystone')
 const Types    = keystone.Field.Types
@@ -61,6 +62,14 @@ Activity.schema.pre('save', function(done) {
     })
   }
   done()
+})
+
+Activity.schema.post('save', function() {
+  // const desc = this.description
+  // const cat = this.category
+  // const self = this
+  // DO THIS IN A WAY THAT DOESN'T LOOP FOREVER
+  // return contentTagger.parseAndTag(self, desc, cat)
 })
 
 Activity.relationship({
