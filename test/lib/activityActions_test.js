@@ -92,6 +92,68 @@ describe.only('activityActions', function() {
         expect(res.text).to.contain(i18n.t('activities.prompt_recommendation'))
       })
     })
+
+    it('should respond with image prompt when accepting image contribution', () => {
+      return actions.handle('activity:handle_image_choice', {
+        params: {
+          takePhoto: true
+        },
+        currentUser: userRec
+      }, chatInterface).then((res) => {
+        expect(res).to.be.an('object')
+        expect(res.responseAction).to.equal('activity:add_image')
+      })
+    })
+  })
+
+  describe('activity:add_image', () => {
+    before(() => {
+      return helpers.stubAuthUser().then((user) => {
+        userRec = user
+        return helpers.stubActivity(userRec).then((activity) => {
+          activityRec = activity
+          return new ActivityCompletion.model({
+            user: userRec,
+            activity: activityRec,
+            party_type: 'solo'
+          }).save().then((completion) => {
+            completionRec = completion
+            return completion
+          })
+        })
+      })
+    })
+    it('should error when missing params', () => {
+      return actions.handle('activity:add_image', {
+        params: {}
+      }, chatInterface).should.eventually.be.rejected
+    })
+
+    it('should add image to completion', () => {
+      return actions.handle('activity:add_image', {
+        params: {
+          activity_completion: `${completionRec._id}`,
+          image: {
+            secure_url: 'https://res.cloudinary.com/ross-brown/image/upload/v1472658621/gmvhrhxfg3443nd644l3.jpg',
+            url: 'http://res.cloudinary.com/ross-brown/image/upload/v1472658621/gmvhrhxfg3443nd644l3.jpg',
+            resource_type: 'image',
+            format: 'jpg',
+            height: 1800,
+            width: 2880,
+            public_id: 'gmvhrhxfg3443nd644l3'
+          }
+        },
+        currentUser: userRec
+      }, chatInterface).then((res) => {
+        return ActivityCompletion.model.findOne({_id: completionRec._id}).then((completion) => {
+          expect(completion).to.have.property('image')
+          expect(completion.image.url).to.not.be.undefined
+          expect(completion.image.public_id).to.not.be.undefined
+          expect(res.text).to.contain(i18n.t('activities.prompt_recommendation'))
+        })
+      })
+    })
+
   })
 
 })

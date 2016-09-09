@@ -128,7 +128,8 @@ module.exports = {
     acknowledge_recommendation: {
       positive: `Thanks! We'll let everyone know this is a good thing`,
       negative: `Bummer. We'll inform others so they won't have a bad time.`
-    }
+    },
+    image_received: `Excellent! Thanks for sharing.`
   },
 
   errors: {
