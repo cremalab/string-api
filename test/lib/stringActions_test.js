@@ -12,7 +12,7 @@ const chatInterface = {
   send: (msg) => msg
 }
 
-describe.only('stringActions', function() {
+describe('stringActions', function() {
   describe('string:start', () => {
     it('should return a text prompt', () => {
       return actions.handle('string:start', {}).then((res) => {
