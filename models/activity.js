@@ -1,5 +1,6 @@
 'use strict'
 
+const contentTagger = require('../lib/contentTagger')
 const random   = require('mongoose-simple-random')
 const keystone = require('keystone')
 const Types    = keystone.Field.Types
@@ -18,10 +19,11 @@ Activity.add({
   activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true },
   location: { type: Types.Relationship, ref: 'Location', initial: true },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
-  createdAt:   { type: Types.Datetime, required: true, default: Date.now },
+  createdAt:   { type: Types.Datetime, default: Date.now },
   category: { type: Types.Select, options: 'eat, drink, see, do', initial: true },
-  completedCount: { type: Number, default: 0, noedit: true },
-  recommendationScore: { type: Number, default: 0, noedit: true }
+  completedCount: { type: Types.Number, default: 0, noedit: true },
+  recommendationScore: { type: Types.Number, default: 0, noedit: true },
+  tags: { type: Types.TextArray, initial: true}
 })
 
 Activity.schema.plugin(random)
@@ -58,6 +60,9 @@ Activity.schema.pre('save', function(done) {
     keystone.list('ActivityList').model.findOne({_id: this.activity_list}, (err, list) => {
       if (list) {list.changeActivityCount(1)}
     })
+  }
+  if (this.isModified('description')) {
+    contentTagger.parseAndTag(this, this.description, this.category)
   }
   done()
 })

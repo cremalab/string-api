@@ -12,7 +12,7 @@ const chatInterface = {
   send: (msg) => msg
 }
 
-describe.only('activityActions', function() {
+describe('activityActions', function() {
   let userRec, activityRec, completionRec
   describe('activity:set_recommendation', () => {
     before(() => {

@@ -1,13 +1,11 @@
 'use strict'
 
-const request  = require('supertest');
+const request  = require('supertest')
 const helpers  = require('../../testHelpers')
-const keystone = require('../../keystoneTestHelper');
+const keystone = require('../../keystoneTestHelper')
 const expect   = require('chai').expect
 
-const app = keystone.app;
-
-let locationRec, userRecord;
+let locationRec, userRecord
 
 describe('Locations Route', function() {
   beforeEach( (done) => {
@@ -23,29 +21,29 @@ describe('Locations Route', function() {
   })
 
   it('requires auth', (done) => {
-    request(app)
-      .get("/api/locations")
+    request(keystone.app)
+      .get('/api/locations')
       .end( (err, res) => {
-        expect(res.statusCode).to.equal(401);
+        expect(res.statusCode).to.equal(401)
         done()
       })
   })
 
   it('list locations', (done) => {
-    request(app)
-      .get("/api/locations")
-      .set({"Authorization": userRecord.generateAuthToken() })
+    request(keystone.app)
+      .get('/api/locations')
+      .set({'Authorization': userRecord.generateAuthToken() })
       .end( (err, res) => {
-        expect(res.statusCode).to.equal(200);  //  Expect http response status code to be 200 ("Ok")
-        expect(res.body.locations).to.be.an('array');
+        expect(res.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
+        expect(res.body.locations).to.be.an('array')
         done()
       })
   })
 
   it('show a location with details', function(done) {
-    request(app)
+    request(keystone.app)
       .get(`/api/locations/${locationRec.id}`)
-      .set({"Authorization": userRecord.generateAuthToken() })
+      .set({'Authorization': userRecord.generateAuthToken() })
       .end( (err, res) => {
         expect(res.statusCode).to.equal(200)  //  Expect http response status code to be 200 ("Ok")
         expect(res.body).to.be.an('object')
@@ -56,11 +54,11 @@ describe('Locations Route', function() {
   })
 
   it('should create new locations', function(done) {
-    request(app)
+    request(keystone.app)
       .post(`/api/locations`)
-      .set({"Authorization": userRecord.generateAuthToken() })
+      .set({'Authorization': userRecord.generateAuthToken() })
       .send({
-        placeId: "ChIJ99ro0TzvwIcRZ4gy5tGQ_4o" // Burger King!
+        placeId: 'ChIJ99ro0TzvwIcRZ4gy5tGQ_4o' // Burger King!
       })
       .end( (err, res) => {
         expect(res.statusCode).to.equal(201)  //  Expect http response status code to be 200 ("Ok")

@@ -1,12 +1,10 @@
 'use strict'
 
-const request  = require('supertest');
+const request  = require('supertest')
 const helpers  = require('../../testHelpers')
-const keystone = require('../../keystoneTestHelper');
+const keystone = require('../../keystoneTestHelper')
 const expect   = require('chai').expect
-const Activity = keystone.list('Activity').model
 
-const app = keystone.app;
 
 let unauthUserRecord
 
@@ -15,12 +13,12 @@ describe('Locations Route', function() {
     Promise.all([helpers.cleanUp(), helpers.stubUnauthUser()]).then((values) => {
       unauthUserRecord = values[1]
       done()
-    });
+    })
   })
 
   it('errors on empty POST', (done) => {
-    request(app)
-      .post("/api/sessions")
+    request(keystone.app)
+      .post('/api/sessions')
       .end( (err, res) => {
         expect(res.statusCode).to.equal(400)
         done()
@@ -28,8 +26,8 @@ describe('Locations Route', function() {
   })
 
   it('errors on invalid verificationCode', (done) => {
-    request(app)
-      .post("/api/sessions")
+    request(keystone.app)
+      .post('/api/sessions')
       .send({
         tempToken: unauthUserRecord.tempToken,
         verificationCode: 88888
@@ -42,8 +40,8 @@ describe('Locations Route', function() {
 
 
   it('should return an authToken on valid POST', function(done) {
-    request(app)
-      .post("/api/sessions")
+    request(keystone.app)
+      .post('/api/sessions')
       .send({
         tempToken: unauthUserRecord.tempToken,
         verificationCode: unauthUserRecord.verificationCode
