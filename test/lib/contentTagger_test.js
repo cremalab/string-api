@@ -4,7 +4,7 @@ const expect   = require('chai').expect
 
 const foodTest = `Ate some extremely spicy veggie curry`
 
-describe.only('contentTagger', function() {
+describe('contentTagger', function() {
   describe('determineTags', () => {
     it('should return array of tags', () => {
       expect(contentTagger.determineTags(foodTest)).to.be.an('array')
