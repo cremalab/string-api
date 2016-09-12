@@ -41,7 +41,6 @@ exports.show = (req, response) => {
 }
 
 exports.create = (req, res) => {
-  console.log(req)
   var activity = new Activity.model(req.params.activity)
   activity.creator = req.currentUser._id
 
