@@ -14,7 +14,6 @@ var List               = keystone.list('ActivityList').model
 var Location           = keystone.list('Location').model
 var User               = keystone.list('User').model
 var ActivityCompletion = keystone.list('ActivityCompletion').model
-var ActivityCompletion = keystone.list('ActivityCompletion').model
 
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')

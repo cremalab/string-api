@@ -19,7 +19,7 @@ Activity.add({
   activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true },
   location: { type: Types.Relationship, ref: 'Location', initial: true },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
-  createdAt:   { type: Types.Datetime, required: true, default: Date.now },
+  createdAt:   { type: Types.Datetime, default: Date.now },
   category: { type: Types.Select, options: 'eat, drink, see, do', initial: true },
   completedCount: { type: Types.Number, default: 0, noedit: true },
   recommendationScore: { type: Types.Number, default: 0, noedit: true },

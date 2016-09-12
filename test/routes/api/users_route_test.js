@@ -1,13 +1,10 @@
 'use strict'
 
-const request  = require('supertest');
+const request  = require('supertest')
 const helpers  = require('../../testHelpers')
-const keystone = require('../../keystoneTestHelper');
+const keystone = require('../../keystoneTestHelper')
 const expect   = require('chai').expect
 
-const app = keystone.app;
-
-let listRecord, locationRecord, activityRecord, userRecord;
 
 describe('Users Route', function() {
   beforeEach( (done) => {
@@ -15,8 +12,8 @@ describe('Users Route', function() {
   })
 
   it('should throw error on empty payload', (done) => {
-    request(app)
-      .post("/api/users")
+    request(keystone.app)
+      .post('/api/users')
       .send({})
       .end( (err, res) => {
         expect(res.statusCode).to.equal(400)
@@ -25,8 +22,8 @@ describe('Users Route', function() {
   })
 
   it('should create with a valid payload', (done) => {
-    request(app)
-      .post("/api/users")
+    request(keystone.app)
+      .post('/api/users')
       .send({
         phone: 9999999999
       })
@@ -44,33 +41,33 @@ describe('Users Route', function() {
   })
 
   it('should require auth for put', (done) => {
-    helpers.stubAuthUser().then((userRecord) => {
-      request(app)
+    helpers.stubAuthUser().then(() => {
+      request(keystone.app)
         .put(`/api/users`)
         .send({
-          name: "Boaty McBoatface"
+          name: 'Boaty McBoatface'
         })
         .end( (err, res) => {
           expect(res.statusCode).to.equal(401)
           done()
         })
-      })
+    })
   })
 
   it('should update user with put', (done) => {
     helpers.stubAuthUser().then((userRecord) => {
-      request(app)
+      request(keystone.app)
         .put(`/api/users`)
-        .set({"Authorization": userRecord.generateAuthToken() })
+        .set({'Authorization': userRecord.generateAuthToken() })
         .send({
-          name: "Boaty McBoatface"
+          name: 'Boaty McBoatface'
         })
         .end( (err, res) => {
           expect(res.statusCode).to.equal(200)
-          expect(res.body.user.name).to.equal("Boaty McBoatface")
+          expect(res.body.user.name).to.equal('Boaty McBoatface')
           done()
         })
-      })
+    })
   })
 
 })

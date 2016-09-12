@@ -7,8 +7,8 @@ const ActivityList = keystone.list('ActivityList')
 exports.index = (req, res) => {
   ActivityList.paginate({
     page: req.query.page || 1,
-		perPage: 20,
-		maxPages: 10
+    perPage: 20,
+    maxPages: 10
   }).where({
     isKept: true,
     isPublished: true
@@ -24,18 +24,18 @@ exports.index = (req, res) => {
           totalPages: data.totalPages,
           currentPage: data.currentPage
         }
-      });
+      })
     } else {
-      return res.status(400).json(Boom.badImplementation(err));
+      return res.status(400).json(Boom.badImplementation(err))
     }
-  });
+  })
 }
 
 exports.mine = (req, res) => {
   ActivityList.paginate({
     page: req.query.page || 1,
-		perPage: 20,
-		maxPages: 10
+    perPage: 20,
+    maxPages: 10
   }).where({creator: req.currentUser._id})
   .populate('creator').sort('-createdAt')
   .exec((err, data) => {
@@ -49,11 +49,11 @@ exports.mine = (req, res) => {
           totalPages: data.totalPages,
           currentPage: data.currentPage
         }
-      });
+      })
     } else {
-      return res.status(400).json(Boom.badImplementation(err));
+      return res.status(400).json(Boom.badImplementation(err))
     }
-  });
+  })
 }
 
 exports.show = (req, res) => {
@@ -70,27 +70,23 @@ exports.show = (req, res) => {
       const completions = values[1]
       let listJSON      = list.toObject()
       listJSON.activities    = activities
-      return res.status(200).json({activity_list: listJSON, userCompletions: completions });
+      return res.status(200).json({activity_list: listJSON, userCompletions: completions })
     }).catch((err) => {
       res.status(422).json(Boom.badImplementation(err))
     })
-  });
+  })
 }
 
 exports.create = (req, res) => {
-  console.log('LIST CREATE!');
-  var list = new ActivityList.model(req.body);
+  var list = new ActivityList.model(req.body)
   list.creator = req.currentUser._id
-  console.log(list);
-  return list.save()
-  // return list.save().then((model) => {
-  //   console.log(model);
-  //   return res.status(201).json({activity_list: list.toObject()})
-  // }).catch((err) => {
-  //   if (11000 === err.code || 11001 === err.code) {
-  //     res.status(422).json(Boom.forbidden("please provide another list id, it already exist"));
-  //   } else res.status(422).json(Boom.forbidden(err)); // HTTP 403
-  // });
+  return list.save().then(() => {
+    return res.status(201).json({activity_list: list.toObject()})
+  }).catch((err) => {
+    if (11000 === err.code || 11001 === err.code) {
+      res.status(422).json(Boom.forbidden('please provide another list id, it already exist'))
+    } else res.status(422).json(Boom.forbidden(err)) // HTTP 403
+  })
 }
 
 exports.update = (req, res) => {
@@ -107,7 +103,7 @@ exports.update = (req, res) => {
         if (!err) {
           res.status(200).json({activity_list: list.toObject()})
         } else {
-          res.status(422).json(Boom.badImplementation(err));
+          res.status(422).json(Boom.badImplementation(err))
         }
       })
     }
@@ -120,15 +116,15 @@ exports.destroy = (req, res) => {
     'creator': req.currentUser._id
   }, function(err, list) {
     if (!err && list) {
-      list.remove();
+      list.remove()
       res.status(200).json({
-          message: "List deleted successfully"
-      });
+        message: 'List deleted successfully'
+      })
     } else if (!err) {
       // Couldn't find the object.
-      res.status(404).json(Boom.notFound());
+      res.status(404).json(Boom.notFound())
     } else {
-      res.status(422).json(Boom.badRequest("Could not delete List"));
+      res.status(422).json(Boom.badRequest('Could not delete List'))
     }
-  });
+  })
 }

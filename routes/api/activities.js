@@ -11,21 +11,22 @@ exports.index = (req, res) => {
   .limit(20)
   .exec((err, activities) => {
     if (!err) {
-      res.json({activities: activities});
+      res.json({activities: activities})
     } else {
-      res.json(Boom.badImplementation(err));// 500 error
+      res.json(Boom.badImplementation(err))// 500 error
     }
-  });
+  })
 }
 
 exports.show = (req, response) => {
+  console.log(req.params.activityId)
   Activity.model.findOne({
     '_id': req.params.activityId
   })
-  .populate('location list')
+  .populate(['location', 'activity_list'])
   .exec((err, activity) => {
     if (err) {
-      response.json(Boom.notFound(err));
+      response.json(Boom.notFound(err))
     } else {
       let res = activity.toJSON()
       // response.json({activity: res})
@@ -33,25 +34,28 @@ exports.show = (req, response) => {
         res.location = details
         response.json({activity: res})
       }).catch((err) => {
-        response.json({activity: res})
+        response.status(422).json(Boom.badRequest(err))
       })
     }
-  });
+  })
 }
 
-exports.create = (req, res,d) => {
-  var activity = new Activity.model(req.swagger.params.activity.value)
+exports.create = (req, res) => {
+  console.log(req)
+  var activity = new Activity.model(req.params.activity)
   activity.creator = req.currentUser._id
 
-  activity.save(function(err, user) {
+  activity.save(function(err) {
     if (err) {
+      console.log('error you dummy')
+      console.log(err)
       if (11000 === err.code || 11001 === err.code) {
-        res.status(403).json(Boom.forbidden("please provide another activity id, it already exist"))
+        res.status(403).json(Boom.forbidden('please provide another activity id, it already exist'))
       } else res.status(422).json(Boom.badRequest(err))
     } else {
       res.status(201).json({activity: activity})
     }
-  });
+  })
 }
 
 exports.update = (req, res) => {
@@ -62,18 +66,18 @@ exports.update = (req, res) => {
       res.status(404).json(Boom.notFound(err))
     }
     if (!err) {
-      activity.description = req.body.description;
+      activity.description = req.body.description
       activity.save(function(err, activity) {
         if (!err) {
-          res.status(200).json({activity: activity}); // HTTP 201
+          res.status(200).json({activity: activity}) // HTTP 201
         } else {
           res.status(422).json(Boom.forbidden(err))
         }
-      });
+      })
     } else {
-      res.status(422).json(Boom.badImplementation(err)); // 500 error
+      res.status(422).json(Boom.badImplementation(err)) // 500 error
     }
-  });
+  })
 }
 
 
@@ -82,15 +86,15 @@ exports.destroy = (req, res) => {
     '_id': req.params.activityId
   }, function(err, activity) {
     if (!err && activity) {
-      activity.remove();
+      activity.remove()
       res.json({
-          message: "Activity deleted successfully"
-      });
+        message: 'Activity deleted successfully'
+      })
     } else if (!err) {
       // Couldn't find the object.
-      res.status(404).json(Boom.notFound());
+      res.status(404).json(Boom.notFound())
     } else {
-      res.status(422).json(Boom.badRequest("Could not delete Activity"));
+      res.status(422).json(Boom.badRequest('Could not delete Activity'))
     }
-  });
+  })
 }
