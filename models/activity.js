@@ -61,15 +61,10 @@ Activity.schema.pre('save', function(done) {
       if (list) {list.changeActivityCount(1)}
     })
   }
+  if (this.isModified('description')) {
+    this.tags = contentTagger.determineTags(this.description, this.category)
+  }
   done()
-})
-
-Activity.schema.post('save', function() {
-  // const desc = this.description
-  // const cat = this.category
-  // const self = this
-  // DO THIS IN A WAY THAT DOESN'T LOOP FOREVER
-  // return contentTagger.parseAndTag(self, desc, cat)
 })
 
 Activity.relationship({

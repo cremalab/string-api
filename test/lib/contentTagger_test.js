@@ -13,5 +13,10 @@ describe.only('contentTagger', function() {
       expect(contentTagger.determineTags(foodTest, 'eat').length).to.be.greaterThan(0)
       expect(contentTagger.determineTags(foodTest, 'see').length).to.be.lessThan(1)
     })
+    it('should only return relevant tags', () => {
+      let tags = contentTagger.determineTags(`Ate a bland hamburger `, 'eat')
+      expect(tags).to.not.contain('vegetarian')
+      expect(tags).to.not.contain('vegan')
+    })
   })
 })
