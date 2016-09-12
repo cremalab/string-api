@@ -62,7 +62,7 @@ Activity.schema.pre('save', function(done) {
     })
   }
   if (this.isModified('description')) {
-    this.tags = contentTagger.determineTags(this.description, this.category)
+    contentTagger.parseAndTag(this, this.description, this.category)
   }
   done()
 })
