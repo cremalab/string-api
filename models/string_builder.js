@@ -1,7 +1,7 @@
 'use strict'
 
-const keystone = require('keystone');
-const Types    = keystone.Field.Types;
+const keystone = require('keystone')
+const Types    = keystone.Field.Types
 const random   = require('mongoose-simple-random')
 const R        = require('ramda')
 
@@ -39,5 +39,5 @@ StringBuilder.schema.methods.rejectLocations = function(location_ids) {
   return this.save().then((s) => this)
 }
 
-StringBuilder.register();
+StringBuilder.register()
 module.exports = StringBuilder
