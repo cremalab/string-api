@@ -13,5 +13,8 @@ describe('cloudinaryActions', function() {
     it('should have a upload_url', () => {
       expect(actions.generateUploadParams()).to.have.property('upload_url')
     })
+    it('should have a api_key', () => {
+      expect(actions.generateUploadParams()).to.have.property('api_key')
+    })
   })
 })
