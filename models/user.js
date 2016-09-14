@@ -50,7 +50,7 @@ User.schema.virtual('canAccessKeystone').get(function() {
 
 User.relationship({ path: 'activity_lists', ref: 'ActivityList', refPath: 'creator' })
 User.relationship({ path: 'activities', ref: 'Activity', refPath: 'creator' })
-User.relationship({ path: 'activity_completions', ref: 'ActivityCompletion', refPath: 'user' })
+// User.relationship({ path: 'activity_completions', ref: 'ActivityCompletion', refPath: 'user' })
 User.relationship({ path: 'string_builders', ref: 'StringBuilder', refPath: 'user' })
 
 User.schema.methods.generateAuthToken = function() {

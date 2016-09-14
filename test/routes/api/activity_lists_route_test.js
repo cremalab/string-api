@@ -60,8 +60,6 @@ describe('Activity Lists Route', function() {
         expect(res.statusCode).to.equal(200)
         expect(res.body).to.be.an('object')
         expect(res.body.activity_list).to.be.an('object')
-        expect(res.body.activity_list.activities).to.be.an('array')
-        expect(res.body.activity_list.activities[0].location).to.be.an('object')
         expect(res.body.userCompletions).to.be.an('array')
         done()
       })

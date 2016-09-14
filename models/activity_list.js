@@ -1,12 +1,12 @@
 'use strict'
 
-const keystone = require('keystone');
-const Types = keystone.Field.Types;
+const keystone = require('keystone')
+const Types = keystone.Field.Types
 const ActivityList = new keystone.List('ActivityList', {
-  defaultColumns: 'description, creator, createdAt, activityCount',
-  map: {name: 'description'},
-  searchFields: 'description'
-});
+  defaultColumns: 'id, description, creator, createdAt, activityCount',
+  searchFields: 'description',
+  defaultSort: '-createdAt'
+})
 
 ActivityList.add({
   description: { type: Types.Textarea, initial: true },
@@ -52,21 +52,22 @@ ActivityList.schema.methods.collectCompletions = function(user) {
   })
 }
 
+ActivityList.relationship({
+  path: 'activity_completions', ref: 'ActivityCompletion', refPath: 'activity_list'
+})
+
 ActivityList.schema.methods.changeActivityCount = function(inc) {
   this.activityCount+=inc
   return this.save()
 }
 
-ActivityList.relationship({ path: 'string_builders', ref: 'StringBuilder', refPath: 'activity_list' });
+ActivityList.relationship({ path: 'string_builders', ref: 'StringBuilder', refPath: 'activity_list' })
 
 ActivityList.schema.pre('remove', function(done) {
-  keystone.list('Activity').model.where('activity_list', this.id).remove().exec()
+  keystone.list('ActivityCompletion').model.where('activity_list', this.id).remove().exec()
   done()
 })
 
-ActivityList.relationship({
-  path: 'activities', ref: 'Activity', refPath: 'activity_list'
-});
 
 ActivityList.register()
 module.exports = ActivityList
