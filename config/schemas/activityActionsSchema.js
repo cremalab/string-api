@@ -19,8 +19,8 @@ module.exports = {
     action: Joi.string(),
     params: Joi.object({
       takePhoto: Joi.boolean().required(),
-      activity_completion: Joi.object(),
-      activity: Joi.object()
+      activity_completion: Joi.string(),
+      activity: Joi.string()
     }).required().description('key/value pairs for data to be sent back')
   }),
   add_image: Joi.object({
