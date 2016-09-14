@@ -1,7 +1,7 @@
 const Joi     = require('joi')
 
 const botMessageSchema = Joi.object({
-  text: Joi.string().optional().example('I am String and I am cool.'),
+  text: Joi.any().optional().example('I am String and I am cool.'),
   date: Joi.date().required(),
   id: Joi.string().required(),
   position: Joi.string().valid(['left', 'right', 'center']).required().example('right'),
