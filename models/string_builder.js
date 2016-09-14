@@ -8,9 +8,8 @@ const R        = require('ramda')
 const StringBuilder = new keystone.List('StringBuilder', {
   searchFields: 'user last_location',
   defaultColumns: 'name, last_location, user, activity_type, createdAt',
-  track: true,
-  searchFields: 'name, placeId'
-});
+  track: true
+})
 
 StringBuilder.add({
   user: { type: Types.Relationship, ref: 'User', required: true, initial: true },
@@ -25,13 +24,13 @@ StringBuilder.add({
   },
   last_activity: {
     type: Types.Relationship, ref: 'Activity', initial: true,
-    label: 'Last Suggested Activity'
+    label: 'Last Suggested Activity', noedit: true
   },
   activity_type: {
     type: Types.Select, options: 'eat, drink, see, do', initial: true,
     label: 'Current Activity Category'
   },
-  activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true },
+  activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true }
 })
 
 StringBuilder.schema.methods.rejectLocations = function(location_ids) {
