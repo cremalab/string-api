@@ -4,7 +4,8 @@ const keystone = require('keystone')
 const Types = keystone.Field.Types
 const ActivityList = new keystone.List('ActivityList', {
   defaultColumns: 'id, description, creator, createdAt, activityCount',
-  searchFields: 'description'
+  searchFields: 'description',
+  defaultSort: '-createdAt'
 })
 
 ActivityList.add({
@@ -51,6 +52,10 @@ ActivityList.schema.methods.collectCompletions = function(user) {
   })
 }
 
+ActivityList.relationship({
+  path: 'activity_completions', ref: 'ActivityCompletion', refPath: 'activity_list'
+})
+
 ActivityList.schema.methods.changeActivityCount = function(inc) {
   this.activityCount+=inc
   return this.save()
@@ -63,9 +68,6 @@ ActivityList.schema.pre('remove', function(done) {
   done()
 })
 
-ActivityList.relationship({
-  path: 'activity_completions', ref: 'ActivityCompletion', refPath: 'activity_list'
-})
 
 ActivityList.register()
 module.exports = ActivityList

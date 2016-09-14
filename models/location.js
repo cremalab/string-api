@@ -1,7 +1,7 @@
 'use strict'
 
-const keystone = require('keystone');
-const Types = keystone.Field.Types;
+const keystone = require('keystone')
+const Types = keystone.Field.Types
 const Places = require('../lib/places')
 const random = require('mongoose-simple-random')
 
@@ -14,8 +14,8 @@ const Location = new keystone.List('Location', {
 
 Location.add({
   placeId:   {
-    type: String, initial: true, label: "Google Maps Place ID",
-    note: "Unique identifier for Google API lookup",
+    type: String, initial: true, label: 'Google Maps Place ID',
+    note: 'Unique identifier for Google API lookup',
     index: true
   },
   name: { type: String, initial: true },
@@ -28,7 +28,7 @@ Location.schema.methods.getDetails = function() {
 
 Location.relationship({
   path: 'activities', ref: 'Activity', refPath: 'location'
-});
+})
 
 Location.schema.pre('save', function(done) {
   this.getDetails().then(done)
@@ -38,7 +38,7 @@ Location.schema.plugin(random)
 
 Location.relationship({
   path: 'activities', ref: 'Activity', refPath: 'location'
-});
+})
 
-Location.register();
+Location.register()
 module.exports = Location
