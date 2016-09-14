@@ -133,7 +133,7 @@ describe('activityActions', function() {
       return actions.handle('activity:add_image', {
         params: {
           activity_completion: `${completionRec._id}`,
-          image: {
+          media: {
             secure_url: 'https://res.cloudinary.com/ross-brown/image/upload/v1472658621/gmvhrhxfg3443nd644l3.jpg',
             url: 'http://res.cloudinary.com/ross-brown/image/upload/v1472658621/gmvhrhxfg3443nd644l3.jpg',
             resource_type: 'image',

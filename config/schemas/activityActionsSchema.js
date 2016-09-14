@@ -30,7 +30,7 @@ module.exports = {
     action: Joi.string(),
     params: Joi.object({
       activity_completion: Joi.string().required(),
-      image: Joi.object({
+      media: Joi.object({
         secure_url: Joi.string().uri().required(),
         url: Joi.string().uri().required(),
         resource_type: Joi.string().required().allow('image'),
