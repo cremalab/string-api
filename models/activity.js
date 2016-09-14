@@ -7,16 +7,13 @@ const Types    = keystone.Field.Types
 const Activity = new keystone.List('Activity', {
   searchFields: 'description',
   defaultColumns: 'description, location, creator, createdAt, category',
-  drilldown: 'activity_list',
   sortable: true,
-  sortContext: 'ActivityList:activities',
-  defaultSort: 'createdAt',
+  defaultSort: '-createdAt',
   map: {name: 'description'}
 })
 
 Activity.add({
   description: { type: Types.Textarea, required: true, initial: true },
-  activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true },
   location: { type: Types.Relationship, ref: 'Location', initial: true },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
   createdAt:   { type: Types.Datetime, default: Date.now },
@@ -48,19 +45,7 @@ Activity.schema.methods.getLocationData = function() {
   })
 }
 
-Activity.schema.pre('remove', function(done) {
-  keystone.list('ActivityList').model.findOne({_id: this.list}, (err, list) => {
-    if (list) {list.changeActivityCount(-1)}
-  })
-  done()
-})
-
 Activity.schema.pre('save', function(done) {
-  if (this.isNew) {
-    keystone.list('ActivityList').model.findOne({_id: this.activity_list}, (err, list) => {
-      if (list) {list.changeActivityCount(1)}
-    })
-  }
   if (this.isModified('description')) {
     contentTagger.parseAndTag(this, this.description, this.category)
   }

@@ -62,14 +62,8 @@ exports.show = (req, res) => {
   .exec((err, list) => {
     if (err) { return res.status(422).json(Boom.notFound(err)) }
     if (!list) { return res.status(404).json(Boom.notFound()) }
-    Promise.all([
-      list.collectActivities(),
-      list.collectCompletions(req.currentUser)
-    ]).then((values) => {
-      const activities  = values[0]
-      const completions = values[1]
+    return list.collectCompletions(req.currentUser).then((completions) => {
       let listJSON      = list.toObject()
-      listJSON.activities    = activities
       return res.status(200).json({activity_list: listJSON, userCompletions: completions })
     }).catch((err) => {
       res.status(422).json(Boom.badImplementation(err))

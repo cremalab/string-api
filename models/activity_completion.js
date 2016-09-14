@@ -3,7 +3,9 @@
 const keystone = require('keystone')
 const Types = keystone.Field.Types
 const ActivityCompletion = new keystone.List('ActivityCompletion', {
-  defaultColumns: 'user, activity, createdAt'
+  defaultColumns: 'user, activity, createdAt',
+  drilldown: 'activity_list',
+  sortContext: 'ActivityList:activities'
 })
 
 ActivityCompletion.add({
@@ -18,6 +20,7 @@ ActivityCompletion.add({
     label: 'Completed with:'
   },
   location:      { type: Types.Relationship, ref: 'Location'},
+  activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true },
   recommended:   {
     type: Types.Select,
     options: 'yes, no',
@@ -48,6 +51,10 @@ ActivityCompletion.schema.pre('remove', function(next) {
   let recommendationInc = 0
   if (this.recommended == 'yes') {recommendationInc = -1}
   if (this.recommended == 'no')  {recommendationInc = 1}
+  keystone.list('ActivityList').model.findOne({_id: this.activity_list}, (err, list) => {
+    if (list) {list.changeActivityCount(-1)}
+  })
+
   return keystone.list('Activity').model.findOneAndUpdate({_id: this.activity}, {
     $inc: {completedCount: -1, recommendationScore: recommendationInc}
   }, {}).then(() => {
@@ -58,9 +65,9 @@ ActivityCompletion.schema.pre('remove', function(next) {
   })
 })
 
-ActivityCompletion.schema.virtual('activity_list').get(function() {
-  return this.activity.activity_list
-})
+// ActivityCompletion.schema.virtual('activity_list').get(function() {
+//   return this.activity.activity_list
+// })
 
 ActivityCompletion.register()
 module.exports = ActivityCompletion
