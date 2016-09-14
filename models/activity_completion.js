@@ -5,7 +5,8 @@ const Types = keystone.Field.Types
 const ActivityCompletion = new keystone.List('ActivityCompletion', {
   defaultColumns: 'user, activity, createdAt',
   drilldown: 'activity_list',
-  sortContext: 'ActivityList:activities'
+  sortContext: 'ActivityList:activities',
+  defaultSort: '-createdAt'
 })
 
 ActivityCompletion.add({

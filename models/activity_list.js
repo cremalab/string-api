@@ -3,8 +3,7 @@
 const keystone = require('keystone')
 const Types = keystone.Field.Types
 const ActivityList = new keystone.List('ActivityList', {
-  defaultColumns: 'description, creator, createdAt, activityCount',
-  map: {name: 'description'},
+  defaultColumns: 'id, description, creator, createdAt, activityCount',
   searchFields: 'description'
 })
 

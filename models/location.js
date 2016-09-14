@@ -6,11 +6,11 @@ const Places = require('../lib/places')
 const random = require('mongoose-simple-random')
 
 const Location = new keystone.List('Location', {
-  searchFields: 'name placeId',
   defaultColumns: 'name, placeId',
   track: true,
+  defaultSort: '-createdAt',
   searchFields: 'name, placeId'
-});
+})
 
 Location.add({
   placeId:   {
