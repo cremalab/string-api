@@ -13,6 +13,7 @@ ActivityList.add({
   createdAt: { type: Types.Datetime, required: true, default: Date.now },
   activityCount: { type: Types.Number, default: 0 },
   creator: { type: Types.Relationship, ref: 'User', required: true, initial: true },
+  finishedAt: { type: Types.Datetime },
   isPublished: { type: Types.Boolean, default: false, initial: true },
   isKept: { type: Types.Boolean, default: false, initial: true } // See below
 })

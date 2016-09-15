@@ -31,7 +31,8 @@ StringBuilder.add({
     type: Types.Select, options: 'eat, drink, see, do', initial: true,
     label: 'Current Activity Category'
   },
-  activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true }
+  activity_list: { type: Types.Relationship, ref: 'ActivityList', initial: true },
+  finishedAt: { type: Types.Datetime }
 })
 
 StringBuilder.schema.methods.rejectLocations = function(location_ids) {
