@@ -19,7 +19,8 @@ Location.add({
     index: true
   },
   name: { type: String, initial: true },
-  info: { type: Types.Location, initial: true }
+  info: { type: Types.Location, initial: true },
+  primaryCategory: { type: Types.Select, options: 'eat, drink, see, do', initial: true } // Set when creating location
 })
 
 Location.schema.methods.getDetails = function() {

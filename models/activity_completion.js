@@ -43,14 +43,7 @@ ActivityCompletion.schema.pre('save', function(next) {
   if (this.isNew) { completedInc = 1 }
   keystone.list('Activity').model.findOneAndUpdate({_id: this.activity}, {
     $inc: {completedCount: completedInc, recommendationScore: recommendationInc}
-  }, {new: true}).then(() => {
-    return keystone.list('ActivityList').model.findOneAndUpdate(
-      {_id: this.activity_list},
-      {$inc: {activityCount: 1}}
-    )
-  }).then(() => {
-    return next()
-  })
+  }).then(next)
 })
 
 ActivityCompletion.schema.pre('remove', function(next) {
