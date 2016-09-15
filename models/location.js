@@ -20,7 +20,8 @@ Location.add({
   },
   name: { type: String, initial: true },
   info: { type: Types.Location, initial: true },
-  primaryCategory: { type: Types.Select, options: 'eat, drink, see, do', initial: true } // Set when creating location
+  primaryCategory: { type: Types.Select, options: 'eat, drink, see, do', initial: true }, // Set when creating location
+  tags: { type: Types.TextArray, initial: true}
 })
 
 Location.schema.methods.getDetails = function() {
