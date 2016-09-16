@@ -26,7 +26,7 @@ describe('locationSearcher', function() {
         expect(Object.keys(location)).to.include('name')
       })
     })
-    it.only('should find locations within radius if sent coordinates', () => {
+    it('should find locations within radius if sent coordinates', () => {
       return LocationSearcher.findOne({
         activity_type: 'eat',
         userLocation: {
