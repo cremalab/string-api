@@ -25,6 +25,11 @@ Activity.add({
 
 Activity.schema.plugin(random)
 
+// to hold lat/long of occurance from Locaiton, denormalized querying
+Activity.schema.add({
+  geo: { type: [Number], index: '2dsphere' }
+})
+
 Activity.schema.methods.changeCompletedCount = function(inc) {
   this.completedCount+=inc
   return this.save()
@@ -48,6 +53,12 @@ Activity.schema.methods.getLocationData = function() {
 Activity.schema.pre('save', function(done) {
   if (this.isModified('description')) {
     contentTagger.parseAndTag(this, this.description, this.category)
+  }
+  if (!this.geo) {
+    return keystone.list('Location').model.findOne({_id: this.location}).then((loc) => {
+      this.geo = loc.info.geo
+      return this.save().then(done)
+    })
   }
   done()
 })
