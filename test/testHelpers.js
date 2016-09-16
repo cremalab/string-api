@@ -89,8 +89,7 @@ exports.stubList = function(user) {
           location: location._id,
           creator: user._id
         })
-        activity.save((err) => {
-          if (err) {return reject(err)}
+        activity.save((err, activity) => {
           return resolve(list)
         })
       })
@@ -100,10 +99,7 @@ exports.stubList = function(user) {
 
 exports.stubLocation = function() {
   let location = new Location({
-    placeId: 'ChIJ99ro0TzvwIcRZ4gy5tGQ_4o',
-    info: {
-      geo: [-94.593149099999990881, 38.998791099999998266] // Main/Armour Burger King
-    }
+    placeId: 'ChIJ99ro0TzvwIcRZ4gy5tGQ_4o'
   })
   return new Promise((resolve, reject) => {
     location.save((err, location) => {
