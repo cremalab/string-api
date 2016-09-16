@@ -5,7 +5,8 @@ const userMessageSchema = Joi.object({
   token: Joi.string().required(),
   params: Joi.object({}).optional().description('key/value pairs for data to be sent back'),
   action: Joi.string().optional().example('string.get_suggested_location')
-    .description('action that this message should trigger')
+    .description('action that this message should trigger'),
+  userLocation: Joi.object({}).optional()
 })
 
 module.exports = userMessageSchema
