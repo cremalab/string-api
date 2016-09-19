@@ -233,6 +233,16 @@ describe('stringActions', function() {
         last_location: locationRec
       }).save()
       .then(() => {
+        // create an activity so there's an alternate suggestion for the test
+        return new Activity.model({
+          description: `Pies!`,
+          category: `eat`,
+          location: locationRec,
+          creator: userRec,
+          recommendationScore: 3
+        }).save()
+      })
+      .then(() => {
         return actions.handle('string:respond_to_activity_suggestion', {
           currentUser: userRec,
           params: {accepted: false, activity: `${activityRec._id}`, activity_type: 'eat'}

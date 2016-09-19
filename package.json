@@ -10,7 +10,7 @@
     "dotenv": "^1.1.0",
     "joi": "^9.0.0",
     "jsonwebtoken": "^5.7.0",
-    "keystone": "^4.0.0-beta.1",
+    "keystone": "^4.0.0-beta.2",
     "mongoose": "^4.5.4",
     "mongoose-simple-random": "^0.3.3",
     "node-googleplaces": "^0.1.2",
