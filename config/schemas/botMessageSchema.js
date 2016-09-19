@@ -18,6 +18,7 @@ const botMessageSchema = Joi.object({
     })).optional(),
     multi: Joi.boolean().optional().default(false)
   }),
+  visible: Joi.boolean().default(true).description('whether the message text should be visible on the client'),
   responseAction: Joi.string().optional().example('string.type'),
   responseParams: Joi.object().optional().description('additional params to pass with the response'),
   responseType: Joi.string().valid(['choice', 'text', 'media'])
