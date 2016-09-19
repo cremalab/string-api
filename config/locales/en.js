@@ -238,6 +238,10 @@ module.exports = {
     ]
   },
 
+  users: {
+    request_geo:  `Hey! I need to know where you are right now.`
+  },
+
   errors: {
     no_locations: `This is embarassing...I'm all out of places to {activity_type}.`,
     no_activities: `Looks like I can't make any suggestions for what to do here. Try something out and let me know what you did!`
