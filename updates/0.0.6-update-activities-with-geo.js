@@ -5,7 +5,8 @@ const keystone = require('keystone'),
 function copyLocationData(activity, done) {
   console.log(`start copy on ${activity._id}`)
   return keystone.list('Location').model.findOne({_id: activity.location}).then((loc) => {
-    if (!loc) { return Promise.resolve(activity) }
+    console.log(loc)
+    if (!loc || !loc.info.geo) { return Promise.resolve(activity) }
     activity.geo = loc.info.geo
     console.log('location geo:', loc.info.geo)
     return keystone.list('Activity').model.findOneAndUpdate(
