@@ -2,7 +2,6 @@
 const actions            = require('../../lib/chatActions')
 const expect             = require('chai').expect
 const helpers            = require('../testHelpers')
-const i18n               = require('../../config/i18n')
 const en                 = require('../../config/locales/en')
 const keystone           = require('keystone')
 const ActivityCompletion = keystone.list('ActivityCompletion')

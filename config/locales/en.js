@@ -240,6 +240,6 @@ module.exports = {
 
   errors: {
     no_locations: `This is embarassing...I'm all out of places to {activity_type}.`,
-    no_activities: `Doesn't look like anybody has told me about things they've done here. You could be the first!`
+    no_activities: `Looks like I can't make any suggestions for what to do here. Try something out and let me know what you did!`
   }
 }
