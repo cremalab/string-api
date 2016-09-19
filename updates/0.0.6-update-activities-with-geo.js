@@ -10,7 +10,7 @@ function copyLocationData(activity, done) {
     console.log('location geo:', loc.info.geo)
     return keystone.list('Activity').model.findOneAndUpdate(
       {_id: activity._id},
-      {geo: location.info.geo},
+      {geo: loc.info.geo},
       {new: true}
     )
   }).then((activity) => {
