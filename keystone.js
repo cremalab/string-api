@@ -24,10 +24,11 @@ keystone.init({
   'static': 'public',
   'favicon': 'public/favicon.ico',
   'views': 'templates/views',
-  'view engine': 'jade',
+  'view engine': 'pug',
 
   'auto update': true,
   'session': true,
+  'session store': 'mongo',
   'auth': true,
   'user model': 'User',
   'google server api key': process.env.GOOGLE_API_KEY,
