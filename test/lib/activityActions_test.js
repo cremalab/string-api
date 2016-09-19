@@ -3,6 +3,7 @@ const actions            = require('../../lib/chatActions')
 const expect             = require('chai').expect
 const helpers            = require('../testHelpers')
 const i18n               = require('../../config/i18n')
+const en                 = require('../../config/locales/en')
 const keystone           = require('keystone')
 const ActivityCompletion = keystone.list('ActivityCompletion')
 // const StringBuilder      = keystone.list('StringBuilder')
@@ -52,7 +53,7 @@ describe('activityActions', function() {
         return ActivityCompletion.model.findOne({_id: completionRec._id})
         .then((completion) => {
           expect(completion.recommended).to.equal('yes')
-          expect(res.text).to.contain(i18n.t('strings.continue'))
+          expect(res.text).to.be.oneOf(en.strings.continue)
         })
       })
     })
@@ -89,7 +90,7 @@ describe('activityActions', function() {
         currentUser: userRec
       }, chatInterface).then((res) => {
         expect(res).to.be.an('object')
-        expect(res.text).to.contain(i18n.t('activities.prompt_recommendation'))
+        expect(res.text).to.be.oneOf(en.activities.prompt_recommendation)
       })
     })
 
@@ -149,7 +150,7 @@ describe('activityActions', function() {
           expect(completion).to.have.property('image')
           expect(completion.image.url).to.not.be.undefined
           expect(completion.image.public_id).to.not.be.undefined
-          expect(res.text).to.contain(i18n.t('activities.prompt_recommendation'))
+          expect(res.text).to.be.oneOf(en.activities.prompt_recommendation)
         })
       })
     })
