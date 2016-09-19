@@ -52,7 +52,9 @@ describe('activityActions', function() {
         return ActivityCompletion.model.findOne({_id: completionRec._id})
         .then((completion) => {
           expect(completion.recommended).to.equal('yes')
-          expect(res.text).to.be.oneOf(en.strings.continue)
+          expect(res.responseType).to.equal('userLocation')
+          expect(res.responseAction).to.equal('user:set_geo')
+          expect(res.responseParams.nextAction).to.equal('string:continue')
         })
       })
     })
