@@ -15,6 +15,7 @@
     "mongoose": "^4.5.4",
     "mongoose-simple-random": "^0.3.3",
     "node-googleplaces": "^0.1.2",
+    "pug": "^2.0.0-beta6",
     "ramda": "^0.21.0",
     "rand-token": "^0.2.1",
     "sha1": "^1.1.1",
