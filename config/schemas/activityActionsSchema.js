@@ -3,6 +3,7 @@ const Joi = require('joi')
 module.exports = {
   set_recommendation: Joi.object({
     currentUser: Joi.object({}).required().unknown(true),
+    userLocation: Joi.object().optional().unknown(true),
     text: Joi.string().optional(),
     token: Joi.string(),
     action: Joi.string(),
@@ -14,6 +15,7 @@ module.exports = {
   }),
   handle_image_choice: Joi.object({
     currentUser: Joi.object({}).required().unknown(true),
+    userLocation: Joi.object().optional().unknown(true),
     text: Joi.string().optional(),
     token: Joi.string(),
     action: Joi.string(),
@@ -25,6 +27,7 @@ module.exports = {
   }),
   add_image: Joi.object({
     currentUser: Joi.object({}).required().unknown(true),
+    userLocation: Joi.object().optional().unknown(true),
     text: Joi.string().optional(),
     token: Joi.string(),
     action: Joi.string(),

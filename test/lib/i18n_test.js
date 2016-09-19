@@ -5,6 +5,9 @@ const expect   = require('chai').expect
 const testLocale = {
   example: `Cheeseburgers.`,
   welcome: `Hello there, {name}!`,
+  dance: [
+    `Boogie`, `Hustle`, `Awww Freak Out`
+  ],
   instructions: {
     type: `Press the {key} key on the keyboard, {name}`,
     click: `Click the {button} mouse button, {name}`,
@@ -24,7 +27,6 @@ const testLocale = {
 describe('i18n', function() {
   describe('t', () => {
     it('should accept a locale object', () => {
-      console.log(i18n.t('example', {}, testLocale));
       expect(i18n.t('example', {}, testLocale)).to.equal('Cheeseburgers.')
     })
     it('should return a string', () => {
@@ -48,5 +50,10 @@ describe('i18n', function() {
         i18n.t('instructions.karate:chop', {}, testLocale)
       ).to.equal(`Hi-YA!`)
     })
+    it('will choose random option from array of alternatives', () => {
+      const s = i18n.t('dance', {}, testLocale)
+      expect(s).to.be.a(`String`)
+      expect(testLocale['dance']).to.contain(s)
+    })
   })
-});
+})

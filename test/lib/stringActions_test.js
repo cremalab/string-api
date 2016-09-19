@@ -3,6 +3,7 @@ const actions            = require('../../lib/chatActions')
 const expect             = require('chai').expect
 const helpers            = require('../testHelpers')
 const i18n               = require('../../config/i18n')
+const en                 = require('../../config/locales/en')
 const keystone           = require('keystone')
 const StringBuilder      = keystone.list('StringBuilder')
 const ActivityCompletion = keystone.list('ActivityCompletion')
@@ -17,7 +18,7 @@ describe('stringActions', function() {
     it('should return a text prompt', () => {
       return actions.handle('string:start', {}).then((res) => {
         expect(res).to.be.an('object')
-        expect(res.text).to.contain(i18n.t('strings.start'))
+        expect(res.text).to.be.oneOf(en.strings.start)
       })
     })
     it('should return choices', () => {
