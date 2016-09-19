@@ -7,9 +7,12 @@ function copyLocationData(activity, done) {
   return keystone.list('Location').model.findOne({_id: activity.location}).then((loc) => {
     if (!loc) { return Promise.resolve(activity) }
     activity.geo = loc.info.geo
-    console.log(activity)
     console.log('location geo:', loc.info.geo)
-    return activity.save()
+    return keystone.list('Activity').model.findOneAndUpdate(
+      {_id: activity._id},
+      {geo: location.info.geo},
+      {new: true}
+    )
   }).then((activity) => {
     console.log(`saved activity ${activity._id} with geo ${JSON.stringify(activity.geo)}`)
     return done()
