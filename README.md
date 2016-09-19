@@ -122,8 +122,9 @@ params: {
 
 #### User Response Types
 
-| responseType | Description                                                                                          | requires                                                                                                      |
-|--------------|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| `choice`     | Renders multiple buttons for a user's selection.                                                     | a `responseOptions` object with an `items` array property. Each item must have `text` and `params` attributes |
-| `text`       | Reveals a keyboard for user text input. Returns text as a `text` property on the response payload.   |                                                                                                               |
-| `meda`       | Prompts the user for a photo/video. Returns uploaded media object as `media` on the response payload |                                                                                                               |
+| responseType   | Description                                                                                                             | requires                                                                                                      |
+|----------------|-------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| `choice`       | Renders multiple buttons for a user's selection.                                                                        | a `responseOptions` object with an `items` array property. Each item must have `text` and `params` attributes |
+| `text`         | Reveals a keyboard for user text input. Returns text as a `text` property on the response payload.                      |                                                                                                               |
+| `meda`         | Prompts the user for a photo/video. Returns uploaded media object as `media` on the response payload                    |                                                                                                               |
+| `userLocation` | Prompts user device for geo-location information. Immediately returns a response with updated `userLocation` attribute  | a `nextAction` string param describing what action should be handled after response from client               |
