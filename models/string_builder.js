@@ -2,7 +2,6 @@
 
 const keystone = require('keystone')
 const Types    = keystone.Field.Types
-const random   = require('mongoose-simple-random')
 const R        = require('ramda')
 
 const StringBuilder = new keystone.List('StringBuilder', {
@@ -15,6 +14,7 @@ const StringBuilder = new keystone.List('StringBuilder', {
 StringBuilder.add({
   user: { type: Types.Relationship, ref: 'User', required: true, initial: true },
   rejected_locations: { type: Types.Relationship, ref: 'Location', many: true, initial: true },
+  rejected_activities: { type: Types.Relationship, ref: 'Activity', many: true },
   party_type: {
     type: Types.Select, options: 'solo, date, friends, family', initial: true,
     label: 'Current Activity Category'
@@ -36,9 +36,15 @@ StringBuilder.add({
 })
 
 StringBuilder.schema.methods.rejectLocations = function(location_ids) {
-  const isAvail = (val,key) => !R.isNil(val)
+  const isAvail = (val) => !R.isNil(val)
   this.rejected_locations = R.uniq(R.filter(isAvail, this.rejected_locations).concat(location_ids))
-  return this.save().then((s) => this)
+  return this.save().then(() => this)
+}
+
+StringBuilder.schema.methods.rejectActivity = function(activity_id) {
+  return StringBuilder.model.findOneAndUpdate({_id: this.id}, {
+    $addToSet: { rejected_activities: activity_id}
+  }, {new: true})
 }
 
 StringBuilder.register()
