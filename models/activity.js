@@ -7,7 +7,6 @@ const Types    = keystone.Field.Types
 const Activity = new keystone.List('Activity', {
   searchFields: 'description',
   defaultColumns: 'description, location, creator, createdAt, category',
-  sortable: true,
   defaultSort: '-createdAt',
   map: {name: 'description'}
 })
