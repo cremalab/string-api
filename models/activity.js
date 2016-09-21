@@ -5,7 +5,7 @@ const random   = require('mongoose-simple-random')
 const keystone = require('keystone')
 const Types    = keystone.Field.Types
 const Activity = new keystone.List('Activity', {
-  searchFields: 'description',
+  searchFields: 'description tags',
   defaultColumns: 'description, location, creator, createdAt, category',
   defaultSort: '-createdAt',
   map: {name: 'description'}

@@ -72,7 +72,8 @@ keystone.set('nav', {
   'locations': 'Location',
   'Activity Lists': 'ActivityList',
   'Completions': 'ActivityCompletion',
-  'String Builders': 'StringBuilder'
+  'String Builders': 'StringBuilder',
+  'Taggers': 'Tagger'
 })
 
 module.exports = keystone
