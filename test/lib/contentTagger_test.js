@@ -12,7 +12,13 @@ describe('contentTagger', function() {
       tag: 'vegetarian', activity_types: [`eat`, 'drink'], keywords: [
         `veggie`, `vegetarian`, `vegan`
       ]
-    }).save()
+    }).save().then(() => {
+      return new Tagger.model({
+        tag: 'dairy', activity_types: [`eat`, 'drink'], keywords: [
+          `milk`, `dairy`, `cream`, `butter`
+        ], active: false
+      }).save()
+    })
   })
   describe('determineTags', () => {
     it('should return array of tags', () => {
@@ -30,6 +36,11 @@ describe('contentTagger', function() {
       contentTagger.determineTags(`Ate a bland hamburger `, 'eat').then((tags) => {
         expect(tags).to.not.contain('vegetarian')
         expect(tags).to.not.contain('vegan')
+      })
+    })
+    it('should only return active tags', () => {
+      contentTagger.determineTags(`Chocolate milkshakes!`, 'drink').then((tags) => {
+        expect(tags).to.not.contain('dairy')
       })
     })
   })
