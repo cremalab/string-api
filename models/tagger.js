@@ -5,7 +5,7 @@ const Types    = keystone.Field.Types
 
 const Tagger = new keystone.List('Tagger', {
   searchFields: 'tag keywords',
-  defaultColumns: 'tag, keywords',
+  defaultColumns: 'tag, keywords, activity_types',
   defaultSort: '-createdAt',
   track: true,
   map: {name: 'tag'}
