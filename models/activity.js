@@ -5,7 +5,7 @@ const random   = require('mongoose-simple-random')
 const keystone = require('keystone')
 const Types    = keystone.Field.Types
 const Activity = new keystone.List('Activity', {
-  searchFields: 'description',
+  searchFields: 'description tags',
   defaultColumns: 'description, location, creator, createdAt, category',
   defaultSort: '-createdAt',
   map: {name: 'description'}
@@ -50,16 +50,20 @@ Activity.schema.methods.getLocationData = function() {
 }
 
 Activity.schema.pre('save', function(done) {
+  let tagAction, geoAction
   if (this.isModified('description')) {
-    contentTagger.parseAndTag(this, this.description, this.category)
-  }
+    tagAction = contentTagger.parseAndTag(this, this.description, this.category)
+  } else { tagAction = Promise.resolve() }
+
   if (!this.geo) {
-    return keystone.list('Location').model.findOne({_id: this.location}).then((loc) => {
+    geoAction = keystone.list('Location').model.findOne({_id: this.location}).then((loc) => {
       this.geo = loc.info.geo
-      return this.save().then(done)
     })
+  } else {
+    geoAction = Promise.resolve()
   }
-  done()
+
+  return Promise.all([tagAction, geoAction]).then(done)
 })
 
 Activity.relationship({

@@ -1,22 +1,47 @@
 'use strict'
 const contentTagger = require('../../lib/contentTagger')
-const expect   = require('chai').expect
+const expect        = require('chai').expect
+const keystone      = require('keystone')
+const Tagger        = keystone.list('Tagger')
 
 const foodTest = `Ate some extremely spicy veggie curry`
 
 describe('contentTagger', function() {
+  before(() => {
+    return new Tagger.model({
+      tag: 'vegetarian', activity_types: [`eat`, 'drink'], keywords: [
+        `veggie`, `vegetarian`, `vegan`
+      ]
+    }).save().then(() => {
+      return new Tagger.model({
+        tag: 'dairy', activity_types: [`eat`, 'drink'], keywords: [
+          `milk`, `dairy`, `cream`, `butter`
+        ], active: false
+      }).save()
+    })
+  })
   describe('determineTags', () => {
     it('should return array of tags', () => {
-      expect(contentTagger.determineTags(foodTest)).to.be.an('array')
+      expect(contentTagger.determineTags(foodTest)).to.eventually.be.an('array')
     })
     it('match within its category', () => {
-      expect(contentTagger.determineTags(foodTest, 'eat').length).to.be.greaterThan(0)
-      expect(contentTagger.determineTags(foodTest, 'see').length).to.be.lessThan(1)
+      return contentTagger.determineTags(foodTest, 'eat').then((tags) => {
+        expect(tags.length).to.be.greaterThan(0)
+        return contentTagger.determineTags(foodTest, 'see')
+      }).then((tags) => {
+        return expect(tags.length).to.be.lessThan(1)
+      })
     })
     it('should only return relevant tags', () => {
-      let tags = contentTagger.determineTags(`Ate a bland hamburger `, 'eat')
-      expect(tags).to.not.contain('vegetarian')
-      expect(tags).to.not.contain('vegan')
+      contentTagger.determineTags(`Ate a bland hamburger `, 'eat').then((tags) => {
+        expect(tags).to.not.contain('vegetarian')
+        expect(tags).to.not.contain('vegan')
+      })
+    })
+    it('should only return active tags', () => {
+      contentTagger.determineTags(`Chocolate milkshakes!`, 'drink').then((tags) => {
+        expect(tags).to.not.contain('dairy')
+      })
     })
   })
 })
