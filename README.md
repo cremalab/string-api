@@ -106,7 +106,7 @@ return Location.model.findOne({_id: params.location }).exec().then((location) =>
         {text: `Yes`, params: {confirm: true}},
         {text: `No`, params: {confirm: false}}
       ],
-      multiple: false
+      multi: false
     }
   })
 })
