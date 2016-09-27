@@ -83,7 +83,10 @@ module.exports = {
         rejected_suggestion_acknowledgement: [
           `Okay, I'll try again.`,
           `I'll get this right, hang tight...`,
-          `No problem. I'll try again.`
+          `No problem. I'll try again.`,
+          `Back to the drawing board...`,
+          `Gotcha. Let me think...`,
+          `No worries, I'll think of something else.`
         ]
       },
 
@@ -239,7 +242,40 @@ module.exports = {
   },
 
   users: {
+    registration: {
+      greeting: `Well hey there! 👋🏻`,
+      request_name: `Real quick, could I get your first name?`,
+      greeting2: `Thanks {name}! We're glad you're trying out String. We think it's the best way to find new experiences available around you.`,
+      greeting3: `We'll send you recommendations, and you can respond below by tapping the buttons that appear.`,
+      greeting4: `Just like that!`,
+      greeting5: `Open the app whenever you want to eat, drink, do, or see something. We'll provide you with ideas.`,
+      request_geo_permission: `We use your current location in order to find places nearby to recommend. Is it okay with you if we grab this from you occasionally?`,
+      request_geo_permission_confirm: `Cool! Here comes a dialog box for you to confirm...`,
+      request_geo_permission_deny: `Okay! We won't be able to provide you with very localized results without your locaiton, but you can enable this later.`,
+      preferences: {
+        intro: `We're going to ask you four questions to get a better idea of what to recommend to you. Tap the options to select them and then tap 'Done' when you're finished`,
+        food_types: `First, what are your favorite types of restaurants?`,
+        drink_types: `Next, what type of drinks do you like to have?`,
+        see_types: `What kind of places do you like to see?`,
+        do_types: `Last, what kind of activities do you like to do?`,
+        finished: `Great! This will help us give you the best recommendations.`,
+        start_string: `Are you ready to get out and do something?`
+      }
+    },
     request_geo:  `Hey! I need to know where you are right now.`
+  },
+
+  misc: {
+    confirmations: {
+      neutral: [
+        `Good to know.`,
+        `Got it.`
+      ],
+      positive: [
+        `Awesome!`,
+        `Great, thanks!`
+      ]
+    }
   },
 
   errors: {

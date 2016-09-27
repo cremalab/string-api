@@ -9,14 +9,16 @@ const botMessageSchema = Joi.object({
   name: Joi.string().required().valid('String').example('String'),
   media: Joi.array().items(Joi.object({
     type: Joi.string().required().example('image'),
-    data: Joi.any().required().example('http://www.silly-string.com/images/logo.png')
+    data: Joi.any().required().example('http://www.silly-string.com/images/logo.png'),
+    creator: Joi.string().optional()
   })).optional(),
   responseOptions: Joi.object({
     items: Joi.array().items(Joi.object({
       text: Joi.string().required().example('Eat'),
       params: Joi.object().required().example({activity_type: 'eat'})
     })).optional(),
-    multi: Joi.boolean().optional().default(false)
+    multi: Joi.boolean().optional().default(false),
+    submissionText: Joi.string().optional()
   }),
   visible: Joi.boolean().default(true).description('whether the message text should be visible on the client'),
   responseAction: Joi.string().optional().example('string.type'),

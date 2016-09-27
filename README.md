@@ -106,7 +106,7 @@ return Location.model.findOne({_id: params.location }).exec().then((location) =>
         {text: `Yes`, params: {confirm: true}},
         {text: `No`, params: {confirm: false}}
       ],
-      multiple: false
+      multi: false
     }
   })
 })
@@ -117,6 +117,41 @@ The payload from a `Yes` choice in this example would contain
 params: {
   confirm: true, // merged param from choice
   location: `1eff8e3ff` // merged param from `responseParams`
+}
+```
+
+#### `multi` option on `choice` responseType
+
+When `multi` is true in `responseOptions`, the user should be able to select/toggle multiple items and then submit them. Consider the following `botMessage`:
+
+```js
+return ch.respondWith({
+  text: `What movie genres do you like?`,
+  responseAction: 'user:set_movie_preferences',
+  responseType: 'choice',
+  responseOptions: {
+    items: [
+      {text: `Thriller`, params: {movie_genre: `jumpy`, popcorn: true}},
+      {text: `Drama`, params: {movie_genre: `drama`}},
+      {text: `Comedy`, params: {movie_genre: `funny`}},
+      {text: `Documentary`, params: {movie_genre: `documentary`}}
+    ],
+    multi: true,
+    submissionText: `Done`
+  }
+})
+```
+
+This response should render toggle-able buttons on the client with one "submission" button with the text of `Done`.
+Upon submission, the param values of the selected options should be mapped to an array at the common key.
+For example, selecting `Thriller` and `Comedy` in the example above should form the following params object:
+
+```js
+{
+  params: {
+    movie_genre: [`jumpy`, `funny`],
+    popcorn: [true]
+  }
 }
 ```
 

@@ -38,7 +38,11 @@ User.add({
   activityCompletions: { type: Types.Relationship, ref: 'ActivityCompletion', many: true },
   string_builders: { type: Types.Relationship, ref: 'StringBuilder', many: true,
     filters: { user: ':_id' }
-  }
+  },
+  food_preference: { type: Types.TextArray, label: 'Food Preferences' },
+  drink_preference: { type: Types.TextArray, label: 'Drink Preferences' },
+  see_preference: { type: Types.TextArray, label: 'See Preferences' },
+  do_preference: { type: Types.TextArray, label: 'Do Preferences' }
 }, 'Permissions', {
   isAdmin: { type: Boolean, label: 'Can access Keystone', index: true }
 })
