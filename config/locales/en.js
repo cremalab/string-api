@@ -250,10 +250,28 @@ module.exports = {
       request_geo_permission_deny: `Okay! We won't be able to provide you with very localized results without your locaiton, but you can enable this later.`,
       preferences: {
         intro: `We're going to ask you four questions to get a better idea of what to recommend to you. Tap the options to select them and then tap 'Done' when you're finished`,
-        food_types: `First, what are your favorite types of restaurants?`
+        food_types: `First, what are your favorite types of restaurants?`,
+        drink_types: `Next, what type of drinks do you like to have?`,
+        see_types: `What kind of places do you like to see?`,
+        do_types: `Last, what kind of activities do you like to do?`,
+        finished: `Great! This will help us give you the best recommendations.`,
+        start_string: `Are you ready to get out and do something?`
       }
     },
     request_geo:  `Hey! I need to know where you are right now.`
+  },
+
+  misc: {
+    confirmations: {
+      neutral: [
+        `Good to know.`,
+        `Got it.`
+      ],
+      positive: [
+        `Awesome!`,
+        `Great, thanks!`
+      ]
+    }
   },
 
   errors: {
