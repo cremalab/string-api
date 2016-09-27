@@ -125,22 +125,20 @@ params: {
 When `multi` is true in `responseOptions`, the user should be able to select/toggle multiple items and then submit them. Consider the following `botMessage`:
 
 ```js
-return Location.model.findOne({_id: params.location }).exec().then((location) => {
-  return ch.respondWith({
-    text: `What movie genres do you like?`,
-    responseAction: 'user:set_movie_preferences',
-    responseType: 'choice',
-    responseOptions: {
-      items: [
-        {text: `Thriller`, params: {movie_genre: `jumpy`, popcorn: true}},
-        {text: `Drama`, params: {movie_genre: `drama`}},
-        {text: `Comedy`, params: {movie_genre: `funny`}},
-        {text: `Documentary`, params: {movie_genre: `documentary`}}
-      ],
-      multi: true,
-      submissionText: `Done`
-    }
-  })
+return ch.respondWith({
+  text: `What movie genres do you like?`,
+  responseAction: 'user:set_movie_preferences',
+  responseType: 'choice',
+  responseOptions: {
+    items: [
+      {text: `Thriller`, params: {movie_genre: `jumpy`, popcorn: true}},
+      {text: `Drama`, params: {movie_genre: `drama`}},
+      {text: `Comedy`, params: {movie_genre: `funny`}},
+      {text: `Documentary`, params: {movie_genre: `documentary`}}
+    ],
+    multi: true,
+    submissionText: `Done`
+  }
 })
 ```
 
