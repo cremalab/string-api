@@ -18,65 +18,65 @@
  * http://expressjs.com/api.html#app.VERB
  */
 
-const keystone = require('keystone');
-const middleware = require('./middleware');
-const importRoutes = keystone.importer(__dirname);
+const keystone = require('keystone')
+const middleware = require('./middleware')
+const importRoutes = keystone.importer(__dirname)
 const apiMiddleware = require('./api/middleware')
 
 // Common Middleware
-keystone.pre('routes', middleware.initErrorHandlers);
-keystone.pre('routes', middleware.initLocals);
-keystone.pre('render', middleware.flashMessages);
+keystone.pre('routes', middleware.initErrorHandlers)
+keystone.pre('routes', middleware.initLocals)
+keystone.pre('render', middleware.flashMessages)
 
 
 // Import Route Controllers
 var routes = {
-	views: importRoutes('./views'),
-	api: importRoutes('./api')
-};
+  views: importRoutes('./views'),
+  api: importRoutes('./api')
+}
 
 // Setup Route Bindings
 exports = module.exports = function(app) {
 
 
-	// Views
-	app.get('/', routes.views.index);
+  // Views
+  app.get('/', routes.views.index)
 
-	// API
-	app.post('/api/users', keystone.middleware.api, routes.api.users.create)
-	app.post('/api/sessions', keystone.middleware.api, routes.api.sessions.create)
+  // API
+  app.post('/api/users', keystone.middleware.api, routes.api.users.create)
+  app.post('/api/sessions', keystone.middleware.api, routes.api.sessions.create)
 
-	app.all('/api*', apiMiddleware.checkAPIKey);
+  app.all('/api*', apiMiddleware.checkAPIKey)
 
-	app.put('/api/users', keystone.middleware.api, routes.api.users.update)
-	app.get('/api/my_profile', keystone.middleware.api, routes.api.users.current)
-	app.put('/api/my_profile', keystone.middleware.api, routes.api.users.update)
+  app.put('/api/users', keystone.middleware.api, routes.api.users.update)
+  app.get('/api/my_profile', keystone.middleware.api, routes.api.users.current)
+  app.put('/api/my_profile', keystone.middleware.api, routes.api.users.update)
 
-	app.get('/api/activity_lists', keystone.middleware.api, routes.api.activity_lists.index);
-	app.post('/api/activity_lists', keystone.middleware.api, routes.api.activity_lists.create);
-	app.get('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.show);
-	app.put('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.update);
-	app.delete('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.destroy);
+  app.get('/api/activity_lists', keystone.middleware.api, routes.api.activity_lists.index)
+  app.post('/api/activity_lists', keystone.middleware.api, routes.api.activity_lists.create)
+  app.get('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.show)
+  app.put('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.update)
+  app.delete('/api/activity_lists/:listId', keystone.middleware.api, routes.api.activity_lists.destroy)
 
-	app.get('/api/my_activity_lists', keystone.middleware.api, routes.api.activity_lists.mine);
+  app.get('/api/my_activity_lists', keystone.middleware.api, routes.api.activity_lists.mine)
 
-	app.get('/api/activities', keystone.middleware.api, routes.api.activities.index);
-	app.post('/api/activities', keystone.middleware.api, routes.api.activities.create);
-	app.get('/api/activities/:activityId', keystone.middleware.api, routes.api.activities.show);
-	app.put('/api/activities/:activityId', keystone.middleware.api, routes.api.activities.update);
-	app.delete('/api/activities/:activityId', keystone.middleware.api, routes.api.activities.destroy);
+  app.get('/api/activities', keystone.middleware.api, routes.api.activities.index)
+  app.post('/api/activities', keystone.middleware.api, routes.api.activities.create)
+  app.get('/api/activities/:activityId', keystone.middleware.api, routes.api.activities.show)
+  app.put('/api/activities/:activityId', keystone.middleware.api, routes.api.activities.update)
+  app.delete('/api/activities/:activityId', keystone.middleware.api, routes.api.activities.destroy)
 
-	app.get('/api/locations_search/:search', keystone.middleware.api, routes.api.locations.search);
+  app.get('/api/locations_search/:search', keystone.middleware.api, routes.api.locations.search)
 
-	app.get('/api/locations', keystone.middleware.api, routes.api.locations.index);
-	app.post('/api/locations', keystone.middleware.api, routes.api.locations.create);
-	app.get('/api/locations/:locationId', keystone.middleware.api, routes.api.locations.show);
+  app.get('/api/locations', keystone.middleware.api, routes.api.locations.index)
+  app.post('/api/locations', keystone.middleware.api, routes.api.locations.create)
+  app.get('/api/locations/:locationId', keystone.middleware.api, routes.api.locations.show)
 
-	app.post('/api/activity_completions', keystone.middleware.api, routes.api.activity_completions.create);
-	app.delete('/api/activity_completions/:activityCompletionId', keystone.middleware.api, routes.api.activity_completions.destroy);
+  app.post('/api/activity_completions', keystone.middleware.api, routes.api.activity_completions.create)
+  app.delete('/api/activity_completions/:activityCompletionId', keystone.middleware.api, routes.api.activity_completions.destroy)
 
 
-	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
-	// app.get('/protected', middleware.requireUser, routes.views.protected);
+  // NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
+  // app.get('/protected', middleware.requireUser, routes.views.protected);
 
-};
+}
