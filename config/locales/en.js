@@ -83,7 +83,10 @@ module.exports = {
         rejected_suggestion_acknowledgement: [
           `Okay, I'll try again.`,
           `I'll get this right, hang tight...`,
-          `No problem. I'll try again.`
+          `No problem. I'll try again.`,
+          `Back to the drawing board...`,
+          `Gotcha. Let me think...`,
+          `No worries, I'll think of something else.`
         ]
       },
 
@@ -241,7 +244,8 @@ module.exports = {
   users: {
     registration: {
       greeting: `Well hey there! 👋🏻`,
-      greeting2: `We're glad you're trying out String. We think it's the best way to find new experiences available around you.`,
+      request_name: `Real quick, could I get your first name?`,
+      greeting2: `Thanks {name}! We're glad you're trying out String. We think it's the best way to find new experiences available around you.`,
       greeting3: `We'll send you recommendations, and you can respond below by tapping the buttons that appear.`,
       greeting4: `Just like that!`,
       greeting5: `Open the app whenever you want to eat, drink, do, or see something. We'll provide you with ideas.`,
