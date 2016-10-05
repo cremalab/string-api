@@ -32,6 +32,7 @@ module.exports = {
     token: Joi.string(),
     action: Joi.string(),
     params: Joi.object({
+      activity: Joi.string().optional(),
       activity_completion: Joi.string().required(),
       media: Joi.object({
         secure_url: Joi.string().uri().required(),
@@ -40,7 +41,15 @@ module.exports = {
         format: Joi.string().required(),
         height: Joi.number().integer().required(),
         width: Joi.number().integer().required(),
-        public_id: Joi.string().required().description('public_id from Cloudinary')
+        public_id: Joi.string().required().description('public_id from Cloudinary'),
+        original_filename: Joi.string().optional(),
+        etag: Joi.string().optional(),
+        type: Joi.string().optional(),
+        bytes: Joi.number().optional(),
+        tags: Joi.array().optional(),
+        created_at: Joi.string().optional(),
+        signature: Joi.string().optional(),
+        version: Joi.number().optional()
       }).description('Payload from cloudinary successful upload')
     }).required().description('key/value pairs for data to be sent back')
   })
